@@ -48,6 +48,7 @@ namespace WindowsFormsApp1
                 Bitmap input = new Bitmap(pictureBox1.Image);
                 Bitmap output1 = new Bitmap(input.Width, input.Height);
                 Bitmap output2 = new Bitmap(input.Width, input.Height);
+                Bitmap output3 = new Bitmap(input.Width, input.Height);
 
                 for (int j = 0; j < input.Height; j++)
                     for (int i = 0; i < input.Width; i++)
@@ -64,11 +65,15 @@ namespace WindowsFormsApp1
                         UInt32 newPixel1 = 0xFF000000 | ((UInt32)R1 << 16) | ((UInt32)G1 << 8) | ((UInt32)B1);
                         UInt32 newPixel2 = 0xFF000000 | ((UInt32)R2 << 16) | ((UInt32)G2 << 8) | ((UInt32)B2);
 
+                        UInt32 diffPixel = (newPixel2 - newPixel1) | 0xFF000000;
+
                         output1.SetPixel(i, j, Color.FromArgb((int)newPixel1));
                         output2.SetPixel(i, j, Color.FromArgb((int)newPixel2));
+                        output3.SetPixel(i, j, Color.FromArgb((int)diffPixel));
                     }
                 pictureBox2.Image = output1;
                 pictureBox3.Image = output2;
+                pictureBox7.Image = output3;
             }
         }
 
@@ -107,50 +112,95 @@ namespace WindowsFormsApp1
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Bitmap picture = new Bitmap(pictureBox1.Image);
+            Bitmap picture2 = new Bitmap(pictureBox2.Image);
+            Bitmap picture3 = new Bitmap(pictureBox3.Image);
 
-
-            if (comboBox1.SelectedIndex == 0) // gray
+            int[] gray_array = new int[256];
+            if (pictureBox2.Image != null)
             {
-                
+                for (int j = 0; j < picture2.Height; j++)
+                    for (int i = 0; i < picture2.Width; i++)
+                    {
+                        UInt32 pixel = (UInt32)(picture2.GetPixel(i, j).ToArgb());
+                        int G = (int)((pixel & 0x00FF0000) >> 16);
+                        gray_array[G] += 1;
+                    }
             }
-            if (comboBox1.SelectedIndex == 1) // red
+
+            int[] gray_array2 = new int[256];
+            if (pictureBox3.Image != null)
             {
-                int[] red_array = new int[256];
+                for (int j = 0; j < picture3.Height; j++)
+                    for (int i = 0; i < picture3.Width; i++)
+                    {
+                        UInt32 pixel = (UInt32)(picture3.GetPixel(i, j).ToArgb());
+                        int G = (int)((pixel & 0x00FF0000) >> 16);
+                        gray_array2[G] += 1;
+                    }
+            }
+
+            int[] red_array = new int[256];
+            int[] green_array = new int[256];
+            int[] blue_array = new int[256];
+
+            if (pictureBox1.Image != null)
+            {
                 for (int j = 0; j < picture.Height; j++)
                     for (int i = 0; i < picture.Width; i++)
                     {
                         UInt32 pixel = (UInt32)(picture.GetPixel(i, j).ToArgb());
                         int R = (int)((pixel & 0x00FF0000) >> 16);
                         red_array[R] += 1;
+                        int G = (int)((pixel & 0x0000FF00) >> 8);
+                        green_array[G] += 1;
+                        int B = (int)(pixel & 0x000000FF);
+                        blue_array[B] += 1;
                     }
                 this.chart1.Series["Color"].Points.DataBindY(red_array);
                 this.chart1.Series["Color"].Color = Color.Red;
             }
+
+
+
+            if (comboBox1.SelectedIndex == 0) // gray
+            {
+                if (pictureBox2.Image != null)
+                {
+                    this.chart1.Series["Color"].Points.DataBindY(gray_array);
+                    this.chart1.Series["Color"].Color = Color.Gray;
+                }
+            }
+            if (comboBox1.SelectedIndex == 1) // red
+            {
+                if (pictureBox1.Image != null)
+                {
+                    this.chart1.Series["Color"].Points.DataBindY(red_array);
+                    this.chart1.Series["Color"].Color = Color.Red;
+                }
+            }
             if (comboBox1.SelectedIndex == 2) // green
             {
-                int[] green_array = new int[256];
-                for (int j = 0; j < picture.Height; j++)
-                    for (int i = 0; i < picture.Width; i++)
-                    {
-                        UInt32 pixel = (UInt32)(picture.GetPixel(i, j).ToArgb());
-                        int G = (int)((pixel & 0x0000FF00) >> 8);
-                        green_array[G] += 1;
-                    }
-                this.chart1.Series["Color"].Points.DataBindY(green_array);
-                this.chart1.Series["Color"].Color = Color.Green;
+                if (pictureBox1.Image != null)
+                {
+                    this.chart1.Series["Color"].Points.DataBindY(green_array);
+                    this.chart1.Series["Color"].Color = Color.Green;
+                }
             }
             if (comboBox1.SelectedIndex == 3) // blue
             {
-                int[] blue_array = new int[256];
-                for (int j = 0; j < picture.Height; j++)
-                    for (int i = 0; i < picture.Width; i++)
-                    {
-                        UInt32 pixel = (UInt32)(picture.GetPixel(i, j).ToArgb());
-                        int B = (int)(pixel & 0x000000FF);
-                        blue_array[B] += 1;
-                    }
-                this.chart1.Series["Color"].Points.DataBindY(blue_array);
-                this.chart1.Series["Color"].Color = Color.Blue;
+                if (pictureBox1.Image != null)
+                {
+                    this.chart1.Series["Color"].Points.DataBindY(blue_array);
+                    this.chart1.Series["Color"].Color = Color.Blue;
+                }
+            }
+            if (comboBox1.SelectedIndex == 4) // gray2
+            {
+                if (pictureBox1.Image != null)
+                {
+                    this.chart1.Series["Color"].Points.DataBindY(gray_array2);
+                    this.chart1.Series["Color"].Color = Color.Black;
+                }
             }
         }
     }

@@ -8,3 +8,13 @@ C:\Users\mxeni\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsF
 C:\Users\mxeni\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
 C:\Users\mxeni\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 C:\Users\mxeni\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+C:\Users\mxeni\OneDrive\Documents\graphics\Color spaces (lab 1)\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\Users\mxeni\OneDrive\Documents\graphics\Color spaces (lab 1)\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\Users\mxeni\OneDrive\Documents\graphics\Color spaces (lab 1)\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\Users\mxeni\OneDrive\Documents\graphics\Color spaces (lab 1)\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojAssemblyReference.cache
+C:\Users\mxeni\OneDrive\Documents\graphics\Color spaces (lab 1)\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\mxeni\OneDrive\Documents\graphics\Color spaces (lab 1)\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Users\mxeni\OneDrive\Documents\graphics\Color spaces (lab 1)\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+C:\Users\mxeni\OneDrive\Documents\graphics\Color spaces (lab 1)\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+C:\Users\mxeni\OneDrive\Documents\graphics\Color spaces (lab 1)\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\Users\mxeni\OneDrive\Documents\graphics\Color spaces (lab 1)\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
