@@ -17,6 +17,7 @@ namespace PictureFilling
         Point PrevPoint; //Previous Position
         bool isPressed;
         Graphics g;
+        Bitmap pic;
 
         public Form1()
         {
@@ -93,6 +94,26 @@ namespace PictureFilling
                     tmp_fill(p, new Point(i, left_point.Y - 1), map, old_color);
             }
             area.Invalidate();
+        }
+
+        
+        private void fill_pic(Point TempCurrentPoint, Color old_color, Bitmap map, int i, int j)
+        {
+            Point left_point = TempCurrentPoint;
+            while (left_point.X != 0 && old_color == map.GetPixel(left_point.X - 1, left_point.Y))
+                left_point.X -= 1;
+
+            int temp_j = pic.Width - (TempCurrentPoint.X - left_point.X) % pic.Width - 1;
+            for (int r = temp_j; r <= TempCurrentPoint.X; r++)
+                map.SetPixel(left_point.X + r - temp_j, TempCurrentPoint.Y, pic.GetPixel(i % pic.Height, r % pic.Width));
+
+            Point right_point = TempCurrentPoint;
+            while (right_point.X != (map.Width - 1) && old_color == map.GetPixel(right_point.X + 1, right_point.Y))
+                right_point.X += 1;
+
+            for (int r = j; r <= right_point.X; r++)
+                map.SetPixel(TempCurrentPoint.X + r, TempCurrentPoint.Y, pic.GetPixel(i % pic.Height, r % pic.Width));
+
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
