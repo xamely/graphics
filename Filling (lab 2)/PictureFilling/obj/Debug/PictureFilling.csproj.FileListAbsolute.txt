@@ -1,0 +1,10 @@
+C:\Users\mxeni\source\repos\PictureFilling\PictureFilling\bin\Debug\PictureFilling.exe.config
+C:\Users\mxeni\source\repos\PictureFilling\PictureFilling\bin\Debug\PictureFilling.exe
+C:\Users\mxeni\source\repos\PictureFilling\PictureFilling\bin\Debug\PictureFilling.pdb
+C:\Users\mxeni\source\repos\PictureFilling\PictureFilling\obj\Debug\PictureFilling.csprojAssemblyReference.cache
+C:\Users\mxeni\source\repos\PictureFilling\PictureFilling\obj\Debug\PictureFilling.Form1.resources
+C:\Users\mxeni\source\repos\PictureFilling\PictureFilling\obj\Debug\PictureFilling.Properties.Resources.resources
+C:\Users\mxeni\source\repos\PictureFilling\PictureFilling\obj\Debug\PictureFilling.csproj.GenerateResource.cache
+C:\Users\mxeni\source\repos\PictureFilling\PictureFilling\obj\Debug\PictureFilling.csproj.CoreCompileInputs.cache
+C:\Users\mxeni\source\repos\PictureFilling\PictureFilling\obj\Debug\PictureFilling.exe
+C:\Users\mxeni\source\repos\PictureFilling\PictureFilling\obj\Debug\PictureFilling.pdb
