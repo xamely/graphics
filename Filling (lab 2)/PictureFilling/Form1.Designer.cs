@@ -29,15 +29,16 @@
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.button2 = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.area = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.area)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(648, 36);
+            this.button1.Location = new System.Drawing.Point(649, 36);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(110, 43);
             this.button1.TabIndex = 0;
@@ -45,22 +46,11 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // panel1
-            // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(22, 36);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(596, 382);
-            this.panel1.TabIndex = 1;
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
-            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(649, 106);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(108, 50);
+            this.button2.Size = new System.Drawing.Size(110, 43);
             this.button2.TabIndex = 2;
             this.button2.Text = "Refresh";
             this.button2.UseVisualStyleBackColor = true;
@@ -69,7 +59,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(667, 188);
+            this.checkBox1.Location = new System.Drawing.Point(670, 176);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(66, 21);
             this.checkBox1.TabIndex = 3;
@@ -77,17 +67,30 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // area
+            // 
+            this.area.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.area.Location = new System.Drawing.Point(25, 26);
+            this.area.Name = "area";
+            this.area.Size = new System.Drawing.Size(599, 425);
+            this.area.TabIndex = 4;
+            this.area.TabStop = false;
+            this.area.MouseDown += new System.Windows.Forms.MouseEventHandler(this.area_MouseDown);
+            this.area.MouseMove += new System.Windows.Forms.MouseEventHandler(this.area_MouseMove);
+            this.area.MouseUp += new System.Windows.Forms.MouseEventHandler(this.area_MouseUp);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(791, 530);
+            this.Controls.Add(this.area);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.area)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -96,10 +99,10 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.PictureBox area;
     }
 }
 
