@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PictureFilling.Properties
+namespace lab2._2.Properties
 {
 
 

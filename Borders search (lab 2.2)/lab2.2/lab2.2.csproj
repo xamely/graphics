@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{999199AA-84AB-4E3D-B4FB-D8D546BF2D07}</ProjectGuid>
+    <ProjectGuid>{BFAC20A1-7ECE-491F-B079-3C7F7ADAA2B9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PictureFilling</RootNamespace>
-    <AssemblyName>PictureFilling</AssemblyName>
+    <RootNamespace>lab2._2</RootNamespace>
+    <AssemblyName>lab2.2</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
