@@ -24,7 +24,7 @@ namespace PictureFilling
             InitializeComponent();
             area.Image = new Bitmap(area.Width, area.Height);
             g = Graphics.FromImage(area.Image);
-            g.FillRectangle(new SolidBrush(Color.White), 0, 0, area.Width, area.Height);
+            g.FillRectangle(new SolidBrush(Color.Azure), 0, 0, area.Width, area.Height);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -38,6 +38,7 @@ namespace PictureFilling
         {
             CurrentPoint = e.Location;
             if (checkBox1.Checked) fill_area();
+            if (checkBox2.Checked) fill_by_pic();
             else isPressed = true;
         }
 
@@ -62,7 +63,7 @@ namespace PictureFilling
         {
             area.Image = new Bitmap(area.Width, area.Height);
             g = Graphics.FromImage(area.Image);
-            g.FillRectangle(new SolidBrush(Color.White), 0, 0, area.Width, area.Height);
+            g.FillRectangle(new SolidBrush(Color.Azure), 0, 0, area.Width, area.Height);
         }
 
         private void fill_area()
@@ -80,7 +81,7 @@ namespace PictureFilling
             while (left_point.X != 0 && old_color == map.GetPixel(left_point.X - 1, left_point.Y))
                 left_point.X -= 1;
             g.DrawLine(p, TempCurrentPoint, left_point);
-
+            area.Invalidate();
             Point right_point = TempCurrentPoint;
             while (right_point.X != (map.Width - 1) && old_color == map.GetPixel(right_point.X + 1, right_point.Y))
                 right_point.X += 1;
@@ -95,8 +96,85 @@ namespace PictureFilling
             }
             area.Invalidate();
         }
-        
+
+        private void fill_by_pic()
+        {
+            Bitmap map = area.Image as Bitmap;
+            Color old_color = map.GetPixel(CurrentPoint.X, CurrentPoint.Y);
+            fill_pic(CurrentPoint, old_color, map, 0, 0);
+        }
+
+        private void fill_pic(Point TempCurrentPoint, Color old_color, Bitmap map, int i, int j)
+        {
+            Point left_point = TempCurrentPoint;
+            while (left_point.X != 0 && old_color == map.GetPixel(left_point.X - 1, left_point.Y))
+                left_point.X -= 1;
+
+            int temp_j = pic.Width - (TempCurrentPoint.X - left_point.X) % pic.Width - 1;//пиксел картинки
+            for (int r = left_point.X; r < TempCurrentPoint.X; r++)
+            {
+                map.SetPixel(r, TempCurrentPoint.Y, pic.GetPixel((temp_j + r - left_point.X) % pic.Width, i % pic.Height));
+                area.Invalidate();
+            }
+
+            Point right_point = TempCurrentPoint;
+            while (right_point.X != (map.Width - 1) && old_color == map.GetPixel(right_point.X + 1, right_point.Y))
+                right_point.X += 1;
+
+            for (int r = TempCurrentPoint.X; r <= right_point.X; r++)
+            {
+                map.SetPixel(r, TempCurrentPoint.Y, pic.GetPixel((j + r - TempCurrentPoint.X) % pic.Width, i % pic.Height));
+                area.Invalidate();
+            }
+
+            for (int r = TempCurrentPoint.X; r <= right_point.X; r++)
+            {
+                if (right_point.Y != (map.Height - 1) && old_color == map.GetPixel(r, left_point.Y + 1))
+                    fill_pic(new Point(r, right_point.Y + 1), old_color, map, (i + 1) % pic.Height, (j + r - TempCurrentPoint.X) % pic.Width);
+                if (right_point.Y != 0 && old_color == map.GetPixel(r, right_point.Y - 1))
+                    fill_pic(new Point(r, right_point.Y - 1), old_color, map, (i == 0) ? (pic.Height - 1) : (i - 1), (j + r - TempCurrentPoint.X) % pic.Width);
+            }
+
+            for (int r = left_point.X; r < TempCurrentPoint.X; r++)
+            {
+                if (left_point.Y != (map.Height - 1) && old_color == map.GetPixel(r, left_point.Y + 1))
+                    fill_pic(new Point(r, left_point.Y + 1), old_color, map, (i + 1) % pic.Height, (temp_j + r - left_point.X) % pic.Width);
+                if (left_point.Y != 0 && old_color == map.GetPixel(r, left_point.Y - 1))
+                    fill_pic(new Point(r, left_point.Y - 1), old_color, map, (i == 0) ? (pic.Height - 1) : (i - 1), (temp_j + r - left_point.X) % pic.Width);
+            }
+            area.Invalidate();
+        }
+
+        private void openbutton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    pic = new Bitmap(ofd.FileName);
+                }
+                catch // в случае ошибки выводим MessageBox
+                {
+                    MessageBox.Show("Невозможно открыть выбранный файл", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CheckBox2_CheckedChanged(object sender, EventArgs e)
         {
 
         }
