@@ -66,13 +66,17 @@ namespace lab2._2
                 return;
             }
             Bitmap pic2 = new Bitmap(pictureBox2.Image);
-            Bitmap output = new Bitmap(pic2.Width, pic2.Height);
-            UInt32 boardPixel = 0xFF000000;
+            Bitmap pic1 = new Bitmap(pictureBox1.Image);
+
+            UInt32 boardPixel = 0xFFFF0000;
             foreach (Point x in board) {
                 pic2.SetPixel(x.X, x.Y, Color.FromArgb((int)boardPixel));
+                pic1.SetPixel(x.X, x.Y, Color.FromArgb((int)boardPixel));
+
             }
 
             pictureBox2.Image = pic2;
+            pictureBox1.Image = pic1;
         }
 
 
