@@ -49,7 +49,6 @@
             this.area.TabIndex = 0;
             this.area.TabStop = false;
             this.area.MouseDown += new System.Windows.Forms.MouseEventHandler(this.area_MouseDown);
-            this.area.MouseMove += new System.Windows.Forms.MouseEventHandler(this.area_MouseMove);
             this.area.MouseUp += new System.Windows.Forms.MouseEventHandler(this.area_MouseUp);
             // 
             // refresh
