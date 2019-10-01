@@ -1,0 +1,10 @@
+C:\Users\User\Desktop\L-Systems(lab 5)\L-Systems(lab 5)\bin\Debug\L-Systems(lab 5).exe.config
+C:\Users\User\Desktop\L-Systems(lab 5)\L-Systems(lab 5)\bin\Debug\L-Systems(lab 5).exe
+C:\Users\User\Desktop\L-Systems(lab 5)\L-Systems(lab 5)\bin\Debug\L-Systems(lab 5).pdb
+C:\Users\User\Desktop\L-Systems(lab 5)\L-Systems(lab 5)\obj\Debug\L_Systems_lab_5_.Form1.resources
+C:\Users\User\Desktop\L-Systems(lab 5)\L-Systems(lab 5)\obj\Debug\L_Systems_lab_5_.Properties.Resources.resources
+C:\Users\User\Desktop\L-Systems(lab 5)\L-Systems(lab 5)\obj\Debug\L-Systems(lab 5).csproj.GenerateResource.cache
+C:\Users\User\Desktop\L-Systems(lab 5)\L-Systems(lab 5)\obj\Debug\L-Systems(lab 5).csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\L-Systems(lab 5)\L-Systems(lab 5)\obj\Debug\L-Systems(lab 5).exe
+C:\Users\User\Desktop\L-Systems(lab 5)\L-Systems(lab 5)\obj\Debug\L-Systems(lab 5).pdb
+C:\Users\User\Desktop\L-Systems(lab 5)\L-Systems(lab 5)\obj\Debug\L-Systems(lab 5).csprojAssemblyReference.cache
