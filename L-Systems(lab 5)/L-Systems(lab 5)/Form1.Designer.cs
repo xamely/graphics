@@ -74,7 +74,12 @@
             ".",
             "01. Кривая Коха",
             "02. Снежинка Коха",
-            "03. Остров Коха"});
+            "03. Остров Коха",
+            "04. Треугольник Серпинского",
+            "05. Наконечник Серпинского",
+            "06.Кривая Гильберта",
+            "07. Кривая Дракона",
+            "08. Кривая Госпера"});
             this.comboBox1.Location = new System.Drawing.Point(645, 116);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(143, 21);
@@ -97,7 +102,11 @@
             "2",
             "3",
             "4",
-            "5"});
+            "5",
+            "6",
+            "7",
+            "8",
+            "15"});
             this.comboBox2.Location = new System.Drawing.Point(751, 82);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(32, 21);
