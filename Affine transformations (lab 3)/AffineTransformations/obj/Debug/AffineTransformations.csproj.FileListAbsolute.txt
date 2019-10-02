@@ -19,3 +19,14 @@ C:\Users\mxeni\OneDrive\Documents\graphics\Affine transformations (lab 3)\Affine
 C:\Users\mxeni\OneDrive\Documents\graphics\Affine transformations (lab 3)\AffineTransformations\obj\Debug\AffineTransformations.exe
 C:\Users\mxeni\OneDrive\Documents\graphics\Affine transformations (lab 3)\AffineTransformations\obj\Debug\AffineTransformations.pdb
 C:\Users\mxeni\OneDrive\Documents\graphics\Affine transformations (lab 3)\AffineTransformations\obj\Debug\AffineTransformations.InputBox.resources
+C:\Users\User\Desktop\graphics\Affine transformations (lab 3)\AffineTransformations\bin\Debug\AffineTransformations.exe.config
+C:\Users\User\Desktop\graphics\Affine transformations (lab 3)\AffineTransformations\bin\Debug\AffineTransformations.exe
+C:\Users\User\Desktop\graphics\Affine transformations (lab 3)\AffineTransformations\bin\Debug\AffineTransformations.pdb
+C:\Users\User\Desktop\graphics\Affine transformations (lab 3)\AffineTransformations\obj\Debug\AffineTransformations.csprojAssemblyReference.cache
+C:\Users\User\Desktop\graphics\Affine transformations (lab 3)\AffineTransformations\obj\Debug\AffineTransformations.Form1.resources
+C:\Users\User\Desktop\graphics\Affine transformations (lab 3)\AffineTransformations\obj\Debug\AffineTransformations.InputBox.resources
+C:\Users\User\Desktop\graphics\Affine transformations (lab 3)\AffineTransformations\obj\Debug\AffineTransformations.Properties.Resources.resources
+C:\Users\User\Desktop\graphics\Affine transformations (lab 3)\AffineTransformations\obj\Debug\AffineTransformations.csproj.GenerateResource.cache
+C:\Users\User\Desktop\graphics\Affine transformations (lab 3)\AffineTransformations\obj\Debug\AffineTransformations.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\graphics\Affine transformations (lab 3)\AffineTransformations\obj\Debug\AffineTransformations.exe
+C:\Users\User\Desktop\graphics\Affine transformations (lab 3)\AffineTransformations\obj\Debug\AffineTransformations.pdb
