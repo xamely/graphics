@@ -35,6 +35,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.area)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +50,7 @@
             // 
             // Start
             // 
-            this.Start.Location = new System.Drawing.Point(675, 159);
+            this.Start.Location = new System.Drawing.Point(675, 189);
             this.Start.Name = "Start";
             this.Start.Size = new System.Drawing.Size(90, 39);
             this.Start.TabIndex = 1;
@@ -79,7 +80,11 @@
             "05. Наконечник Серпинского",
             "06.Кривая Гильберта",
             "07. Кривая Дракона",
-            "08. Кривая Госпера"});
+            "08. Кривая Госпера",
+            "09. Дерево 1",
+            "10. Куст 1",
+            "11. Куст 2",
+            "12. Куст 3 "});
             this.comboBox1.Location = new System.Drawing.Point(645, 116);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(143, 21);
@@ -88,7 +93,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(645, 25);
+            this.label1.Location = new System.Drawing.Point(12, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 4;
@@ -106,6 +111,9 @@
             "6",
             "7",
             "8",
+            "9",
+            "10",
+            "12",
             "15"});
             this.comboBox2.Location = new System.Drawing.Point(751, 82);
             this.comboBox2.Name = "comboBox2";
@@ -122,11 +130,22 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Глубина фрактала:";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(667, 143);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(116, 17);
+            this.checkBox1.TabIndex = 7;
+            this.checkBox1.Text = "Рисовать шагами";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.label1);
@@ -151,6 +170,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

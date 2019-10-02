@@ -78,31 +78,6 @@ namespace L_Systems_lab_5_
             return new PointF(x1, y1);
         }
 
-        //На это не смотреть
-        public double preDraw(float x, float y, float len, float napr, float angle, String s) {
-            List<PointF> points = new List<PointF>();
-            PointF P = new PointF(x, y);
-            points.Add(P);
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (s[i] == 'F')
-                {
-                    P = F(P.X, P.Y, len, napr);
-                    points.Add(P);
-                }
-                else if (s[i] == '+')
-                {
-                    napr += angle;
-
-                }
-                else if (s[i] == '-')
-                {
-                    napr -= angle;
-                }
-            }
-
-            return 0.0;
-        }
 
 
         //Start - начальная строка
@@ -131,6 +106,10 @@ namespace L_Systems_lab_5_
                     {
                         s += starts[j];
                     }
+                    else if (starts[j] == '[' || starts[j] == ']')
+                    {
+                        s += starts[j];
+                    }
                 }
                 starts = s;
                 s = "";
@@ -139,19 +118,30 @@ namespace L_Systems_lab_5_
         }
         public void drawFract(float x, float y, float len, float napr, float angle, String s)
         {
-
+            Stack<Tuple<PointF, float>> stack = new Stack<Tuple<PointF, float>>();
+            
             PointF P = new PointF(x, y);
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i] == 'F')
                 {
                     P = F(P.X, P.Y, len, napr);
-                    area.Update();
+                    if (checkBox1.Checked) 
+                        area.Update();
                 }
                 else if (s[i] == '+')
                 {
                     napr += angle;
-
+                }
+                else if (s[i] == '[')
+                {
+                    stack.Push(new Tuple<PointF, float>(P, napr));
+                }
+                else if (s[i] == ']')
+                {
+                    Tuple<PointF, float> el = stack.Pop();
+                    P = el.Item1;
+                    napr = el.Item2;
                 }
                 else if (s[i] == '-')
                 {
@@ -238,9 +228,7 @@ namespace L_Systems_lab_5_
                 if (comboBox1.SelectedIndex == 1)
                 {
                     string file_name = @"..\..\test_fractals\1.Кривая Коха.txt";
-
                     text = File.ReadAllLines(file_name);
-                    label1.Text = text[1];
                     len = (float)(200.0 / Math.Pow(Math.Log(200, 6), it - 1));
                     azimut = 30;
 
@@ -248,68 +236,50 @@ namespace L_Systems_lab_5_
                 if (comboBox1.SelectedIndex == 2)
                 {
                     string file_name = @"..\..\test_fractals\2.Снежинка Коха.txt";
-
                     text = File.ReadAllLines(file_name);
-                    label1.Text = text[1];
                     len = (float)(200.0 / Math.Pow(Math.Log(200, 6), it - 1));
                     azimut = 30;
-
                 }
 
                 if (comboBox1.SelectedIndex == 3)
                 {
                     string file_name = @"..\..\test_fractals\3.Остров Коха.txt";
-
                     text = File.ReadAllLines(file_name);
-                    label1.Text = text[1];
-                    len = (float)(200.0 / Math.Pow(Math.Log(200, 6), it ));
+                    len = (float)(400.0 / Math.Pow(Math.Log(200, 4), it ));
                     azimut = 0;
-                    //Y -= 50;
                 }
 
                 if (comboBox1.SelectedIndex == 4)
                 {
                     string file_name = @"..\..\test_fractals\4.Треугольник Серпинского.txt";
-
                     text = File.ReadAllLines(file_name);
-                    label1.Text = text[1];
-                    len = (float)(200.0 / Math.Pow(Math.Log(200, 6), it));
+                    len = (float)(200.0 / Math.Pow(Math.Log(200, 15), it));
                     azimut = 30;
-                   // Y -= 50;
                 }
 
                 if (comboBox1.SelectedIndex == 5)
                 {
                     string file_name = @"..\..\test_fractals\5.Наконечник Серпинского.txt";
-
                     text = File.ReadAllLines(file_name);
-                    label1.Text = text[1];
-                    len = (float)(200.0 / (it*it));
+                    len = (float)(200.0 / Math.Pow(Math.Log(200, 20), it)); //(float)(200.0 / (it*it));
                     azimut = 30;
-                    //Y -= it*10;
                 }
 
                 if (comboBox1.SelectedIndex == 6)
                 {
                     string file_name = @"..\..\test_fractals\6.Кривая Гильберта.txt";
-
                     text = File.ReadAllLines(file_name);
                     label1.Text = text[1];
-                    len = (float)(200.0 / (it * it));
+                    len = (float)(800.0 / Math.Pow(Math.Log(200, 13), it));//(float)(200.0 / (it * it));
                     azimut = 90;
-                    //Y -= it * 10;
                 }
                 
                 if (comboBox1.SelectedIndex == 7)
                 {
                     string file_name = @"..\..\test_fractals\7.Кривая Дракона.txt";
-
                     text = File.ReadAllLines(file_name);
-                    label1.Text = text[1];
-                    len = (float)(200.0 / (it*3  ));
+                    len = (float)(400.0 / Math.Pow(Math.Log(200, 45), it));//(float)(200.0 / (it*3  ));
                     azimut = 0;
-                    //X = area.Width / 2+100;
-                    //Y = area.Height / 2;
                 }
 
                 if (comboBox1.SelectedIndex == 8)
@@ -317,12 +287,42 @@ namespace L_Systems_lab_5_
                     string file_name = @"..\..\test_fractals\8.Кривая Госпера.txt";
 
                     text = File.ReadAllLines(file_name);
-                    label1.Text = text[1];
-                    len = (float)(200.0 / (it * it));
+                    len = (float)(600.0 / Math.Pow(Math.Log(200, 7), it));//(float)(200.0 / (it * it));
                     azimut = 0;
-                    //X = area.Width / 2 - 200;
-                    //Y = area.Height / 2;
-                    
+                }
+                if (comboBox1.SelectedIndex == 9)
+                {
+                    string file_name = @"..\..\test_fractals\9. Дерево 1.txt";
+                    text = File.ReadAllLines(file_name);
+                    len = (float)(200.0 / ( Math.Pow(1.95,it)));
+                    azimut = 0;
+                }
+                if (comboBox1.SelectedIndex == 10)
+                {
+                    string file_name = @"..\..\test_fractals\10.Куст 1.txt";
+
+                    text = File.ReadAllLines(file_name);
+                    len = (float)(200.0 / Math.Pow(1.95, it));
+                    azimut = 0;
+
+                }
+                if (comboBox1.SelectedIndex == 11)
+                {
+                    string file_name = @"..\..\test_fractals\11.Куст 2.txt";
+
+                    text = File.ReadAllLines(file_name);
+                    len = (float)(200.0 / Math.Pow(1.85, it));
+                    azimut = 0;
+
+                }
+                if (comboBox1.SelectedIndex == 12)
+                {
+                    string file_name = @"..\..\test_fractals\12.Куст 3.txt";
+
+                    text = File.ReadAllLines(file_name);
+                    len = (float)(200.0 / Math.Pow(1.90, it));
+                    azimut = 0;
+
                 }
 
                 int i = 0;
@@ -345,11 +345,25 @@ namespace L_Systems_lab_5_
                 }
                
                 string s = convertRule(start, rules, it);
-                //zoom = preDraw(X, Y, len, azimut, angle, s);
-                PointF newP = getNewXY(X, Y, len, azimut, angle, s);
-                drawFract(newP.X, newP.Y, len, azimut, angle, s);
+                
+                if (comboBox1.SelectedIndex < 9)
+                {
+                    PointF newP = getNewXY(X, Y, len, azimut, angle, s);
+                    drawFract(newP.X, newP.Y, len, azimut, angle, s);
+                }
+                else { // Еслт снизу строим деревья то координата х по центру, а у отступает снизу 10 пикс
+                    X = area.Width / 2;
+                    Y = 10;
+                    drawFract(X, Y, len, azimut, angle, s);
+                }
+
             }
             area.Invalidate();
+        }
+
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
