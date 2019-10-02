@@ -54,7 +54,7 @@ namespace L_Systems_lab_5_
 
         double zoom = 0.5;
 
-        public PointF F(float x, float y, float len, float angle, int it)
+        public PointF F(float x, float y, float len, float angle)
         {
             
             float x1, y1;
@@ -67,6 +67,17 @@ namespace L_Systems_lab_5_
             //area.Update();
             return new PointF(x1, y1);
         }
+
+        public PointF falshF(float x, float y, float len, float angle, int it)
+        {
+            float x1, y1;
+            len = (float)(len * zoom);
+            x1 = x + len * (float)Math.Sin(angle * Math.PI * 2 / 360.0);
+            y1 = y + len * (float)Math.Cos(angle * Math.PI * 2 / 360.0);
+            area.Invalidate();
+            return new PointF(x1, y1);
+        }
+
         //На это не смотреть
         public double preDraw(float x, float y, float len, float napr, float angle, String s) {
             List<PointF> points = new List<PointF>();
@@ -76,7 +87,7 @@ namespace L_Systems_lab_5_
             {
                 if (s[i] == 'F')
                 {
-                    P = F(P.X, P.Y, len, napr, 0);
+                    P = F(P.X, P.Y, len, napr);
                     points.Add(P);
                 }
                 else if (s[i] == '+')
@@ -134,7 +145,7 @@ namespace L_Systems_lab_5_
             {
                 if (s[i] == 'F')
                 {
-                    P = F(P.X, P.Y, len, napr, 0);
+                    P = F(P.X, P.Y, len, napr);
                     area.Update();
                 }
                 else if (s[i] == '+')
@@ -153,8 +164,64 @@ namespace L_Systems_lab_5_
             area.Image = new Bitmap(area.Width, area.Height);
             g = Graphics.FromImage(area.Image);
             g.Clear(Color.White);
-            comboBox1.SelectedIndex = 0;
+            
         }
+
+        private static int CompForX(PointF p1,PointF p2) {
+            if (p1.X < p2.X)
+                return -1;
+            else if (p1.X > p2.X)
+                return 1;
+            else
+                return 0;
+        }
+        private static int CompForY(PointF p1, PointF p2)
+        {
+            if (p1.Y < p2.Y)
+                return -1;
+            else if (p1.Y > p2.Y)
+                return 1;
+            else
+                return 0;
+        }
+
+        private PointF getNewXY(float oldX, float oldY, float len, float azimut, float angle, String s)
+        {
+            List<PointF> points = new List<PointF>();
+            PointF P = new PointF(oldX, oldY);
+            points.Add(P);
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == 'F')
+                {
+                    P = falshF(P.X, P.Y, len, azimut, 0);
+                    points.Add(P);
+                }
+                else if (s[i] == '+')
+                {
+                    azimut += angle;
+
+                }
+                else if (s[i] == '-')
+                {
+                    azimut -= angle;
+                }
+            }
+            float x_min = points.Select(point => point.X).Min();
+            float y_min = points.Select(point => point.Y).Min();
+            float x_max = points.Select(point => point.X).Max();
+            float y_max = points.Select(point => point.Y).Max();
+            float center_x = (x_max + x_min)/2;
+            float center_y = (y_max + y_min)/2;
+            float dx = (float)(area.Width/2)- center_x;
+            float dy = (float)(area.Height / 2) - center_y;
+            float new_x = oldX + dx;
+            float new_y = oldY + dy;
+
+            return new PointF(new_x, new_y);
+        }
+
+
         private void Start_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedIndex != 0)
@@ -197,7 +264,7 @@ namespace L_Systems_lab_5_
                     label1.Text = text[1];
                     len = (float)(200.0 / Math.Pow(Math.Log(200, 6), it ));
                     azimut = 0;
-                    Y -= 50;
+                    //Y -= 50;
                 }
 
                 if (comboBox1.SelectedIndex == 4)
@@ -208,7 +275,7 @@ namespace L_Systems_lab_5_
                     label1.Text = text[1];
                     len = (float)(200.0 / Math.Pow(Math.Log(200, 6), it));
                     azimut = 30;
-                    Y -= 50;
+                   // Y -= 50;
                 }
 
                 if (comboBox1.SelectedIndex == 5)
@@ -219,7 +286,7 @@ namespace L_Systems_lab_5_
                     label1.Text = text[1];
                     len = (float)(200.0 / (it*it));
                     azimut = 30;
-                    Y -= it*10;
+                    //Y -= it*10;
                 }
 
                 if (comboBox1.SelectedIndex == 6)
@@ -230,7 +297,7 @@ namespace L_Systems_lab_5_
                     label1.Text = text[1];
                     len = (float)(200.0 / (it * it));
                     azimut = 90;
-                    Y -= it * 10;
+                    //Y -= it * 10;
                 }
                 
                 if (comboBox1.SelectedIndex == 7)
@@ -241,8 +308,8 @@ namespace L_Systems_lab_5_
                     label1.Text = text[1];
                     len = (float)(200.0 / (it*3  ));
                     azimut = 0;
-                    X = area.Width / 2+100;
-                    Y = area.Height / 2;
+                    //X = area.Width / 2+100;
+                    //Y = area.Height / 2;
                 }
 
                 if (comboBox1.SelectedIndex == 8)
@@ -253,8 +320,8 @@ namespace L_Systems_lab_5_
                     label1.Text = text[1];
                     len = (float)(200.0 / (it * it));
                     azimut = 0;
-                    X = area.Width / 2 - 200;
-                    Y = area.Height / 2;
+                    //X = area.Width / 2 - 200;
+                    //Y = area.Height / 2;
                     
                 }
 
@@ -279,7 +346,8 @@ namespace L_Systems_lab_5_
                
                 string s = convertRule(start, rules, it);
                 //zoom = preDraw(X, Y, len, azimut, angle, s);
-                drawFract(X, Y, len, azimut, angle, s);
+                PointF newP = getNewXY(X, Y, len, azimut, angle, s);
+                drawFract(newP.X, newP.Y, len, azimut, angle, s);
             }
             area.Invalidate();
         }
