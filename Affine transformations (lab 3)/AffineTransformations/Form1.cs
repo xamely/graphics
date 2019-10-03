@@ -71,11 +71,48 @@ namespace AffineTransformations
         private void area_MouseUp(object sender, MouseEventArgs e)
         {
             Pen p = new Pen(Color.Black);
+            Pen r = new Pen(Color.Red);
             if (lineButton.Checked)
             {
                 LastPoint = e.Location;
-                if (lineOptionsBox.SelectedIndex == 2 && polyPoints.Count > 0)
+                if (lineOptionsBox.SelectedIndex == 2 && polyPoints.Count > 1)
                 {
+                    Point A = new Point(CurrentPoint.X, CurrentPoint.Y);
+                    Point B = new Point(LastPoint.X, LastPoint.Y);
+                    Point C = new Point(this.polyPoints[polyPoints.Count - 2].X, this.polyPoints[polyPoints.Count - 2].Y);
+                    Point D = new Point(this.polyPoints[polyPoints.Count - 1].X, this.polyPoints[polyPoints.Count - 1].Y);
+
+                    g.DrawLine(p, A, B);
+
+                    bool f1 = false, f2 = false;
+                    if (RightCheck(A, B, C) && !(RightCheck(A, B, D)))
+                    {
+                        f1 = true;
+                    }
+                    if (!(RightCheck(A, B, C)) && (RightCheck(A, B, D)))
+                    {
+                        f1 = true;
+                    }
+
+                    if (RightCheck(C, D, A) && !(RightCheck(C, D, B)))
+                    {
+                        f2 = true;
+                    }
+                    if (!(RightCheck(C, D, A)) && (RightCheck(C, D, B)))
+                    {
+                        f2 = true;
+                    }
+
+                    if (f1 == true && f2 == true)
+                    {
+                        label3.Text = "cross";
+                    }
+                    else
+                    {
+                        label3.Text = "no cross";
+                    }
+
+                    /*
                     g.DrawLine(p, CurrentPoint, LastPoint);
 
                     double a1 = (CurrentPoint.Y - LastPoint.Y) / (CurrentPoint.X - LastPoint.X);
@@ -94,7 +131,7 @@ namespace AffineTransformations
                         int y = ((polyPoints[0].Y - polyPoints[1].Y) * (-x) - (polyPoints[0].X * polyPoints[1].Y - polyPoints[1].X * polyPoints[0].Y)) / (polyPoints[1].X - polyPoints[0].X);
                         g.FillEllipse(new SolidBrush(Color.Red), new Rectangle(x, y, 3, 3));
 
-                    }
+                    }*/
                     area.Invalidate();
                 }
                 else if (lineOptionsBox.SelectedIndex == 3 && polyPoints.Count > 1)
@@ -104,7 +141,6 @@ namespace AffineTransformations
                     int oy = this.polyPoints.First().Y;
                     int xa = this.polyPoints.ElementAt(1).X;
                     int ya = this.polyPoints.ElementAt(1).Y;
-                    //label4.Text = ox + "  " + oy + " " + xa + " " + ya;
                     int xb = this.CurrentPoint.X;
                     int yb = this.CurrentPoint.Y;
 
@@ -146,7 +182,7 @@ namespace AffineTransformations
                     int oy = this.polyPoints.First().Y;
                     int xa = this.polyPoints.ElementAt(1).X;
                     int ya = this.polyPoints.ElementAt(1).Y;
-                    //label4.Text = ox + "  " + oy + " " + xa + " " + ya;
+                    
                     for (int i = 1; i < area.Width; i += 5)
                     {
                         for (int j = 1; j < area.Height; j += 5)
@@ -274,18 +310,17 @@ namespace AffineTransformations
                     Point old = this.polyPoints.First();
                     for (int i = 1; i < polyPoints.Count(); i++)
                     {
-                        label4.Text += "";
+                       
                         if (this.RightCheck(old, this.polyPoints.ElementAt(i), P) == true)
                         {
                             c += 1;
-                            label4.Text += "true";
+
                         }
                         old = this.polyPoints.ElementAt(i);
                     }
                     if (this.RightCheck(old, start, P) == true)
                     {
                         c += 1;
-                        label4.Text += "true";
                     }
 
                     if (c == 0 || c == this.polyPoints.Count())
@@ -315,7 +350,7 @@ namespace AffineTransformations
                             Point old = this.polyPoints.First();
                             for (int i = 1; i < polyPoints.Count(); i++)
                             {
-                                label4.Text += "";
+
                                 if (this.RightCheck(old, this.polyPoints.ElementAt(i), P) == true)
                                 {
                                     c += 1;
@@ -325,7 +360,7 @@ namespace AffineTransformations
 
                             if (this.RightCheck(old, start, P) == true)
                                 c += 1;
-                            
+
                             if (c == 0 || c == this.polyPoints.Count())
                             {
                                 g.FillEllipse(new SolidBrush(Color.Green), new Rectangle(P.X, P.Y, 4, 4));
@@ -334,7 +369,79 @@ namespace AffineTransformations
                             {
                                 g.FillEllipse(new SolidBrush(Color.Red), new Rectangle(P.X, P.Y, 4, 4));
                             }
+
+
                             area.Invalidate();
+                        }
+                    }
+                }
+                else if (polygonOptionsBox.SelectedIndex == 7 && polyPoints.Count > 1)
+                {
+                    int count_cross = 0;
+                    Point P = CurrentPoint;//new Point(a, b);
+                    Point start = this.polyPoints.First();
+                    Point old = this.polyPoints.First();
+                    Point D = new Point(area.Width - 1, P.Y);
+                    for (int i = 1; i < polyPoints.Count(); i++)
+                    {
+                        
+                        if (this.Check_Cross(old, this.polyPoints.ElementAt(i), P, D) == true)
+                        {
+                            count_cross += 1;
+                        }
+                        old = this.polyPoints.ElementAt(i);
+                    }
+
+                    if (this.Check_Cross(old, start, P, D) == true)
+                    {
+                        count_cross += 1;
+                    }
+                    if (count_cross % 2 == 1)
+                    {
+                        g.FillEllipse(new SolidBrush(Color.Green), new Rectangle(P.X, P.Y, 4, 4));
+                    }
+                    else
+                    {
+                        g.FillEllipse(new SolidBrush(Color.Red), new Rectangle(P.X, P.Y, 4, 4));
+                    }
+                    area.Invalidate();
+
+                }
+                else if (polygonOptionsBox.SelectedIndex == 8 && polyPoints.Count > 1)
+                {
+                    for (int a = 1; a < area.Width; a += 5)
+                    {
+                        for (int b = 1; b < area.Height; b += 5)
+                        {
+                            int count_cross = 0;
+                            Point P = new Point(a, b);
+                            Point start = this.polyPoints.First();
+                            Point old = this.polyPoints.First();
+                            Point D = new Point(area.Width - 1, P.Y);
+                            for (int i = 1; i < polyPoints.Count(); i++)
+                            {
+                                
+                                if (this.Check_Cross(old, this.polyPoints.ElementAt(i), P, D) == true)
+                                {
+                                    count_cross += 1;
+                                }
+                                old = this.polyPoints.ElementAt(i);
+                            }
+
+                            if (this.Check_Cross(old, start, P, D) == true)
+                            {
+                                count_cross += 1;
+                            }
+                            if (count_cross % 2 == 1)
+                            {
+                                g.FillEllipse(new SolidBrush(Color.Green), new Rectangle(P.X, P.Y, 4, 4));
+                            }
+                            else
+                            {
+                                g.FillEllipse(new SolidBrush(Color.Red), new Rectangle(P.X, P.Y, 4, 4));
+                            }
+                            area.Invalidate();
+
                         }
                     }
                 }
@@ -365,6 +472,7 @@ namespace AffineTransformations
             g.FillRectangle(new SolidBrush(Color.White), 0, 0, area.Width, area.Height);
             polyPoints.Clear();
             can_draw = true;
+
             first = true;
         }
 
@@ -566,7 +674,6 @@ namespace AffineTransformations
             int oy = O.Y;
             int xa = A.X;
             int ya = A.Y;
-            //label4.Text = ox + "  " + oy + " " + xa + " " + ya;
             int xb = B.X;
             int yb = B.Y;
 
@@ -582,7 +689,7 @@ namespace AffineTransformations
             double cosB = xb / Math.Sqrt((xb - ox) ^ 2 + (yb - oy) ^ 2);*/
 
 
-            if ((ybm * xam - xbm * yam) > 0)
+            if ((ybm * xam - xbm * yam) >= 0)
             {
                 return true;
             }
@@ -591,6 +698,9 @@ namespace AffineTransformations
                 return false;
             }
         }
+
+
+
 
 
         private void RadioOrientationButton_CheckedChange(object sender, EventArgs e)
@@ -604,6 +714,46 @@ namespace AffineTransformations
 
                 this.label3.Text = "Линия есть";
             }
+        }
+
+
+        private bool Check_Cross(Point A, Point B, Point C, Point D)
+        {
+            /*Point A = new Point(CurrentPoint.X, CurrentPoint.Y);
+            Point B = new Point(LastPoint.X, LastPoint.Y);
+            Point C = new Point(this.polyPoints[polyPoints.Count - 2].X, this.polyPoints[polyPoints.Count - 2].Y);
+            Point D = new Point(this.polyPoints[polyPoints.Count - 1].X, this.polyPoints[polyPoints.Count - 1].Y);
+            
+            g.DrawLine(p, A, B);*/
+
+            bool f1 = false, f2 = false;
+            if (RightCheck(A, B, C) && !(RightCheck(A, B, D)))
+            {
+                f1 = true;
+            }
+            if (!(RightCheck(A, B, C)) && (RightCheck(A, B, D)))
+            {
+                f1 = true;
+            }
+
+            if (RightCheck(C, D, A) && !(RightCheck(C, D, B)))
+            {
+                f2 = true;
+            }
+            if (!(RightCheck(C, D, A)) && (RightCheck(C, D, B)))
+            {
+                f2 = true;
+            }
+
+            if (f1 == true && f2 == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
     }

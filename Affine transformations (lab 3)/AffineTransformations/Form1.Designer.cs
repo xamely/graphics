@@ -39,7 +39,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.RadioOrientationButton = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.area)).BeginInit();
             this.SuspendLayout();
             // 
@@ -138,7 +137,9 @@
             "Center scaling ",
             "Point scaling",
             "Check convex polygon(RightCheck)",
-            "Check convex polygon(FillingRightCheck)"});
+            "Check convex polygon(FillingRightCheck)",
+            "Check non convex polygon",
+            "Check non convex polygon(Filling)"});
             this.polygonOptionsBox.Location = new System.Drawing.Point(511, 323);
             this.polygonOptionsBox.Margin = new System.Windows.Forms.Padding(2);
             this.polygonOptionsBox.Name = "polygonOptionsBox";
@@ -177,21 +178,11 @@
             this.label3.TabIndex = 10;
             this.label3.Text = "label3";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(151, 414);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "label4";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(708, 443);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.RadioOrientationButton);
             this.Controls.Add(this.label2);
@@ -225,7 +216,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RadioButton RadioOrientationButton;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
     }
 }
 
