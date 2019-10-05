@@ -1,0 +1,10 @@
+C:\Users\mxeni\OneDrive\Documents\graphics\QuickHull\QuickHull\bin\Debug\QuickHull.exe.config
+C:\Users\mxeni\OneDrive\Documents\graphics\QuickHull\QuickHull\bin\Debug\QuickHull.exe
+C:\Users\mxeni\OneDrive\Documents\graphics\QuickHull\QuickHull\bin\Debug\QuickHull.pdb
+C:\Users\mxeni\OneDrive\Documents\graphics\QuickHull\QuickHull\obj\Debug\QuickHull.csprojAssemblyReference.cache
+C:\Users\mxeni\OneDrive\Documents\graphics\QuickHull\QuickHull\obj\Debug\QuickHull.Form1.resources
+C:\Users\mxeni\OneDrive\Documents\graphics\QuickHull\QuickHull\obj\Debug\QuickHull.Properties.Resources.resources
+C:\Users\mxeni\OneDrive\Documents\graphics\QuickHull\QuickHull\obj\Debug\QuickHull.csproj.GenerateResource.cache
+C:\Users\mxeni\OneDrive\Documents\graphics\QuickHull\QuickHull\obj\Debug\QuickHull.csproj.CoreCompileInputs.cache
+C:\Users\mxeni\OneDrive\Documents\graphics\QuickHull\QuickHull\obj\Debug\QuickHull.exe
+C:\Users\mxeni\OneDrive\Documents\graphics\QuickHull\QuickHull\obj\Debug\QuickHull.pdb
