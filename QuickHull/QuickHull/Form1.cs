@@ -14,6 +14,8 @@ namespace QuickHull
     {
         Graphics g;
         List<Point> points;
+        HashSet<Point> hull;
+        HashSet<Point> start_points;
 
         public Form1()
         {
@@ -22,13 +24,16 @@ namespace QuickHull
             g = Graphics.FromImage(area.Image);
             g.Clear(Color.White);
             points = new List<Point>();
+            start_points = new HashSet<Point>();
+            hull = new HashSet<Point>();
         }
 
         private void area_MouseClick(object sender, MouseEventArgs e)
         {
             g.FillEllipse(new SolidBrush(Color.Black), new Rectangle(e.X - 2, e.Y - 2, 4, 4));
-            points.Add(new Point(e.X, e.Y));
-            if (points.Count() > 2)
+            start_points.Add(new Point(e.X, e.Y));
+
+            if (start_points.Count() > 2)
             {
                 builder.Enabled = true;
             }
@@ -40,12 +45,15 @@ namespace QuickHull
             area.Image = new Bitmap(area.Width, area.Height);
             g = Graphics.FromImage(area.Image);
             g.FillRectangle(new SolidBrush(Color.White), 0, 0, area.Width, area.Height);
+            start_points.Clear();
             points.Clear();
+            hull.Clear();
         }
 
         private void builder_Click(object sender, EventArgs e)
         {
             // finding left and right points
+            points = start_points.ToList<Point>();
             Point min_point = points[0];
             Point max_point = points[0];
             for (int i = 1; i < points.Count; i++)
@@ -64,7 +72,7 @@ namespace QuickHull
         {
             List<Point> result = new List<Point>();
             for (int i = 0; i < points.Count; i++)
-                if (findSide(left, right, points[i]) == side)
+                if (findSide(left, right, points[i]) == side || findSide(left, right, points[i]) == 0)
                     result.Add(points[i]);
 
            return result;
@@ -90,8 +98,10 @@ namespace QuickHull
         // -1 = left than line between points 
         private void quickHull(Point left, Point right, List<Point> points, int side)
         {
-            if (points.Count == 0)
+            if (points.Count == 2)
             {
+                hull.Add(left);
+                hull.Add(right);
                 g.DrawLine(new Pen(Color.Black), left, right);
                 area.Invalidate();
                 return;
@@ -103,13 +113,22 @@ namespace QuickHull
             for (int i = 0; i < points.Count; i++)
             {
                 int temp = lineDist(left, right, points[i]);
-                if (temp > max_dist)
+                if (temp >= max_dist)
                 {
                     max_point = points[i];
                     max_dist = temp;
                 }
             }
-            
+
+            if (max_dist == 0)
+            {
+                for (int i = 0; i < points.Count; i++)
+                    hull.Add(points[i]);
+                g.DrawLine(new Pen(Color.Black), left, right);
+                area.Invalidate();
+                return;
+            }
+
             // points to the left of the line (upper or lower)
             quickHull(left, max_point, points_relatively_to_line(left, max_point, points, side), side);
 
