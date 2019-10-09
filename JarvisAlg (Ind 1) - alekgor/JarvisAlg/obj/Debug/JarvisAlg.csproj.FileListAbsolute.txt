@@ -1,0 +1,20 @@
+C:\Users\User\Desktop\JarvisAlg\JarvisAlg\JarvisAlg\bin\Debug\JarvisAlg.exe.config
+C:\Users\User\Desktop\JarvisAlg\JarvisAlg\JarvisAlg\bin\Debug\JarvisAlg.exe
+C:\Users\User\Desktop\JarvisAlg\JarvisAlg\JarvisAlg\bin\Debug\JarvisAlg.pdb
+C:\Users\User\Desktop\JarvisAlg\JarvisAlg\JarvisAlg\obj\Debug\JarvisAlg.csprojAssemblyReference.cache
+C:\Users\User\Desktop\JarvisAlg\JarvisAlg\JarvisAlg\obj\Debug\JarvisAlg.Form1.resources
+C:\Users\User\Desktop\JarvisAlg\JarvisAlg\JarvisAlg\obj\Debug\JarvisAlg.Properties.Resources.resources
+C:\Users\User\Desktop\JarvisAlg\JarvisAlg\JarvisAlg\obj\Debug\JarvisAlg.csproj.GenerateResource.cache
+C:\Users\User\Desktop\JarvisAlg\JarvisAlg\JarvisAlg\obj\Debug\JarvisAlg.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\JarvisAlg\JarvisAlg\JarvisAlg\obj\Debug\JarvisAlg.exe
+C:\Users\User\Desktop\JarvisAlg\JarvisAlg\JarvisAlg\obj\Debug\JarvisAlg.pdb
+C:\Users\User\Desktop\graphics\JarvisAlg (Ind 1) - alekgor\JarvisAlg\bin\Debug\JarvisAlg.exe.config
+C:\Users\User\Desktop\graphics\JarvisAlg (Ind 1) - alekgor\JarvisAlg\bin\Debug\JarvisAlg.exe
+C:\Users\User\Desktop\graphics\JarvisAlg (Ind 1) - alekgor\JarvisAlg\bin\Debug\JarvisAlg.pdb
+C:\Users\User\Desktop\graphics\JarvisAlg (Ind 1) - alekgor\JarvisAlg\obj\Debug\JarvisAlg.csprojAssemblyReference.cache
+C:\Users\User\Desktop\graphics\JarvisAlg (Ind 1) - alekgor\JarvisAlg\obj\Debug\JarvisAlg.Form1.resources
+C:\Users\User\Desktop\graphics\JarvisAlg (Ind 1) - alekgor\JarvisAlg\obj\Debug\JarvisAlg.Properties.Resources.resources
+C:\Users\User\Desktop\graphics\JarvisAlg (Ind 1) - alekgor\JarvisAlg\obj\Debug\JarvisAlg.csproj.GenerateResource.cache
+C:\Users\User\Desktop\graphics\JarvisAlg (Ind 1) - alekgor\JarvisAlg\obj\Debug\JarvisAlg.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\graphics\JarvisAlg (Ind 1) - alekgor\JarvisAlg\obj\Debug\JarvisAlg.exe
+C:\Users\User\Desktop\graphics\JarvisAlg (Ind 1) - alekgor\JarvisAlg\obj\Debug\JarvisAlg.pdb
