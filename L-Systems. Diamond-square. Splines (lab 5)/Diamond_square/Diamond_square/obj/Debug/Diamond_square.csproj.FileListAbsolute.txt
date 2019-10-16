@@ -1,0 +1,10 @@
+C:\Users\mxeni\source\repos\Diamond_square\Diamond_square\bin\Debug\Diamond_square.exe.config
+C:\Users\mxeni\source\repos\Diamond_square\Diamond_square\bin\Debug\Diamond_square.exe
+C:\Users\mxeni\source\repos\Diamond_square\Diamond_square\bin\Debug\Diamond_square.pdb
+C:\Users\mxeni\source\repos\Diamond_square\Diamond_square\obj\Debug\Diamond_square.csprojAssemblyReference.cache
+C:\Users\mxeni\source\repos\Diamond_square\Diamond_square\obj\Debug\Diamond_square.Form1.resources
+C:\Users\mxeni\source\repos\Diamond_square\Diamond_square\obj\Debug\Diamond_square.Properties.Resources.resources
+C:\Users\mxeni\source\repos\Diamond_square\Diamond_square\obj\Debug\Diamond_square.csproj.GenerateResource.cache
+C:\Users\mxeni\source\repos\Diamond_square\Diamond_square\obj\Debug\Diamond_square.csproj.CoreCompileInputs.cache
+C:\Users\mxeni\source\repos\Diamond_square\Diamond_square\obj\Debug\Diamond_square.exe
+C:\Users\mxeni\source\repos\Diamond_square\Diamond_square\obj\Debug\Diamond_square.pdb
