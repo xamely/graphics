@@ -45,6 +45,20 @@
             this.scaleZ_text = new System.Windows.Forms.TextBox();
             this.scaleY_text = new System.Windows.Forms.TextBox();
             this.scaleX_text = new System.Windows.Forms.TextBox();
+            this.reflectZ_button = new System.Windows.Forms.Button();
+            this.reflectY_button = new System.Windows.Forms.Button();
+            this.reflectX_button = new System.Windows.Forms.Button();
+            this.centerScale_button = new System.Windows.Forms.Button();
+            this.rotateCenterZ_button = new System.Windows.Forms.Button();
+            this.rotateCenterY_button = new System.Windows.Forms.Button();
+            this.rotateCenterX_button = new System.Windows.Forms.Button();
+            this.point2Y_text = new System.Windows.Forms.TextBox();
+            this.point2X_text = new System.Windows.Forms.TextBox();
+            this.point1Y_text = new System.Windows.Forms.TextBox();
+            this.point1X_text = new System.Windows.Forms.TextBox();
+            this.lineRotate_button = new System.Windows.Forms.Button();
+            this.point1Z_text = new System.Windows.Forms.TextBox();
+            this.point2Z_text = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.area)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,7 +66,7 @@
             // 
             this.area.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.area.Location = new System.Drawing.Point(12, 10);
-            this.area.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.area.Margin = new System.Windows.Forms.Padding(2);
             this.area.Name = "area";
             this.area.Size = new System.Drawing.Size(534, 395);
             this.area.TabIndex = 0;
@@ -61,7 +75,7 @@
             // draw_button
             // 
             this.draw_button.Location = new System.Drawing.Point(566, 67);
-            this.draw_button.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.draw_button.Margin = new System.Windows.Forms.Padding(2);
             this.draw_button.Name = "draw_button";
             this.draw_button.Size = new System.Drawing.Size(93, 28);
             this.draw_button.TabIndex = 1;
@@ -73,7 +87,7 @@
             // 
             this.radioTetrahedron.AutoSize = true;
             this.radioTetrahedron.Location = new System.Drawing.Point(566, 23);
-            this.radioTetrahedron.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioTetrahedron.Margin = new System.Windows.Forms.Padding(2);
             this.radioTetrahedron.Name = "radioTetrahedron";
             this.radioTetrahedron.Size = new System.Drawing.Size(83, 17);
             this.radioTetrahedron.TabIndex = 2;
@@ -85,7 +99,7 @@
             // 
             this.radioCube.AutoSize = true;
             this.radioCube.Location = new System.Drawing.Point(566, 45);
-            this.radioCube.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioCube.Margin = new System.Windows.Forms.Padding(2);
             this.radioCube.Name = "radioCube";
             this.radioCube.Size = new System.Drawing.Size(50, 17);
             this.radioCube.TabIndex = 3;
@@ -96,7 +110,7 @@
             // clear_button
             // 
             this.clear_button.Location = new System.Drawing.Point(671, 67);
-            this.clear_button.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.clear_button.Margin = new System.Windows.Forms.Padding(2);
             this.clear_button.Name = "clear_button";
             this.clear_button.Size = new System.Drawing.Size(90, 28);
             this.clear_button.TabIndex = 4;
@@ -108,7 +122,7 @@
             // 
             this.shift_x.Cursor = System.Windows.Forms.Cursors.Default;
             this.shift_x.Location = new System.Drawing.Point(578, 128);
-            this.shift_x.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.shift_x.Margin = new System.Windows.Forms.Padding(2);
             this.shift_x.Name = "shift_x";
             this.shift_x.Size = new System.Drawing.Size(41, 20);
             this.shift_x.TabIndex = 5;
@@ -117,7 +131,7 @@
             // shift_y
             // 
             this.shift_y.Location = new System.Drawing.Point(641, 128);
-            this.shift_y.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.shift_y.Margin = new System.Windows.Forms.Padding(2);
             this.shift_y.Name = "shift_y";
             this.shift_y.Size = new System.Drawing.Size(41, 20);
             this.shift_y.TabIndex = 6;
@@ -126,7 +140,7 @@
             // shift_z
             // 
             this.shift_z.Location = new System.Drawing.Point(706, 128);
-            this.shift_z.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.shift_z.Margin = new System.Windows.Forms.Padding(2);
             this.shift_z.Name = "shift_z";
             this.shift_z.Size = new System.Drawing.Size(41, 20);
             this.shift_z.TabIndex = 7;
@@ -135,7 +149,7 @@
             // shift_button
             // 
             this.shift_button.Location = new System.Drawing.Point(691, 152);
-            this.shift_button.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.shift_button.Margin = new System.Windows.Forms.Padding(2);
             this.shift_button.Name = "shift_button";
             this.shift_button.Size = new System.Drawing.Size(56, 19);
             this.shift_button.TabIndex = 8;
@@ -188,7 +202,7 @@
             // 
             // scale_button
             // 
-            this.scale_button.Location = new System.Drawing.Point(691, 292);
+            this.scale_button.Location = new System.Drawing.Point(691, 348);
             this.scale_button.Margin = new System.Windows.Forms.Padding(2);
             this.scale_button.Name = "scale_button";
             this.scale_button.Size = new System.Drawing.Size(56, 19);
@@ -199,7 +213,7 @@
             // 
             // scaleZ_text
             // 
-            this.scaleZ_text.Location = new System.Drawing.Point(706, 268);
+            this.scaleZ_text.Location = new System.Drawing.Point(706, 324);
             this.scaleZ_text.Margin = new System.Windows.Forms.Padding(2);
             this.scaleZ_text.Name = "scaleZ_text";
             this.scaleZ_text.Size = new System.Drawing.Size(41, 20);
@@ -208,7 +222,7 @@
             // 
             // scaleY_text
             // 
-            this.scaleY_text.Location = new System.Drawing.Point(641, 268);
+            this.scaleY_text.Location = new System.Drawing.Point(641, 324);
             this.scaleY_text.Margin = new System.Windows.Forms.Padding(2);
             this.scaleY_text.Name = "scaleY_text";
             this.scaleY_text.Size = new System.Drawing.Size(41, 20);
@@ -218,18 +232,178 @@
             // scaleX_text
             // 
             this.scaleX_text.Cursor = System.Windows.Forms.Cursors.Default;
-            this.scaleX_text.Location = new System.Drawing.Point(578, 268);
+            this.scaleX_text.Location = new System.Drawing.Point(578, 324);
             this.scaleX_text.Margin = new System.Windows.Forms.Padding(2);
             this.scaleX_text.Name = "scaleX_text";
             this.scaleX_text.Size = new System.Drawing.Size(41, 20);
             this.scaleX_text.TabIndex = 13;
             this.scaleX_text.Text = "0";
             // 
+            // reflectZ_button
+            // 
+            this.reflectZ_button.Location = new System.Drawing.Point(671, 406);
+            this.reflectZ_button.Margin = new System.Windows.Forms.Padding(2);
+            this.reflectZ_button.Name = "reflectZ_button";
+            this.reflectZ_button.Size = new System.Drawing.Size(76, 19);
+            this.reflectZ_button.TabIndex = 19;
+            this.reflectZ_button.Text = "Reflect Z";
+            this.reflectZ_button.UseVisualStyleBackColor = true;
+            this.reflectZ_button.Click += new System.EventHandler(this.ReflectZ_button_Click);
+            // 
+            // reflectY_button
+            // 
+            this.reflectY_button.Location = new System.Drawing.Point(671, 383);
+            this.reflectY_button.Margin = new System.Windows.Forms.Padding(2);
+            this.reflectY_button.Name = "reflectY_button";
+            this.reflectY_button.Size = new System.Drawing.Size(76, 19);
+            this.reflectY_button.TabIndex = 18;
+            this.reflectY_button.Text = "Reflect Y";
+            this.reflectY_button.UseVisualStyleBackColor = true;
+            this.reflectY_button.Click += new System.EventHandler(this.ReflectY_button_Click);
+            // 
+            // reflectX_button
+            // 
+            this.reflectX_button.Location = new System.Drawing.Point(591, 383);
+            this.reflectX_button.Margin = new System.Windows.Forms.Padding(2);
+            this.reflectX_button.Name = "reflectX_button";
+            this.reflectX_button.Size = new System.Drawing.Size(76, 19);
+            this.reflectX_button.TabIndex = 17;
+            this.reflectX_button.Text = "Reflect X";
+            this.reflectX_button.UseVisualStyleBackColor = true;
+            this.reflectX_button.Click += new System.EventHandler(this.ReflectX_button_Click);
+            // 
+            // centerScale_button
+            // 
+            this.centerScale_button.Location = new System.Drawing.Point(591, 348);
+            this.centerScale_button.Margin = new System.Windows.Forms.Padding(2);
+            this.centerScale_button.Name = "centerScale_button";
+            this.centerScale_button.Size = new System.Drawing.Size(96, 19);
+            this.centerScale_button.TabIndex = 20;
+            this.centerScale_button.Text = "Center scale";
+            this.centerScale_button.UseVisualStyleBackColor = true;
+            this.centerScale_button.Click += new System.EventHandler(this.CenterScale_button_Click);
+            // 
+            // rotateCenterZ_button
+            // 
+            this.rotateCenterZ_button.Location = new System.Drawing.Point(641, 301);
+            this.rotateCenterZ_button.Margin = new System.Windows.Forms.Padding(2);
+            this.rotateCenterZ_button.Name = "rotateCenterZ_button";
+            this.rotateCenterZ_button.Size = new System.Drawing.Size(101, 19);
+            this.rotateCenterZ_button.TabIndex = 23;
+            this.rotateCenterZ_button.Text = "Rotate center Z";
+            this.rotateCenterZ_button.UseVisualStyleBackColor = true;
+            this.rotateCenterZ_button.Click += new System.EventHandler(this.RotateCenterZ_button_Click);
+            // 
+            // rotateCenterY_button
+            // 
+            this.rotateCenterY_button.Location = new System.Drawing.Point(641, 278);
+            this.rotateCenterY_button.Margin = new System.Windows.Forms.Padding(2);
+            this.rotateCenterY_button.Name = "rotateCenterY_button";
+            this.rotateCenterY_button.Size = new System.Drawing.Size(101, 19);
+            this.rotateCenterY_button.TabIndex = 22;
+            this.rotateCenterY_button.Text = "Rotate center Y";
+            this.rotateCenterY_button.UseVisualStyleBackColor = true;
+            this.rotateCenterY_button.Click += new System.EventHandler(this.RotateCenterY_button_Click);
+            // 
+            // rotateCenterX_button
+            // 
+            this.rotateCenterX_button.Location = new System.Drawing.Point(641, 255);
+            this.rotateCenterX_button.Margin = new System.Windows.Forms.Padding(2);
+            this.rotateCenterX_button.Name = "rotateCenterX_button";
+            this.rotateCenterX_button.Size = new System.Drawing.Size(101, 19);
+            this.rotateCenterX_button.TabIndex = 21;
+            this.rotateCenterX_button.Text = "Rotate center X";
+            this.rotateCenterX_button.UseVisualStyleBackColor = true;
+            this.rotateCenterX_button.Click += new System.EventHandler(this.RotateCenterX_button_Click);
+            // 
+            // point2Y_text
+            // 
+            this.point2Y_text.Location = new System.Drawing.Point(661, 453);
+            this.point2Y_text.Margin = new System.Windows.Forms.Padding(2);
+            this.point2Y_text.Name = "point2Y_text";
+            this.point2Y_text.Size = new System.Drawing.Size(41, 20);
+            this.point2Y_text.TabIndex = 26;
+            this.point2Y_text.Text = "0";
+            // 
+            // point2X_text
+            // 
+            this.point2X_text.Location = new System.Drawing.Point(616, 453);
+            this.point2X_text.Margin = new System.Windows.Forms.Padding(2);
+            this.point2X_text.Name = "point2X_text";
+            this.point2X_text.Size = new System.Drawing.Size(41, 20);
+            this.point2X_text.TabIndex = 25;
+            this.point2X_text.Text = "0";
+            // 
+            // point1Y_text
+            // 
+            this.point1Y_text.Cursor = System.Windows.Forms.Cursors.Default;
+            this.point1Y_text.Location = new System.Drawing.Point(661, 429);
+            this.point1Y_text.Margin = new System.Windows.Forms.Padding(2);
+            this.point1Y_text.Name = "point1Y_text";
+            this.point1Y_text.Size = new System.Drawing.Size(41, 20);
+            this.point1Y_text.TabIndex = 24;
+            this.point1Y_text.Text = "0";
+            // 
+            // point1X_text
+            // 
+            this.point1X_text.Cursor = System.Windows.Forms.Cursors.Default;
+            this.point1X_text.Location = new System.Drawing.Point(616, 429);
+            this.point1X_text.Margin = new System.Windows.Forms.Padding(2);
+            this.point1X_text.Name = "point1X_text";
+            this.point1X_text.Size = new System.Drawing.Size(41, 20);
+            this.point1X_text.TabIndex = 27;
+            this.point1X_text.Text = "0";
+            // 
+            // lineRotate_button
+            // 
+            this.lineRotate_button.Location = new System.Drawing.Point(671, 477);
+            this.lineRotate_button.Margin = new System.Windows.Forms.Padding(2);
+            this.lineRotate_button.Name = "lineRotate_button";
+            this.lineRotate_button.Size = new System.Drawing.Size(76, 19);
+            this.lineRotate_button.TabIndex = 28;
+            this.lineRotate_button.Text = "Line rotate";
+            this.lineRotate_button.UseVisualStyleBackColor = true;
+            this.lineRotate_button.Click += new System.EventHandler(this.LineRotate_button_Click);
+            // 
+            // point1Z_text
+            // 
+            this.point1Z_text.Cursor = System.Windows.Forms.Cursors.Default;
+            this.point1Z_text.Location = new System.Drawing.Point(706, 429);
+            this.point1Z_text.Margin = new System.Windows.Forms.Padding(2);
+            this.point1Z_text.Name = "point1Z_text";
+            this.point1Z_text.Size = new System.Drawing.Size(41, 20);
+            this.point1Z_text.TabIndex = 29;
+            this.point1Z_text.Text = "0";
+            // 
+            // point2Z_text
+            // 
+            this.point2Z_text.Cursor = System.Windows.Forms.Cursors.Default;
+            this.point2Z_text.Location = new System.Drawing.Point(706, 453);
+            this.point2Z_text.Margin = new System.Windows.Forms.Padding(2);
+            this.point2Z_text.Name = "point2Z_text";
+            this.point2Z_text.Size = new System.Drawing.Size(41, 20);
+            this.point2Z_text.TabIndex = 30;
+            this.point2Z_text.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(778, 414);
+            this.ClientSize = new System.Drawing.Size(778, 509);
+            this.Controls.Add(this.point2Z_text);
+            this.Controls.Add(this.point1Z_text);
+            this.Controls.Add(this.lineRotate_button);
+            this.Controls.Add(this.point1X_text);
+            this.Controls.Add(this.point2Y_text);
+            this.Controls.Add(this.point2X_text);
+            this.Controls.Add(this.point1Y_text);
+            this.Controls.Add(this.rotateCenterZ_button);
+            this.Controls.Add(this.rotateCenterY_button);
+            this.Controls.Add(this.rotateCenterX_button);
+            this.Controls.Add(this.centerScale_button);
+            this.Controls.Add(this.reflectZ_button);
+            this.Controls.Add(this.reflectY_button);
+            this.Controls.Add(this.reflectX_button);
             this.Controls.Add(this.scale_button);
             this.Controls.Add(this.scaleZ_text);
             this.Controls.Add(this.scaleY_text);
@@ -247,7 +421,7 @@
             this.Controls.Add(this.radioTetrahedron);
             this.Controls.Add(this.draw_button);
             this.Controls.Add(this.area);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.area)).EndInit();
@@ -275,6 +449,20 @@
         private System.Windows.Forms.TextBox scaleZ_text;
         private System.Windows.Forms.TextBox scaleY_text;
         private System.Windows.Forms.TextBox scaleX_text;
+        private System.Windows.Forms.Button reflectZ_button;
+        private System.Windows.Forms.Button reflectY_button;
+        private System.Windows.Forms.Button reflectX_button;
+        private System.Windows.Forms.Button centerScale_button;
+        private System.Windows.Forms.Button rotateCenterZ_button;
+        private System.Windows.Forms.Button rotateCenterY_button;
+        private System.Windows.Forms.Button rotateCenterX_button;
+        private System.Windows.Forms.TextBox point2Y_text;
+        private System.Windows.Forms.TextBox point2X_text;
+        private System.Windows.Forms.TextBox point1Y_text;
+        private System.Windows.Forms.TextBox point1X_text;
+        private System.Windows.Forms.Button lineRotate_button;
+        private System.Windows.Forms.TextBox point1Z_text;
+        private System.Windows.Forms.TextBox point2Z_text;
     }
 }
 

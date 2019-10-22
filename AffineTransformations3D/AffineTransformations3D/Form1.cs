@@ -91,6 +91,19 @@ namespace AffineTransformations3D
             area.Invalidate();
         }
 
+        Point3D mass_center()
+        {
+            int size = shape.Count;
+            float x = 0, y = 0, z = 0;
+            for (int i = 0; i < size; i++)
+            {
+                x += (shape[i].firstPoint.X + shape[i].secondPoint.X)/2;
+                y += (shape[i].firstPoint.Y + shape[i].secondPoint.Y) / 2;
+                z += (shape[i].firstPoint.Z + shape[i].secondPoint.Z) / 2;
+            }
+            return new Point3D(x / size, y / size, z / size);
+        }
+
         private void multiplication(Point3D point, float[,] mat, Point3D new_point)
         {
             float x = point.X;
@@ -149,6 +162,30 @@ namespace AffineTransformations3D
         private Point3D scale(Point3D old_point, float mx, float my, float mz)
         {
             float[,] mat = { { mx, 0, 0, 0 }, { 0, my, 0, 0 }, { 0, 0, mz, 0 }, { 0, 0, 0, 1 } };
+            Point3D new_point = new Point3D(0, 0, 0);
+            multiplication(old_point, mat, new_point);
+            return new_point;
+        }
+
+        private Point3D reflectionX(Point3D old_point)
+        {
+            float[,] mat = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, -1, 0 }, { 0, 0, 0, 1 } };
+            Point3D new_point = new Point3D(0, 0, 0);
+            multiplication(old_point, mat, new_point);
+            return new_point;
+        }
+
+        private Point3D reflectionY(Point3D old_point)
+        {
+            float[,] mat = { { 1, 0, 0, 0 }, { 0, -1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
+            Point3D new_point = new Point3D(0, 0, 0);
+            multiplication(old_point, mat, new_point);
+            return new_point;
+        }
+
+        private Point3D reflectionZ(Point3D old_point)
+        {
+            float[,] mat = { { -1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
             Point3D new_point = new Point3D(0, 0, 0);
             multiplication(old_point, mat, new_point);
             return new_point;
@@ -293,6 +330,154 @@ namespace AffineTransformations3D
                 rib.firstPoint = new Point3D(scale(rib.firstPoint, scale_x, scale_y, scale_z));
                 // Console.WriteLine(rib.firstPoint.GetPointF().X.ToString());
                 rib.secondPoint = new Point3D(scale(rib.secondPoint, scale_x, scale_y, scale_z));
+            }
+
+            redraw();
+        }
+
+        private void ReflectX_button_Click(object sender, EventArgs e)
+        {
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(reflectionX(rib.firstPoint));
+                rib.secondPoint = new Point3D(reflectionX(rib.secondPoint));
+            }
+
+            redraw();
+        }
+
+        private void ReflectY_button_Click(object sender, EventArgs e)
+        {
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(reflectionY(rib.firstPoint));
+                rib.secondPoint = new Point3D(reflectionY(rib.secondPoint));
+            }
+
+            redraw();
+        }
+
+        private void ReflectZ_button_Click(object sender, EventArgs e)
+        {
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(reflectionZ(rib.firstPoint));
+                rib.secondPoint = new Point3D(reflectionZ(rib.secondPoint));
+            }
+
+            redraw();
+        }
+
+        private void CenterScale_button_Click(object sender, EventArgs e)
+        {
+            float scale_x;
+            float.TryParse(scaleX_text.Text, out scale_x);
+            float scale_y;
+            float.TryParse(scaleY_text.Text, out scale_y);
+            float scale_z;
+            float.TryParse(scaleZ_text.Text, out scale_z);
+            Point3D center = mass_center();
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.firstPoint = new Point3D(scale(rib.firstPoint, scale_x, scale_y, scale_z));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.secondPoint = new Point3D(scale(rib.secondPoint, scale_x, scale_y, scale_z));
+            }
+
+            redraw();
+        }
+
+        private void RotateCenterX_button_Click(object sender, EventArgs e)
+        {
+            int angle;
+            Int32.TryParse(text_rotate.Text, out angle);
+
+            Point3D center = mass_center();
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.firstPoint = new Point3D(rotateX(rib.firstPoint, angle));
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)center.X, (int)center.Y, (int)center.Z));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.secondPoint = new Point3D(rotateX(rib.secondPoint, angle));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)center.X, (int)center.Y, (int)center.Z));
+            }
+
+            redraw();
+        }
+
+        private void RotateCenterY_button_Click(object sender, EventArgs e)
+        {
+            int angle;
+            Int32.TryParse(text_rotate.Text, out angle);
+
+            Point3D center = mass_center();
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.firstPoint = new Point3D(rotateY(rib.firstPoint, angle));
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)center.X, (int)center.Y, (int)center.Z));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.secondPoint = new Point3D(rotateY(rib.secondPoint, angle));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)center.X, (int)center.Y, (int)center.Z));
+            }
+
+            redraw();
+        }
+
+        private void RotateCenterZ_button_Click(object sender, EventArgs e)
+        {
+            int angle;
+            Int32.TryParse(text_rotate.Text, out angle);
+
+            Point3D center = mass_center();
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.firstPoint = new Point3D(rotateZ(rib.firstPoint, angle));
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)center.X, (int)center.Y, (int)center.Z));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.secondPoint = new Point3D(rotateZ(rib.secondPoint, angle));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)center.X, (int)center.Y, (int)center.Z));
+            }
+
+            redraw();
+        }
+
+        private void LineRotate_button_Click(object sender, EventArgs e)
+        {
+            int x1, y1, z1, x2, y2, z2, angle;
+            Int32.TryParse(point1X_text.Text, out x1);
+            Int32.TryParse(point1Y_text.Text, out y1);
+            Int32.TryParse(point1Z_text.Text, out z1);
+            Int32.TryParse(point2X_text.Text, out x2);
+            Int32.TryParse(point2Y_text.Text, out y2);
+            Int32.TryParse(point2Z_text.Text, out z2);
+            Int32.TryParse(text_rotate.Text, out angle);
+
+            Point3D line = new Point3D(x2 - x1, y2 - y1, z2 - z1);
+            float sin = (float)Math.Sin(Math.PI / 180 / 3 * angle);
+            float cos = (float)Math.Cos(Math.PI / 180 / 3* angle);
+            float l = line.X;
+            float m = line.Y;
+            float n = line.Z;
+            //float[,] mat = { 
+            //    {l*l+ cos * (1 - l * l), l * (1 - cos) * m + n * sin, l * (1 - cos) * n - m * sin, 0 }, 
+            //    { l*(1-cos)*m - n*sin, m*m + cos * (1 - m*m), m*(1-cos)*n+l*sin, 0 }, 
+            //    { l*(1-cos)*n + m*sin, m*(1-cos)*n - l*sin, n*n + cos * (1-n*n), 0 }, 
+            //    { 0, 0, 0, 1 } };
+
+            float[,] mat = {
+                { l * l + cos * (1 - l * l), l * (1 - cos) * m - n * sin, l * (1 - cos) * n + m * sin, 0},
+                {  l * (1 - cos) * m + n * sin, m*m + cos * (1 - m*m), m*(1-cos)*n - l*sin, 0},
+                { l * (1 - cos) * n - m * sin,  m*(1-cos)*n+l*sin, n*n + cos * (1-n*n), 0},
+                { 0,0,0,1 } };
+
+            foreach (Rib rib in shape)
+            {
+                multiplication(rib.firstPoint, mat, rib.firstPoint); 
+                multiplication(rib.secondPoint, mat, rib.secondPoint);                 
             }
 
             redraw();
