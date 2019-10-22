@@ -64,7 +64,6 @@ namespace Diamond_square
             await Task.Delay(100);
             diamond_squareAsync(left, h, r);
             diamond_squareAsync(h, right, r);
-            
         }
 
         private void clear_Click(object sender, EventArgs e)
