@@ -116,6 +116,44 @@ namespace AffineTransformations3D
             return new_point;
         }
 
+        private Point3D rotateX(Point3D old_point, int angle)
+        {
+            float sin = (float)Math.Sin(Math.PI / 180 * angle);
+            float cos = (float)Math.Cos(Math.PI / 180 * angle);
+            float[,] mat = { { 1, 0, 0, 0 }, { 0, cos, -sin, 0 }, { 0, sin, cos, 0 }, { 0, 0, 0, 1 } };
+            Point3D new_point = new Point3D(0, 0, 0);
+            multiplication(old_point, mat, new_point);
+            return new_point;
+        }
+
+        private Point3D rotateY(Point3D old_point, int angle)
+        {
+            float sin = (float)Math.Sin(Math.PI / 180 * angle);
+            float cos = (float)Math.Cos(Math.PI / 180 * angle);
+            float[,] mat = { { cos, 0, sin, 0 }, { 0, 1, 0, 0 }, { -sin, 0, cos, 0 }, { 0, 0, 0, 1 } };
+            Point3D new_point = new Point3D(0, 0, 0);
+            multiplication(old_point, mat, new_point);
+            return new_point;
+        }
+
+        private Point3D rotateZ(Point3D old_point, int angle)
+        {
+            float sin = (float)Math.Sin(Math.PI / 180 * angle);
+            float cos = (float)Math.Cos(Math.PI / 180 * angle);
+            float[,] mat = { { cos, -sin, 0, 0 }, { sin, cos, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
+            Point3D new_point = new Point3D(0, 0, 0);
+            multiplication(old_point, mat, new_point);
+            return new_point;
+        }
+
+        private Point3D scale(Point3D old_point, float mx, float my, float mz)
+        {
+            float[,] mat = { { mx, 0, 0, 0 }, { 0, my, 0, 0 }, { 0, 0, mz, 0 }, { 0, 0, 0, 1 } };
+            Point3D new_point = new Point3D(0, 0, 0);
+            multiplication(old_point, mat, new_point);
+            return new_point;
+        }
+
         public class Point3D
         {
             public float X, Y, Z;
@@ -135,7 +173,7 @@ namespace AffineTransformations3D
                 double sin_a = Math.Sin(Math.PI / 4);
                 double cos_b = Math.Cos(Math.PI / 4 + Math.PI / 2);
                 double sin_b = Math.Sin(Math.PI / 4 + Math.PI / 2);
-                float y = (float)(-(Z * cos_a + X * sin_a) * sin_b + Y * cos_b + height / 2 - ribLength / 2);
+                float y = (float)((Z * cos_a + X * sin_a) * sin_b + Y * cos_b + height / 2 - ribLength / 2);
                 float x = (float)(-Z * sin_a + X * cos_a + width / 2 - ribLength / 2);
                 return new PointF(x, y);
             }
@@ -194,6 +232,67 @@ namespace AffineTransformations3D
                 rib.firstPoint = new Point3D(shift(rib.firstPoint, delta_x, delta_y, delta_z));
                // Console.WriteLine(rib.firstPoint.GetPointF().X.ToString());
                 rib.secondPoint = new Point3D(shift(rib.secondPoint, delta_x, delta_y, delta_z));
+            }
+
+            redraw();
+        }
+
+        private void RotateX_button_Click(object sender, EventArgs e)
+        {
+            int angle;
+            Int32.TryParse(text_rotate.Text, out angle);
+           
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(rotateX(rib.firstPoint, angle));
+                rib.secondPoint = new Point3D(rotateX(rib.secondPoint, angle));
+            }
+
+            redraw();
+        }
+
+        private void RotateY_button_Click(object sender, EventArgs e)
+        {
+            int angle;
+            Int32.TryParse(text_rotate.Text, out angle);
+
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(rotateY(rib.firstPoint, angle));
+                rib.secondPoint = new Point3D(rotateY(rib.secondPoint, angle));
+            }
+
+            redraw();
+        }
+
+        private void RotateZ_button_Click(object sender, EventArgs e)
+        {
+            int angle;
+            Int32.TryParse(text_rotate.Text, out angle);
+
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(rotateZ(rib.firstPoint, angle));
+                rib.secondPoint = new Point3D(rotateZ(rib.secondPoint, angle));
+            }
+
+            redraw();
+        }
+
+        private void Scale_button_Click(object sender, EventArgs e)
+        {
+            float scale_x;
+            float.TryParse(scaleX_text.Text, out scale_x);
+            float scale_y;
+            float.TryParse(scaleY_text.Text, out scale_y);
+            float scale_z;
+            float.TryParse(scaleZ_text.Text, out scale_z);
+            foreach (Rib rib in shape)
+            {
+                //Console.WriteLine(rib.firstPoint.GetPointF().X.ToString());
+                rib.firstPoint = new Point3D(scale(rib.firstPoint, scale_x, scale_y, scale_z));
+                // Console.WriteLine(rib.firstPoint.GetPointF().X.ToString());
+                rib.secondPoint = new Point3D(scale(rib.secondPoint, scale_x, scale_y, scale_z));
             }
 
             redraw();
