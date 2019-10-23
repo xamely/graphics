@@ -1,0 +1,11 @@
+C:\Users\Igor\source\repos\Bezie\Bezie\bin\Debug\Bezie.exe.config
+C:\Users\Igor\source\repos\Bezie\Bezie\bin\Debug\Bezie.exe
+C:\Users\Igor\source\repos\Bezie\Bezie\bin\Debug\Bezie.pdb
+C:\Users\Igor\source\repos\Bezie\Bezie\obj\Debug\Bezie.csprojAssemblyReference.cache
+C:\Users\Igor\source\repos\Bezie\Bezie\obj\Debug\Bezie.Form1.resources
+C:\Users\Igor\source\repos\Bezie\Bezie\obj\Debug\Bezie.Properties.Resources.resources
+C:\Users\Igor\source\repos\Bezie\Bezie\obj\Debug\Bezie.csproj.GenerateResource.cache
+C:\Users\Igor\source\repos\Bezie\Bezie\obj\Debug\Bezie.csproj.CoreCompileInputs.cache
+C:\Users\Igor\source\repos\Bezie\Bezie\obj\Debug\Bezie.exe
+C:\Users\Igor\source\repos\Bezie\Bezie\obj\Debug\Bezie.pdb
+C:\Users\Igor\source\repos\Bezie\Bezie\obj\Debug\Bezie.Form2.resources
