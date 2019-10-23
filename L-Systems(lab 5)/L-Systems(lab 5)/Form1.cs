@@ -46,8 +46,6 @@ namespace L_Systems_lab_5_
                 drawF((int)x1, (int)y1, (int)(len * 0.8), angle - 30, e, it + 1);
                 drawF((int)x1, (int)y1, (int)(len * 0.8), angle + 30, e, it + 1);
                 drawF((int)x1, (int)y1, (int)(len * 0.8), angle + 60, e, it + 1);
-
-
             }
         }
 
