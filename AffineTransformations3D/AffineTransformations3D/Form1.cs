@@ -76,6 +76,134 @@ namespace AffineTransformations3D
             shape.Add(new Rib(vertex7, vertex8));
         }
 
+        private void createIcosahedron() 
+        {
+            float r = (float)(100 * (1 + Math.Sqrt(5)) / 4); // радиус полувписанной окружности
+            Point3D vertex1 = new Point3D(0, -50, -r);
+            Point3D vertex2 = new Point3D(0, 50, -r);
+            Point3D vertex3 = new Point3D(50, r, 0);
+            Point3D vertex4 = new Point3D(r, 0, -50);
+            Point3D vertex5 = new Point3D(50, -r, 0);
+            Point3D vertex6 = new Point3D(-50, -r, 0);
+            Point3D vertex7 = new Point3D(-r, 0, -50);
+            Point3D vertex8 = new Point3D(-50, r, 0);
+            Point3D vertex9 = new Point3D(r, 0, 50);
+            Point3D vertex10 = new Point3D(-r, 0, 50);
+            Point3D vertex11 = new Point3D(0, -50, r);
+            Point3D vertex12 = new Point3D(0, 50, r);
+
+            shape.Add(new Rib(vertex1, vertex2));
+            shape.Add(new Rib(vertex1, vertex4));
+            shape.Add(new Rib(vertex1, vertex6));
+            shape.Add(new Rib(vertex1, vertex5));
+            shape.Add(new Rib(vertex1, vertex7));
+
+            shape.Add(new Rib(vertex2, vertex3));
+            shape.Add(new Rib(vertex2, vertex4));
+            shape.Add(new Rib(vertex2, vertex7));
+            shape.Add(new Rib(vertex2, vertex8));
+
+
+            shape.Add(new Rib(vertex3, vertex8));
+            shape.Add(new Rib(vertex3, vertex4));
+            shape.Add(new Rib(vertex3, vertex9));
+            shape.Add(new Rib(vertex3, vertex12));
+
+            shape.Add(new Rib(vertex4, vertex9));
+            shape.Add(new Rib(vertex4, vertex5));
+
+            shape.Add(new Rib(vertex5, vertex6));
+            shape.Add(new Rib(vertex5, vertex9));
+            shape.Add(new Rib(vertex5, vertex11));
+
+            shape.Add(new Rib(vertex6, vertex10));
+            shape.Add(new Rib(vertex6, vertex7));
+            shape.Add(new Rib(vertex6, vertex11));
+
+            shape.Add(new Rib(vertex7, vertex8));
+            shape.Add(new Rib(vertex7, vertex10));
+
+            shape.Add(new Rib(vertex8, vertex10));
+            shape.Add(new Rib(vertex8, vertex12));
+
+            shape.Add(new Rib(vertex9, vertex12));
+            shape.Add(new Rib(vertex9, vertex11));
+
+            shape.Add(new Rib(vertex10, vertex12));
+            shape.Add(new Rib(vertex10, vertex11));
+
+            shape.Add(new Rib(vertex11, vertex12));
+        }
+
+        private void create_dodecahedron()
+        {
+            float r = (float)(100 * (3 + Math.Sqrt(5)) / 4); // радиус полувписанной окружности
+            float x = (float)(100 * (1 + Math.Sqrt(5)) / 4); // половина стороны пятиугольника в сечении 
+
+            Point3D vertex1 = new Point3D(0, -50, -r);
+            Point3D vertex2 = new Point3D(0, 50, -r);
+            Point3D vertex3 = new Point3D(x, x, -x);
+            Point3D vertex4 = new Point3D(r, 0, -50);
+            Point3D vertex5 = new Point3D(x, -x, -x);
+            Point3D vertex6 = new Point3D(50, -r, 0);
+            Point3D vertex7 = new Point3D(-50, -r, 0);
+            Point3D vertex8 = new Point3D(-x, -x, -x);
+            Point3D vertex9 = new Point3D(-r, 0, -50);
+            Point3D vertex10 = new Point3D(-x, x, -x);
+            Point3D vertex11 = new Point3D(-50, r, 0);
+            Point3D vertex12 = new Point3D(50, r, 0);
+            Point3D vertex13 = new Point3D(-x, -x, x);
+            Point3D vertex14 = new Point3D(0, -50, r);
+            Point3D vertex15 = new Point3D(x, -x, x);
+            Point3D vertex16 = new Point3D(0, 50, r);
+            Point3D vertex17 = new Point3D(-x, x, x);
+            Point3D vertex18 = new Point3D(x, x, x);
+            Point3D vertex19 = new Point3D(-r, 0, 50);
+            Point3D vertex20 = new Point3D(r, 0, 50);
+
+            
+            shape.Add(new Rib(vertex1, vertex2));
+            shape.Add(new Rib(vertex1, vertex5));
+            shape.Add(new Rib(vertex1, vertex8));
+
+            shape.Add(new Rib(vertex2, vertex3));
+            shape.Add(new Rib(vertex2, vertex10));
+
+            shape.Add(new Rib(vertex3, vertex4));
+            shape.Add(new Rib(vertex3, vertex12));
+
+            shape.Add(new Rib(vertex4, vertex5));
+            shape.Add(new Rib(vertex4, vertex20));
+
+            shape.Add(new Rib(vertex5, vertex6));
+
+            shape.Add(new Rib(vertex6, vertex7));
+            shape.Add(new Rib(vertex6, vertex15));
+
+            shape.Add(new Rib(vertex7, vertex8));
+            shape.Add(new Rib(vertex7, vertex13));
+
+            shape.Add(new Rib(vertex8, vertex9));
+
+            shape.Add(new Rib(vertex9, vertex10));
+            shape.Add(new Rib(vertex9, vertex19));
+            shape.Add(new Rib(vertex10, vertex11));
+            shape.Add(new Rib(vertex11, vertex12));
+            shape.Add(new Rib(vertex11, vertex17));
+            shape.Add(new Rib(vertex12, vertex18));
+            shape.Add(new Rib(vertex13, vertex19));
+            shape.Add(new Rib(vertex13, vertex14));
+            shape.Add(new Rib(vertex14, vertex15));
+            shape.Add(new Rib(vertex15, vertex20));
+            shape.Add(new Rib(vertex16, vertex18));
+            shape.Add(new Rib(vertex16, vertex14));
+            shape.Add(new Rib(vertex16, vertex17));
+            shape.Add(new Rib(vertex16, vertex18));
+            shape.Add(new Rib(vertex17, vertex19));
+            shape.Add(new Rib(vertex18, vertex20));
+            
+        }
+
         public void drawShape()
         {
             if (shape.Count != 0)
@@ -200,7 +328,7 @@ namespace AffineTransformations3D
 
         private Point3D reflectionX(Point3D old_point)
         {
-            float[,] mat = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, -1, 0 }, { 0, 0, 0, 1 } };
+            float[,] mat = { { 1, 0, 0, 0 }, { 0, -1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0,  1} };
             Point3D new_point = new Point3D(0, 0, 0);
             multiplication(old_point, mat, new_point);
             return new_point;
@@ -394,6 +522,8 @@ namespace AffineTransformations3D
         {
             if (radioTetrahedron.Checked) createTetrahedron();
             else if (radioCube.Checked) createCube();
+            else if (icosahedron_radioButton.Checked) createIcosahedron();
+            else if (radioDodecahedron.Checked) create_dodecahedron();
             drawShape();
         }
 
@@ -599,22 +729,23 @@ namespace AffineTransformations3D
             Int32.TryParse(text_rotate.Text, out angle);
 
             Point3D line = new Point3D(x2 - x1, y2 - y1, z2 - z1);
-            float sin = (float)Math.Sin(Math.PI / 180 / 3 * angle);
-            float cos = (float)Math.Cos(Math.PI / 180 / 3 * angle);
-            float l = line.X;
-            float m = line.Y;
-            float n = line.Z;
-            //float[,] mat = { 
-            //    {l*l+ cos * (1 - l * l), l * (1 - cos) * m + n * sin, l * (1 - cos) * n - m * sin, 0 }, 
-            //    { l*(1-cos)*m - n*sin, m*m + cos * (1 - m*m), m*(1-cos)*n+l*sin, 0 }, 
-            //    { l*(1-cos)*n + m*sin, m*(1-cos)*n - l*sin, n*n + cos * (1-n*n), 0 }, 
-            //    { 0, 0, 0, 1 } };
-
+            float length = (float)Math.Sqrt(line.X * line.X + line.Y * line.Y + line.Z * line.Z);
+            float sin = (float)Math.Sin(Math.PI / 180 * angle);
+            float cos = (float)Math.Cos(Math.PI / 180 * angle);
+            float l = line.X / length;
+            float m = line.Y / length;
+            float n = line.Z / length;
             float[,] mat = {
-                { l * l + cos * (1 - l * l), l * (1 - cos) * m - n * sin, l * (1 - cos) * n + m * sin, 0},
-                {  l * (1 - cos) * m + n * sin, m*m + cos * (1 - m*m), m*(1-cos)*n - l*sin, 0},
-                { l * (1 - cos) * n - m * sin,  m*(1-cos)*n+l*sin, n*n + cos * (1-n*n), 0},
-                { 0,0,0,1 } };
+                {l*l+ cos * (1 - l * l), l * (1 - cos) * m + n * sin, l * (1 - cos) * n - m * sin, 0 },
+                { l*(1-cos)*m - n*sin, m*m + cos * (1 - m*m), m*(1-cos)*n+l*sin, 0 },
+                { l*(1-cos)*n + m*sin, m*(1-cos)*n - l*sin, n*n + cos * (1-n*n), 0 },
+                { 0, 0, 0, 1 } };
+
+            //float[,] mat = {
+            //    { l * l + cos * (1 - l * l), l * (1 - cos) * m - n * sin, l * (1 - cos) * n + m * sin, 0},
+            //    {  l * (1 - cos) * m + n * sin, m*m + cos * (1 - m*m), m*(1-cos)*n - l*sin, 0},
+            //    { l * (1 - cos) * n - m * sin,  m*(1-cos)*n+l*sin, n*n + cos * (1-n*n), 0},
+            //    { 0,0,0,1 } };
 
             foreach (Rib rib in shape)
             {
@@ -623,6 +754,15 @@ namespace AffineTransformations3D
             }
 
             redraw();
+            Pen pen = new Pen(Color.Black);
+            Point3D p1 = new Point3D(x1, y1, z1);
+            Point3D p2 = new Point3D(x2, y2, z2);
+            if (radioButton_ortZ.Checked) graphics.DrawLine(pen, p1.GetPointFOrtZ(), p2.GetPointFOrtZ());
+            else if (radioButton_ortX.Checked) graphics.DrawLine(pen, p1.GetPointFOrtX(), p2.GetPointFOrtX());
+            else if (radioButton_ortY.Checked) graphics.DrawLine(pen, p1.GetPointFOrtY(), p2.GetPointFOrtY());
+            else if (radioButton_isometr.Checked) graphics.DrawLine(pen, p1.GetPointFisometr(), p2.GetPointFisometr());
+            else if (radioButton_perspect.Checked) graphics.DrawLine(pen, p1.GetPointFPerspect(), p2.GetPointFPerspect());
+            area.Invalidate();
         }
 
         //Саня
