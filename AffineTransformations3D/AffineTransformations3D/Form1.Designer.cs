@@ -59,7 +59,17 @@
             this.lineRotate_button = new System.Windows.Forms.Button();
             this.point1Z_text = new System.Windows.Forms.TextBox();
             this.point2Z_text = new System.Windows.Forms.TextBox();
+            this.button_ortX = new System.Windows.Forms.Button();
+            this.button_ortY = new System.Windows.Forms.Button();
+            this.button_ortZ = new System.Windows.Forms.Button();
+            this.radioButton_ortX = new System.Windows.Forms.RadioButton();
+            this.radioButton_ortY = new System.Windows.Forms.RadioButton();
+            this.radioButton_ortZ = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButton_isometr = new System.Windows.Forms.RadioButton();
+            this.radioButton_perspect = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.area)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // area
@@ -385,11 +395,114 @@
             this.point2Z_text.TabIndex = 30;
             this.point2Z_text.Text = "0";
             // 
+            // button_ortX
+            // 
+            this.button_ortX.Location = new System.Drawing.Point(12, 410);
+            this.button_ortX.Name = "button_ortX";
+            this.button_ortX.Size = new System.Drawing.Size(69, 22);
+            this.button_ortX.TabIndex = 31;
+            this.button_ortX.Text = "ortX";
+            this.button_ortX.UseVisualStyleBackColor = true;
+            this.button_ortX.Click += new System.EventHandler(this.button_ortX_Click);
+            // 
+            // button_ortY
+            // 
+            this.button_ortY.Location = new System.Drawing.Point(87, 410);
+            this.button_ortY.Name = "button_ortY";
+            this.button_ortY.Size = new System.Drawing.Size(69, 22);
+            this.button_ortY.TabIndex = 32;
+            this.button_ortY.Text = "ortY";
+            this.button_ortY.UseVisualStyleBackColor = true;
+            this.button_ortY.Click += new System.EventHandler(this.button_ortY_Click);
+            // 
+            // button_ortZ
+            // 
+            this.button_ortZ.Location = new System.Drawing.Point(162, 410);
+            this.button_ortZ.Name = "button_ortZ";
+            this.button_ortZ.Size = new System.Drawing.Size(69, 22);
+            this.button_ortZ.TabIndex = 33;
+            this.button_ortZ.Text = "ortZ";
+            this.button_ortZ.UseVisualStyleBackColor = true;
+            this.button_ortZ.Click += new System.EventHandler(this.button_ortZ_Click);
+            // 
+            // radioButton_ortX
+            // 
+            this.radioButton_ortX.AutoSize = true;
+            this.radioButton_ortX.Location = new System.Drawing.Point(6, 19);
+            this.radioButton_ortX.Name = "radioButton_ortX";
+            this.radioButton_ortX.Size = new System.Drawing.Size(44, 17);
+            this.radioButton_ortX.TabIndex = 34;
+            this.radioButton_ortX.TabStop = true;
+            this.radioButton_ortX.Text = "ortX";
+            this.radioButton_ortX.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_ortY
+            // 
+            this.radioButton_ortY.AutoSize = true;
+            this.radioButton_ortY.Location = new System.Drawing.Point(75, 19);
+            this.radioButton_ortY.Name = "radioButton_ortY";
+            this.radioButton_ortY.Size = new System.Drawing.Size(44, 17);
+            this.radioButton_ortY.TabIndex = 35;
+            this.radioButton_ortY.TabStop = true;
+            this.radioButton_ortY.Text = "ortY";
+            this.radioButton_ortY.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_ortZ
+            // 
+            this.radioButton_ortZ.AutoSize = true;
+            this.radioButton_ortZ.Location = new System.Drawing.Point(150, 18);
+            this.radioButton_ortZ.Name = "radioButton_ortZ";
+            this.radioButton_ortZ.Size = new System.Drawing.Size(44, 17);
+            this.radioButton_ortZ.TabIndex = 36;
+            this.radioButton_ortZ.TabStop = true;
+            this.radioButton_ortZ.Text = "ortZ";
+            this.radioButton_ortZ.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButton_perspect);
+            this.groupBox1.Controls.Add(this.radioButton_isometr);
+            this.groupBox1.Controls.Add(this.radioButton_ortZ);
+            this.groupBox1.Controls.Add(this.radioButton_ortX);
+            this.groupBox1.Controls.Add(this.radioButton_ortY);
+            this.groupBox1.Location = new System.Drawing.Point(12, 438);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(389, 54);
+            this.groupBox1.TabIndex = 37;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Ort";
+            // 
+            // radioButton_isometr
+            // 
+            this.radioButton_isometr.AutoSize = true;
+            this.radioButton_isometr.Location = new System.Drawing.Point(218, 18);
+            this.radioButton_isometr.Name = "radioButton_isometr";
+            this.radioButton_isometr.Size = new System.Drawing.Size(58, 17);
+            this.radioButton_isometr.TabIndex = 37;
+            this.radioButton_isometr.TabStop = true;
+            this.radioButton_isometr.Text = "isometr";
+            this.radioButton_isometr.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_perspect
+            // 
+            this.radioButton_perspect.AutoSize = true;
+            this.radioButton_perspect.Location = new System.Drawing.Point(298, 19);
+            this.radioButton_perspect.Name = "radioButton_perspect";
+            this.radioButton_perspect.Size = new System.Drawing.Size(66, 17);
+            this.radioButton_perspect.TabIndex = 38;
+            this.radioButton_perspect.TabStop = true;
+            this.radioButton_perspect.Text = "perspect";
+            this.radioButton_perspect.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(778, 509);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.button_ortZ);
+            this.Controls.Add(this.button_ortY);
+            this.Controls.Add(this.button_ortX);
             this.Controls.Add(this.point2Z_text);
             this.Controls.Add(this.point1Z_text);
             this.Controls.Add(this.lineRotate_button);
@@ -425,6 +538,8 @@
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.area)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -463,6 +578,15 @@
         private System.Windows.Forms.Button lineRotate_button;
         private System.Windows.Forms.TextBox point1Z_text;
         private System.Windows.Forms.TextBox point2Z_text;
+        private System.Windows.Forms.Button button_ortX;
+        private System.Windows.Forms.Button button_ortY;
+        private System.Windows.Forms.Button button_ortZ;
+        private System.Windows.Forms.RadioButton radioButton_ortX;
+        private System.Windows.Forms.RadioButton radioButton_ortY;
+        private System.Windows.Forms.RadioButton radioButton_ortZ;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton radioButton_isometr;
+        private System.Windows.Forms.RadioButton radioButton_perspect;
     }
 }
 
