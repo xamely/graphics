@@ -694,6 +694,25 @@ namespace AffineTransformations3D
             redraw();
         }
 
+        int oldV = 0;
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            int angle = 10;
+            if (trackBar1.Value < oldV) {
+                angle = -10;
+                oldV = trackBar1.Value;
+            }
+
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(rotateY(rib.firstPoint, angle));
+                rib.secondPoint = new Point3D(rotateY(rib.secondPoint, angle));
+            }
+            oldV = trackBar1.Value;
+            redraw();
+
+        }
+
         private void clear_button_Click(object sender, EventArgs e)
         {
             shape.Clear();

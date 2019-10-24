@@ -68,8 +68,10 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButton_isometr = new System.Windows.Forms.RadioButton();
             this.radioButton_perspect = new System.Windows.Forms.RadioButton();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.area)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // area
@@ -494,11 +496,21 @@
             this.radioButton_perspect.Text = "perspect";
             this.radioButton_perspect.UseVisualStyleBackColor = true;
             // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(358, 410);
+            this.trackBar1.Maximum = 200;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(211, 45);
+            this.trackBar1.TabIndex = 39;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(778, 509);
+            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button_ortZ);
             this.Controls.Add(this.button_ortY);
@@ -540,6 +552,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.area)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -587,6 +600,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioButton_isometr;
         private System.Windows.Forms.RadioButton radioButton_perspect;
+        private System.Windows.Forms.TrackBar trackBar1;
     }
 }
 
