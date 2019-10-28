@@ -18,6 +18,7 @@ namespace AffineTransformations3D
         List<Point3D> points3d;
         public static double width, height;
         List<Rib> shape; // all ribs of current shape
+        List<Face> shapeFaces;
         public static float ribLength = 100;
         public Form1()
         {
@@ -26,6 +27,7 @@ namespace AffineTransformations3D
             width = area.Width;
             height = area.Height;
             shape = new List<Rib>();
+            shapeFaces = new List<Face>();
             graphics = Graphics.FromImage(area.Image);
             graphics.Clear(Color.White);
             radioButton_ortZ.Checked = true;
@@ -851,6 +853,44 @@ namespace AffineTransformations3D
             oldV = trackBar1.Value;
             redraw();
 
+        }
+        private float func(float x, float y)
+        {
+            return x * x + 5*(float)Math.Sin(y);
+        }
+        private void Draw_func_button_Click(object sender, EventArgs e)
+        {
+            float x0, y0, x1, y1;
+            int range;
+
+            float.TryParse(range0_text.Text, out x0);
+            float.TryParse(range1_text.Text, out x1);
+            Int32.TryParse(fragmentation_text.Text, out range);            
+            y0 = x0;
+            y1 = x1;
+            float step = (x1 - x0) / range;
+
+            Pen pen = new Pen(Color.Black);
+            shape.Add(new Rib(new Point3D(0, 0, 0), new Point3D(50, 0, 0)));
+            shape.Add(new Rib(new Point3D(0, 0, 0), new Point3D(0, 50, 0)));
+            shape.Add(new Rib(new Point3D(0, 0, 0), new Point3D(0, 0, 50)));
+            for (float i=x0; i<x1; i+=step)
+                for( float j= y0; j< y1; j += step)
+                {
+                    Rib rib1 = new Rib(new Point3D(i, j, func(i, j)), new Point3D(i, j + step, func(i, j + step)));
+                    Rib rib2 = new Rib(new Point3D(i, j, func(i, j)), new Point3D(i - step, j, func(i - step, j)));
+                    Rib rib3 = new Rib(rib2.secondPoint, new Point3D(i-step, j+step, func(i - step, j + step)));
+                    Rib rib4 = new Rib(rib1.secondPoint, rib3.secondPoint);
+                    
+                    shape.Add(rib1);
+                    shape.Add(rib2);
+                    shape.Add(rib3);
+                    shape.Add(rib4);
+
+                    Face face = new Face(new List<Rib>() { rib1, rib2, rib3, rib4 });
+                    shapeFaces.Add(face);
+                }
+            drawShape();
         }
 
         private void clear_button_Click(object sender, EventArgs e)
