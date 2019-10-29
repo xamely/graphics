@@ -275,8 +275,6 @@ namespace AffineTransformations3D
             new_point.Z = res[2, 3];
         }
 
-
-
         private Point3D shift(Point3D old_point, int x, int y, int z)
         {
             float[,] mat = { { 1, 0, 0, x }, { 0, 1, 0, y }, { 0, 0, 1, z }, { 0, 0, 0, 1 } };
@@ -365,17 +363,6 @@ namespace AffineTransformations3D
             public Point3D(float X, float Y, float Z,float C)
             {
                 this.X = X; this.Y = Y; this.Z = Z;this.C = C;
-            }
-
-            public PointF GetPointF()
-            {
-                double cos_a = Math.Cos(Math.PI / 4);
-                double sin_a = Math.Sin(Math.PI / 4);
-                double cos_b = Math.Cos(Math.PI / 4 + Math.PI / 2);
-                double sin_b = Math.Sin(Math.PI / 4 + Math.PI / 2);
-                float y = (float)((Z * cos_a + X * sin_a) * sin_b + Y * cos_b + height / 2 - ribLength / 2);
-                float x = (float)(-Z * sin_a + X * cos_a + width / 2 - ribLength / 2);
-                return new PointF(x, y);
             }
 
             public PointF GetPointFOrtZ()
@@ -747,10 +734,30 @@ namespace AffineTransformations3D
             //    { l * (1 - cos) * n - m * sin,  m*(1-cos)*n+l*sin, n*n + cos * (1-n*n), 0},
             //    { 0,0,0,1 } };
 
+            float[,] t =
+            {
+                { 1, 0, 0, 0 },
+                { 0, 1, 0, 0 },
+                { 0, 0, 1, 0 },
+                { -x1, -y1, -z1, 1 }
+            };
+
+            float[,] t_1 =
+            {
+                { 1, 0, 0, 0 },
+                { 0, 1, 0, 0 },
+                { 0, 0, 1, 0 },
+                { x1, y1, z1, 1 }
+            };
+
             foreach (Rib rib in shape)
             {
+                multiplication(rib.firstPoint, t, rib.firstPoint);
                 multiplication(rib.firstPoint, mat, rib.firstPoint);
+              //  multiplication(rib.firstPoint, t_1, rib.firstPoint);
+                multiplication(rib.secondPoint, t, rib.secondPoint);
                 multiplication(rib.secondPoint, mat, rib.secondPoint);
+              //  multiplication(rib.secondPoint, t_1, rib.secondPoint);
             }
 
             redraw();
@@ -798,8 +805,6 @@ namespace AffineTransformations3D
             multiplication(old_point, mat, new_point);
             return new_point;
         }
-
-
 
         private void button_ortX_Click(object sender, EventArgs e)
         {
