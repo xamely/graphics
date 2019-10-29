@@ -18,6 +18,7 @@ namespace AffineTransformations3D
         List<Point3D> points3d;
         public static double width, height;
         List<Rib> shape; // all ribs of current shape
+        List<Face> shapeFaces;
         public static float ribLength = 100;
         public Form1()
         {
@@ -26,6 +27,7 @@ namespace AffineTransformations3D
             width = area.Width;
             height = area.Height;
             shape = new List<Rib>();
+            shapeFaces = new List<Face>();
             graphics = Graphics.FromImage(area.Image);
             graphics.Clear(Color.White);
             radioButton_ortZ.Checked = true;
@@ -728,12 +730,6 @@ namespace AffineTransformations3D
                 { l*(1-cos)*n + m*sin, m*(1-cos)*n - l*sin, n*n + cos * (1-n*n), 0 },
                 { 0, 0, 0, 1 } };
 
-            //float[,] mat = {
-            //    { l * l + cos * (1 - l * l), l * (1 - cos) * m - n * sin, l * (1 - cos) * n + m * sin, 0},
-            //    {  l * (1 - cos) * m + n * sin, m*m + cos * (1 - m*m), m*(1-cos)*n - l*sin, 0},
-            //    { l * (1 - cos) * n - m * sin,  m*(1-cos)*n+l*sin, n*n + cos * (1-n*n), 0},
-            //    { 0,0,0,1 } };
-
             float[,] t =
             {
                 { 1, 0, 0, 0 },
@@ -772,7 +768,6 @@ namespace AffineTransformations3D
             area.Invalidate();
         }
 
-        //Саня
         private Point3D ortX(Point3D old_point)
         {
             float[,] mat = {    { 0, 0, 0, 0 },
@@ -856,6 +851,91 @@ namespace AffineTransformations3D
             oldV = trackBar1.Value;
             redraw();
 
+        }
+        private float func(float x, float y)
+        {
+            return x * x + 5*(float)Math.Sin(y);
+        }
+        private void Draw_func_button_Click(object sender, EventArgs e)
+        {
+            float x0, y0, x1, y1;
+            int range;
+
+            float.TryParse(range0_text.Text, out x0);
+            float.TryParse(range1_text.Text, out x1);
+            Int32.TryParse(fragmentation_text.Text, out range);            
+            y0 = x0;
+            y1 = x1;
+            float step = (x1 - x0) / range;
+
+            Pen pen = new Pen(Color.Black);
+            shape.Add(new Rib(new Point3D(0, 0, 0), new Point3D(50, 0, 0)));
+            shape.Add(new Rib(new Point3D(0, 0, 0), new Point3D(0, 50, 0)));
+            shape.Add(new Rib(new Point3D(0, 0, 0), new Point3D(0, 0, 50)));
+            for (float i=x0; i<x1; i+=step)
+                for( float j= y0; j< y1; j += step)
+                {
+                    Rib rib1 = new Rib(new Point3D(i, j, func(i, j)), new Point3D(i, j + step, func(i, j + step)));
+                    Rib rib2 = new Rib(new Point3D(i, j, func(i, j)), new Point3D(i - step, j, func(i - step, j)));
+                    Rib rib3 = new Rib(rib2.secondPoint, new Point3D(i-step, j+step, func(i - step, j + step)));
+                    Rib rib4 = new Rib(rib1.secondPoint, rib3.secondPoint);
+                    
+                    shape.Add(rib1);
+                    shape.Add(rib2);
+                    shape.Add(rib3);
+                    shape.Add(rib4);
+
+                    Face face = new Face(new List<Rib>() { rib1, rib2, rib3, rib4 });
+                    shapeFaces.Add(face);
+                }
+            drawShape();
+        }
+
+        private void load_figure_button_Click(object sender, EventArgs e)
+        {
+            shape.Clear();
+            shapeFaces.Clear();
+
+            string file_name = @"..\..\models\test_figure.txt";
+            System.IO.StreamReader file = new System.IO.StreamReader(file_name);
+            string line;
+
+            HashSet<Rib> temp_shape = new HashSet<Rib>();
+            
+            while ((line = file.ReadLine()) != null)
+            {
+                string[] arr = line.Split(' ');
+
+                List<Rib> curr_face = new List<Rib>();
+
+                foreach (string ribs in arr)
+                {
+                    string[] points = ribs.Split(';');
+
+                    string[] first = points[0].Split(',');
+                    float X, Y, Z;
+                    float.TryParse(first[0], out X);
+                    float.TryParse(first[1], out Y);
+                    float.TryParse(first[2], out Z);
+                    Point3D first_point = new Point3D(X, Y, Z);
+
+                    string[] second = points[1].Split(',');
+                    float.TryParse(second[0], out X);
+                    float.TryParse(second[1], out Y);
+                    float.TryParse(second[2], out Z);
+                    Point3D second_point = new Point3D(X, Y, Z);
+
+                    Rib rib = new Rib(first_point, second_point);
+                    temp_shape.Add(rib);
+                    curr_face.Add(rib);
+                }
+
+                Face face = new Face(curr_face);
+                shapeFaces.Add(face);
+            }
+
+            shape = temp_shape.ToList();
+            redraw();
         }
 
         private void clear_button_Click(object sender, EventArgs e)
