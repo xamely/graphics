@@ -893,15 +893,24 @@ namespace AffineTransformations3D
 
         private void load_figure_button_Click(object sender, EventArgs e)
         {
+            var dialog = new OpenFileDialog();
+            dialog.InitialDirectory = Environment.CurrentDirectory.Replace("bin\\Debug", "");
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string selectedFile = dialog.FileName;
+                parse(selectedFile);
+            }
+        }
+
+        private void parse(string file_name)
+        {
             shape.Clear();
             shapeFaces.Clear();
-
-            string file_name = @"..\..\models\test_figure.txt";
             System.IO.StreamReader file = new System.IO.StreamReader(file_name);
             string line;
 
             HashSet<Rib> temp_shape = new HashSet<Rib>();
-            
+
             while ((line = file.ReadLine()) != null)
             {
                 string[] arr = line.Split(' ');
