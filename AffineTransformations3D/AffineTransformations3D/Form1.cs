@@ -20,6 +20,7 @@ namespace AffineTransformations3D
         List<Rib> shape; // all ribs of current shape
         List<Face> shapeFaces;
         List<Rib> axes;
+        Rib lineRotate;
         public static float ribLength = 100;
         public Form1()
         {
@@ -756,10 +757,10 @@ namespace AffineTransformations3D
             redraw();
         }
 
-        int x1, y1, z1, x2, y2, z2, angle;
+        
         private void drawLine_button_Click(object sender, EventArgs e)
         {
-
+            int x1, y1, z1, x2, y2, z2, angle;
             Int32.TryParse(point1X_text.Text, out x1);
             Int32.TryParse(point1Y_text.Text, out y1);
             Int32.TryParse(point1Z_text.Text, out z1);
@@ -768,48 +769,22 @@ namespace AffineTransformations3D
             Int32.TryParse(point2Z_text.Text, out z2);
             Point3D startPoint = new Point3D(x1, y1, z1);
             Point3D endPoint = new Point3D(x2, y2, z2);
-            shape.Add(new Rib(startPoint, endPoint));
+            lineRotate =  new Rib(startPoint, endPoint);
+            shape.Add(lineRotate);
             redraw();
         }
 
         private void LineRotate_button_Click(object sender, EventArgs e)
         {
-
-
-            Point3D startPoint = new Point3D(x1, y1, z1);
-            Point3D endPoint = new Point3D(x2, y2, z2);
-            shape.Add(new Rib(startPoint, endPoint));
+            int x1 = (int)lineRotate.firstPoint.X;
+            int y1 = (int)lineRotate.firstPoint.Y;
+            int z1 = (int)lineRotate.firstPoint.Z;
+            int x2 = (int)lineRotate.secondPoint.X;
+            int y2 = (int)lineRotate.secondPoint.Y;
+            int z2 = (int)lineRotate.secondPoint.Z;
+            int angle;
 
             Int32.TryParse(text_rotate.Text, out angle);
-            /*
-            Point3D line = new Point3D(x2 - x1, y2 - y1, z2 - z1);
-            float length = (float)Math.Sqrt(line.X * line.X + line.Y * line.Y + line.Z * line.Z);
-            float sin = (float)Math.Sin(Math.PI / 180 * angle);
-            float cos = (float)Math.Cos(Math.PI / 180 * angle);
-            float l = line.X / length;
-            float m = line.Y / length;
-            float n = line.Z / length;
-            float[,] mat = {
-                {l*l+ cos * (1 - l * l), l * (1 - cos) * m + n * sin, l * (1 - cos) * n - m * sin, 0 },
-                { l*(1-cos)*m - n*sin, m*m + cos * (1 - m*m), m*(1-cos)*n+l*sin, 0 },
-                { l*(1-cos)*n + m*sin, m*(1-cos)*n - l*sin, n*n + cos * (1-n*n), 0 },
-                { 0, 0, 0, 1 } };
-            float[,] t =
-            {
-                { 1, 0, 0, 0 },
-                { 0, 1, 0, 0 },
-                { 0, 0, 1, 0 },
-                { -x1, -y1, -z1, 1 }
-            };
-
-            float[,] t_1 =
-            {
-                { 1, 0, 0, 0 },
-                { 0, 1, 0, 0 },
-                { 0, 0, 1, 0 },
-                { x1, y1, z1, 1 }
-            };
-            */
             Point3D line = new Point3D(x2 - x1, y2 - y1, z2 - z1);
             float length = (float)Math.Sqrt(line.X * line.X + line.Y * line.Y + line.Z * line.Z);
             float sin = (float)Math.Sin(Math.PI / 180 * angle);
@@ -850,7 +825,6 @@ namespace AffineTransformations3D
             {
                 rib.firstPoint = new Point3D(shift(rib.firstPoint, x1, y1, z1));
                 rib.secondPoint = new Point3D(shift(rib.secondPoint, x1, y1, z1));
-                
             }
 
             redraw();
