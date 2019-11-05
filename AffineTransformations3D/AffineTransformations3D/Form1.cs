@@ -19,6 +19,7 @@ namespace AffineTransformations3D
         public static double width, height;
         List<Rib> shape; // all ribs of current shape
         List<Face> shapeFaces;
+        List<Rib> axes;
         public static float ribLength = 100;
         public Form1()
         {
@@ -27,10 +28,13 @@ namespace AffineTransformations3D
             width = area.Width;
             height = area.Height;
             shape = new List<Rib>();
+            axes = new List<Rib>();
             shapeFaces = new List<Face>();
             graphics = Graphics.FromImage(area.Image);
             graphics.Clear(Color.White);
-            radioButton_ortZ.Checked = true;
+            radioButton_isometr.Checked = true;
+            createAxes();
+            redraw();
         }
 
         public void createTetrahedron()
@@ -78,7 +82,7 @@ namespace AffineTransformations3D
             shape.Add(new Rib(vertex7, vertex8));
         }
 
-        private void createIcosahedron() 
+        private void createIcosahedron()
         {
             float r = (float)(100 * (1 + Math.Sqrt(5)) / 4); // радиус полувписанной окружности
             Point3D vertex1 = new Point3D(0, -50, -r);
@@ -163,7 +167,7 @@ namespace AffineTransformations3D
             Point3D vertex19 = new Point3D(-r, 0, 50);
             Point3D vertex20 = new Point3D(r, 0, 50);
 
-            
+
             shape.Add(new Rib(vertex1, vertex2));
             shape.Add(new Rib(vertex1, vertex5));
             shape.Add(new Rib(vertex1, vertex8));
@@ -203,7 +207,18 @@ namespace AffineTransformations3D
             shape.Add(new Rib(vertex16, vertex18));
             shape.Add(new Rib(vertex17, vertex19));
             shape.Add(new Rib(vertex18, vertex20));
-            
+
+        }
+
+        private void createAxes()
+        {
+            Point3D start = new Point3D(0, 0, 0);
+            Point3D X = new Point3D(200, 0, 0);
+            Point3D Y = new Point3D(0, 200, 0);
+            Point3D Z = new Point3D(0, 0, 200);
+            axes.Add(new Rib(start, X));
+            axes.Add(new Rib(start, Y));
+            axes.Add(new Rib(start, Z));
         }
 
         public void drawShape()
@@ -230,7 +245,7 @@ namespace AffineTransformations3D
                         pen = new Pen(Color.Green);
                         c++;
                     }
-                    if (radioButton_ortZ.Checked == true)  graphics.DrawLine(pen, rib.firstPoint.GetPointFOrtZ(), rib.secondPoint.GetPointFOrtZ()); 
+                    if (radioButton_ortZ.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFOrtZ(), rib.secondPoint.GetPointFOrtZ());
                     else if (radioButton_ortX.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFOrtX(), rib.secondPoint.GetPointFOrtX());
                     else if (radioButton_ortY.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFOrtY(), rib.secondPoint.GetPointFOrtY());
                     else if (radioButton_isometr.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFisometr(), rib.secondPoint.GetPointFisometr());
@@ -240,10 +255,43 @@ namespace AffineTransformations3D
             area.Invalidate();
         }
 
+        public void drawAxes()
+        {
+            Pen pen = new Pen(Color.Black);
+            int c = 0;
+            foreach (Rib rib in axes)
+            {
+                pen = new Pen(Color.Black);
+                if (c == 0)
+                {
+                    pen = new Pen(Color.Red);
+                    c++;
+                }
+                else if (c == 1)
+                {
+                    pen = new Pen(Color.Green);
+                    c++;
+                }
+                else if (c == 2)
+                {
+                    pen = new Pen(Color.Blue);
+                    c++;
+                }
+                if (radioButton_ortZ.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFOrtZ(), rib.secondPoint.GetPointFOrtZ());
+                else if (radioButton_ortX.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFOrtX(), rib.secondPoint.GetPointFOrtX());
+                else if (radioButton_ortY.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFOrtY(), rib.secondPoint.GetPointFOrtY());
+                else if (radioButton_isometr.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFisometr(), rib.secondPoint.GetPointFisometr());
+                else if (radioButton_perspect.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFPerspect(), rib.secondPoint.GetPointFPerspect());
+            }
+            area.Invalidate();
+        }
+
         public void redraw()
         {
+
             graphics.Clear(Color.White);
             drawShape();
+            if (axes_checkBox.Checked) drawAxes();  // отображение осей
             area.Invalidate();
         }
 
@@ -328,7 +376,7 @@ namespace AffineTransformations3D
 
         private Point3D reflectionX(Point3D old_point)
         {
-            float[,] mat = { { 1, 0, 0, 0 }, { 0, -1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0,  1} };
+            float[,] mat = { { 1, 0, 0, 0 }, { 0, -1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
             Point3D new_point = new Point3D(0, 0, 0);
             multiplication(old_point, mat, new_point);
             return new_point;
@@ -356,15 +404,15 @@ namespace AffineTransformations3D
 
             public Point3D(Point3D point)
             {
-                this.X = point.X; this.Y = point.Y; this.Z = point.Z;this.C = point.C;
+                this.X = point.X; this.Y = point.Y; this.Z = point.Z; this.C = point.C;
             }
             public Point3D(float X, float Y, float Z)
             {
                 this.X = X; this.Y = Y; this.Z = Z; this.C = (float)1.0;
             }
-            public Point3D(float X, float Y, float Z,float C)
+            public Point3D(float X, float Y, float Z, float C)
             {
-                this.X = X; this.Y = Y; this.Z = Z;this.C = C;
+                this.X = X; this.Y = Y; this.Z = Z; this.C = C;
             }
 
             public PointF GetPointFOrtZ()
@@ -376,7 +424,7 @@ namespace AffineTransformations3D
                                 { 0, 0,Z, 1 }};
                 Point3D new_point = new Point3D(0, 0, 0);
                 Point3D old_point = new Point3D(X, Y, Z);
-                multiplication( mat, old_point, new_point);
+                multiplication(mat, old_point, new_point);
                 return new PointF((float)(new_point.X + width / 2 - ribLength / 2), (float)((height - new_point.Y) - height / 2 + ribLength / 2));
             }
 
@@ -415,12 +463,13 @@ namespace AffineTransformations3D
                                 {               k*1           , k*2, k*1, 0 },
                                 { k*(float)Math.Sqrt(2),k*(float)-Math.Sqrt(2) , k*(float)Math.Sqrt(2), 0 },
                                 { 0, 0, 0, 1 }};
-                
+
                 multiplication(mat, old_point, new_point);
                 return new PointF((float)(new_point.X + width / 2 - ribLength / 2), (float)((height - new_point.Y) - height / 2 + ribLength / 2));
             }
 
-            public PointF GetPointFPerspect() {
+            public PointF GetPointFPerspect()
+            {
                 Point3D new_point = new Point3D(0, 0, 0, 1);
                 Point3D old_point = new Point3D(X, Y, Z, 1);
                 int k = 250;
@@ -428,9 +477,9 @@ namespace AffineTransformations3D
                                 { 0, 1, 0, 0 },
                                 { 0, 0, 0,(-1/k)},
                                 { 0, 0, 0, 1}};
-                multiplication(  old_point, mat , new_point);
-                new_point.X = new_point.X / (1 - Z/k);
-                new_point.Y = new_point.Y / (1 - Z/k);
+                multiplication(old_point, mat, new_point);
+                new_point.X = new_point.X / (1 - Z / k);
+                new_point.Y = new_point.Y / (1 - Z / k);
                 new_point.C = 1;
 
 
@@ -438,7 +487,7 @@ namespace AffineTransformations3D
             }
 
 
-            public void multiplication( float[,] mat, Point3D point, Point3D new_point)
+            public void multiplication(float[,] mat, Point3D point, Point3D new_point)
             {
                 float x = point.X;
                 float y = point.Y;
@@ -457,13 +506,14 @@ namespace AffineTransformations3D
                 new_point.C = res[3, 3];
             }
 
-            public void multiplication(Point3D point, float[,] mat, Point3D new_point) {
+            public void multiplication(Point3D point, float[,] mat, Point3D new_point)
+            {
                 float x = point.X;
                 float y = point.Y;
                 float z = point.Z;
                 float c = point.C;
                 float[,] vec = { { x, y, z, c } };
-                float[,] res = { { 0, 0, 0, 0 }};
+                float[,] res = { { 0, 0, 0, 0 } };
                 for (int i = 0; i < 1; i++)
                     for (int j = 0; j < 4; j++)
                         for (int k = 0; k < 4; k++)
@@ -706,17 +756,32 @@ namespace AffineTransformations3D
             redraw();
         }
 
-        private void LineRotate_button_Click(object sender, EventArgs e)
+        int x1, y1, z1, x2, y2, z2, angle;
+        private void drawLine_button_Click(object sender, EventArgs e)
         {
-            int x1, y1, z1, x2, y2, z2, angle;
+
             Int32.TryParse(point1X_text.Text, out x1);
             Int32.TryParse(point1Y_text.Text, out y1);
             Int32.TryParse(point1Z_text.Text, out z1);
             Int32.TryParse(point2X_text.Text, out x2);
             Int32.TryParse(point2Y_text.Text, out y2);
             Int32.TryParse(point2Z_text.Text, out z2);
-            Int32.TryParse(text_rotate.Text, out angle);
+            Point3D startPoint = new Point3D(x1, y1, z1);
+            Point3D endPoint = new Point3D(x2, y2, z2);
+            shape.Add(new Rib(startPoint, endPoint));
+            redraw();
+        }
 
+        private void LineRotate_button_Click(object sender, EventArgs e)
+        {
+
+
+            Point3D startPoint = new Point3D(x1, y1, z1);
+            Point3D endPoint = new Point3D(x2, y2, z2);
+            shape.Add(new Rib(startPoint, endPoint));
+
+            Int32.TryParse(text_rotate.Text, out angle);
+            /*
             Point3D line = new Point3D(x2 - x1, y2 - y1, z2 - z1);
             float length = (float)Math.Sqrt(line.X * line.X + line.Y * line.Y + line.Z * line.Z);
             float sin = (float)Math.Sin(Math.PI / 180 * angle);
@@ -729,7 +794,6 @@ namespace AffineTransformations3D
                 { l*(1-cos)*m - n*sin, m*m + cos * (1 - m*m), m*(1-cos)*n+l*sin, 0 },
                 { l*(1-cos)*n + m*sin, m*(1-cos)*n - l*sin, n*n + cos * (1-n*n), 0 },
                 { 0, 0, 0, 1 } };
-
             float[,] t =
             {
                 { 1, 0, 0, 0 },
@@ -745,26 +809,51 @@ namespace AffineTransformations3D
                 { 0, 0, 1, 0 },
                 { x1, y1, z1, 1 }
             };
+            */
+            Point3D line = new Point3D(x2 - x1, y2 - y1, z2 - z1);
+            float length = (float)Math.Sqrt(line.X * line.X + line.Y * line.Y + line.Z * line.Z);
+            float sin = (float)Math.Sin(Math.PI / 180 * angle);
+            float cos = (float)Math.Cos(Math.PI / 180 * angle);
+            float l = line.X / length;
+            float m = line.Y / length;
+            float n = line.Z / length;
 
+            float[,] mat = {
+                {l*l+ cos * (1 - l * l), l * (1 - cos) * m + n * sin, l * (1 - cos) * n - m * sin, 0 },
+                { l*(1-cos)*m - n*sin, m*m + cos * (1 - m*m), m*(1-cos)*n+l*sin, 0 },
+                { l*(1-cos)*n + m*sin, m*(1-cos)*n - l*sin, n*n + cos * (1-n*n), 0 },
+                { 0, 0, 0, 1 } };
+            float[,] t =
+            {
+                { 1, 0, 0, 0 },
+                { 0, 1, 0, 0 },
+                { 0, 0, 1, 0 },
+                { -x1, -y1, -z1, 1 }
+            };
+            // Перенос  
             foreach (Rib rib in shape)
             {
-                multiplication(rib.firstPoint, t, rib.firstPoint);
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, -x1, -y1, -z1));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, -x1, -y1, -z1));
+                
+            }
+
+            //Поворот
+            foreach (Rib rib in shape)
+            {
                 multiplication(rib.firstPoint, mat, rib.firstPoint);
-              //  multiplication(rib.firstPoint, t_1, rib.firstPoint);
-                multiplication(rib.secondPoint, t, rib.secondPoint);
                 multiplication(rib.secondPoint, mat, rib.secondPoint);
-              //  multiplication(rib.secondPoint, t_1, rib.secondPoint);
+            }
+
+            // Перенос  
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, x1, y1, z1));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, x1, y1, z1));
+                
             }
 
             redraw();
-            Pen pen = new Pen(Color.Black);
-            Point3D p1 = new Point3D(x1, y1, z1);
-            Point3D p2 = new Point3D(x2, y2, z2);
-            if (radioButton_ortZ.Checked) graphics.DrawLine(pen, p1.GetPointFOrtZ(), p2.GetPointFOrtZ());
-            else if (radioButton_ortX.Checked) graphics.DrawLine(pen, p1.GetPointFOrtX(), p2.GetPointFOrtX());
-            else if (radioButton_ortY.Checked) graphics.DrawLine(pen, p1.GetPointFOrtY(), p2.GetPointFOrtY());
-            else if (radioButton_isometr.Checked) graphics.DrawLine(pen, p1.GetPointFisometr(), p2.GetPointFisometr());
-            else if (radioButton_perspect.Checked) graphics.DrawLine(pen, p1.GetPointFPerspect(), p2.GetPointFPerspect());
             area.Invalidate();
         }
 
@@ -835,10 +924,12 @@ namespace AffineTransformations3D
         }
 
         int oldV = 0;
+
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             int angle = 10;
-            if (trackBar1.Value < oldV) {
+            if (trackBar1.Value < oldV)
+            {
                 angle = -10;
                 oldV = trackBar1.Value;
             }
@@ -854,7 +945,7 @@ namespace AffineTransformations3D
         }
         private float func(float x, float y)
         {
-            return x * x + 5*(float)Math.Sin(y);
+            return x * x + 5 * (float)Math.Sin(y);
         }
         private void Draw_func_button_Click(object sender, EventArgs e)
         {
@@ -863,7 +954,7 @@ namespace AffineTransformations3D
 
             float.TryParse(range0_text.Text, out x0);
             float.TryParse(range1_text.Text, out x1);
-            Int32.TryParse(fragmentation_text.Text, out range);            
+            Int32.TryParse(fragmentation_text.Text, out range);
             y0 = x0;
             y1 = x1;
             float step = (x1 - x0) / range;
@@ -872,14 +963,14 @@ namespace AffineTransformations3D
             shape.Add(new Rib(new Point3D(0, 0, 0), new Point3D(50, 0, 0)));
             shape.Add(new Rib(new Point3D(0, 0, 0), new Point3D(0, 50, 0)));
             shape.Add(new Rib(new Point3D(0, 0, 0), new Point3D(0, 0, 50)));
-            for (float i=x0; i<x1; i+=step)
-                for( float j= y0; j< y1; j += step)
+            for (float i = x0; i < x1; i += step)
+                for (float j = y0; j < y1; j += step)
                 {
                     Rib rib1 = new Rib(new Point3D(i, j, func(i, j)), new Point3D(i, j + step, func(i, j + step)));
                     Rib rib2 = new Rib(new Point3D(i, j, func(i, j)), new Point3D(i - step, j, func(i - step, j)));
-                    Rib rib3 = new Rib(rib2.secondPoint, new Point3D(i-step, j+step, func(i - step, j + step)));
+                    Rib rib3 = new Rib(rib2.secondPoint, new Point3D(i - step, j + step, func(i - step, j + step)));
                     Rib rib4 = new Rib(rib1.secondPoint, rib3.secondPoint);
-                    
+
                     shape.Add(rib1);
                     shape.Add(rib2);
                     shape.Add(rib3);
@@ -945,6 +1036,11 @@ namespace AffineTransformations3D
 
             shape = temp_shape.ToList();
             redraw();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void clear_button_Click(object sender, EventArgs e)
