@@ -87,9 +87,27 @@
             this.load_figure_button = new System.Windows.Forms.Button();
             this.drawLine_button = new System.Windows.Forms.Button();
             this.axes_checkBox = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.initAxisRotation_button = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.secondPointAxisZ_text = new System.Windows.Forms.TextBox();
+            this.secondPointAxisY_text = new System.Windows.Forms.TextBox();
+            this.secondPointAxisX_text = new System.Windows.Forms.TextBox();
+            this.firstPointAxisZ_text = new System.Windows.Forms.TextBox();
+            this.firstPointAxisY_text = new System.Windows.Forms.TextBox();
+            this.firstPointAxisX_text = new System.Windows.Forms.TextBox();
+            this.addPoint_button = new System.Windows.Forms.Button();
+            this.addPointZ_text = new System.Windows.Forms.TextBox();
+            this.addPointY_text = new System.Windows.Forms.TextBox();
+            this.addPointX_text = new System.Windows.Forms.TextBox();
+            this.countDiv_text = new System.Windows.Forms.TextBox();
+            this.createFigure_button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.area)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // area
@@ -710,11 +728,177 @@
             this.axes_checkBox.UseVisualStyleBackColor = true;
             this.axes_checkBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.createFigure_button);
+            this.groupBox2.Controls.Add(this.countDiv_text);
+            this.groupBox2.Controls.Add(this.initAxisRotation_button);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.secondPointAxisZ_text);
+            this.groupBox2.Controls.Add(this.secondPointAxisY_text);
+            this.groupBox2.Controls.Add(this.secondPointAxisX_text);
+            this.groupBox2.Controls.Add(this.firstPointAxisZ_text);
+            this.groupBox2.Controls.Add(this.firstPointAxisY_text);
+            this.groupBox2.Controls.Add(this.firstPointAxisX_text);
+            this.groupBox2.Controls.Add(this.addPoint_button);
+            this.groupBox2.Controls.Add(this.addPointZ_text);
+            this.groupBox2.Controls.Add(this.addPointY_text);
+            this.groupBox2.Controls.Add(this.addPointX_text);
+            this.groupBox2.Location = new System.Drawing.Point(776, 10);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(200, 252);
+            this.groupBox2.TabIndex = 39;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Фигура вращения";
+            // 
+            // initAxisRotation_button
+            // 
+            this.initAxisRotation_button.Location = new System.Drawing.Point(120, 78);
+            this.initAxisRotation_button.Name = "initAxisRotation_button";
+            this.initAxisRotation_button.Size = new System.Drawing.Size(58, 21);
+            this.initAxisRotation_button.TabIndex = 111;
+            this.initAxisRotation_button.Text = "Задать";
+            this.initAxisRotation_button.UseVisualStyleBackColor = true;
+            this.initAxisRotation_button.Click += new System.EventHandler(this.initAxisRotation_button_click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(104, 6);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(84, 13);
+            this.label12.TabIndex = 110;
+            this.label12.Text = "Ось вращения ";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(28, 55);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(73, 13);
+            this.label11.TabIndex = 109;
+            this.label11.Text = "Second point:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(40, 25);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(55, 13);
+            this.label10.TabIndex = 54;
+            this.label10.Text = "First point:";
+            // 
+            // secondPointAxisZ_text
+            // 
+            this.secondPointAxisZ_text.Location = new System.Drawing.Point(160, 52);
+            this.secondPointAxisZ_text.Name = "secondPointAxisZ_text";
+            this.secondPointAxisZ_text.Size = new System.Drawing.Size(24, 20);
+            this.secondPointAxisZ_text.TabIndex = 11;
+            this.secondPointAxisZ_text.Text = "0";
+            // 
+            // secondPointAxisY_text
+            // 
+            this.secondPointAxisY_text.Location = new System.Drawing.Point(130, 52);
+            this.secondPointAxisY_text.Name = "secondPointAxisY_text";
+            this.secondPointAxisY_text.Size = new System.Drawing.Size(24, 20);
+            this.secondPointAxisY_text.TabIndex = 10;
+            this.secondPointAxisY_text.Text = "100";
+            // 
+            // secondPointAxisX_text
+            // 
+            this.secondPointAxisX_text.Location = new System.Drawing.Point(100, 52);
+            this.secondPointAxisX_text.Name = "secondPointAxisX_text";
+            this.secondPointAxisX_text.Size = new System.Drawing.Size(24, 20);
+            this.secondPointAxisX_text.TabIndex = 9;
+            this.secondPointAxisX_text.Text = "0";
+            // 
+            // firstPointAxisZ_text
+            // 
+            this.firstPointAxisZ_text.Location = new System.Drawing.Point(160, 22);
+            this.firstPointAxisZ_text.Name = "firstPointAxisZ_text";
+            this.firstPointAxisZ_text.Size = new System.Drawing.Size(24, 20);
+            this.firstPointAxisZ_text.TabIndex = 8;
+            this.firstPointAxisZ_text.Text = "0";
+            // 
+            // firstPointAxisY_text
+            // 
+            this.firstPointAxisY_text.Location = new System.Drawing.Point(130, 22);
+            this.firstPointAxisY_text.Name = "firstPointAxisY_text";
+            this.firstPointAxisY_text.Size = new System.Drawing.Size(24, 20);
+            this.firstPointAxisY_text.TabIndex = 7;
+            this.firstPointAxisY_text.Text = "0";
+            // 
+            // firstPointAxisX_text
+            // 
+            this.firstPointAxisX_text.Location = new System.Drawing.Point(100, 22);
+            this.firstPointAxisX_text.Name = "firstPointAxisX_text";
+            this.firstPointAxisX_text.Size = new System.Drawing.Size(24, 20);
+            this.firstPointAxisX_text.TabIndex = 6;
+            this.firstPointAxisX_text.Text = "0";
+            // 
+            // addPoint_button
+            // 
+            this.addPoint_button.Location = new System.Drawing.Point(107, 142);
+            this.addPoint_button.Name = "addPoint_button";
+            this.addPoint_button.Size = new System.Drawing.Size(88, 21);
+            this.addPoint_button.TabIndex = 5;
+            this.addPoint_button.Text = "Добавить";
+            this.addPoint_button.UseVisualStyleBackColor = true;
+            this.addPoint_button.Click += new System.EventHandler(this.addPoint_button_Click);
+            // 
+            // addPointZ_text
+            // 
+            this.addPointZ_text.Location = new System.Drawing.Point(77, 142);
+            this.addPointZ_text.Name = "addPointZ_text";
+            this.addPointZ_text.Size = new System.Drawing.Size(24, 20);
+            this.addPointZ_text.TabIndex = 4;
+            this.addPointZ_text.Text = "0";
+            // 
+            // addPointY_text
+            // 
+            this.addPointY_text.Location = new System.Drawing.Point(47, 142);
+            this.addPointY_text.Name = "addPointY_text";
+            this.addPointY_text.Size = new System.Drawing.Size(24, 20);
+            this.addPointY_text.TabIndex = 3;
+            this.addPointY_text.Text = "100";
+            // 
+            // addPointX_text
+            // 
+            this.addPointX_text.Location = new System.Drawing.Point(17, 142);
+            this.addPointX_text.Name = "addPointX_text";
+            this.addPointX_text.Size = new System.Drawing.Size(24, 20);
+            this.addPointX_text.TabIndex = 0;
+            this.addPointX_text.Text = "0";
+            // 
+            // countDiv_text
+            // 
+            this.countDiv_text.Location = new System.Drawing.Point(47, 177);
+            this.countDiv_text.Name = "countDiv_text";
+            this.countDiv_text.Size = new System.Drawing.Size(24, 20);
+            this.countDiv_text.TabIndex = 112;
+            this.countDiv_text.Text = "180";
+            // 
+            // createFigure_button
+            // 
+            this.createFigure_button.Location = new System.Drawing.Point(96, 177);
+            this.createFigure_button.Name = "createFigure_button";
+            this.createFigure_button.Size = new System.Drawing.Size(88, 21);
+            this.createFigure_button.TabIndex = 113;
+            this.createFigure_button.Text = "Создать фигуру";
+            this.createFigure_button.UseVisualStyleBackColor = true;
+            this.createFigure_button.Click += new System.EventHandler(this.createFigure_button_click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(778, 562);
+            this.ClientSize = new System.Drawing.Size(988, 562);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.axes_checkBox);
             this.Controls.Add(this.drawLine_button);
             this.Controls.Add(this.load_figure_button);
@@ -776,6 +960,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -842,6 +1028,23 @@
         private System.Windows.Forms.Button load_figure_button;
         private System.Windows.Forms.Button drawLine_button;
         private System.Windows.Forms.CheckBox axes_checkBox;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button initAxisRotation_button;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox secondPointAxisZ_text;
+        private System.Windows.Forms.TextBox secondPointAxisY_text;
+        private System.Windows.Forms.TextBox secondPointAxisX_text;
+        private System.Windows.Forms.TextBox firstPointAxisZ_text;
+        private System.Windows.Forms.TextBox firstPointAxisY_text;
+        private System.Windows.Forms.TextBox firstPointAxisX_text;
+        private System.Windows.Forms.Button addPoint_button;
+        private System.Windows.Forms.TextBox addPointZ_text;
+        private System.Windows.Forms.TextBox addPointY_text;
+        private System.Windows.Forms.TextBox addPointX_text;
+        private System.Windows.Forms.TextBox countDiv_text;
+        private System.Windows.Forms.Button createFigure_button;
     }
 }
 
