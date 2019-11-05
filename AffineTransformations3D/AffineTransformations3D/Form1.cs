@@ -901,7 +901,7 @@ namespace AffineTransformations3D
         {
             int count;
             Int32.TryParse(countDiv_text.Text, out count);
-            float angle = 360 / count;
+            float angle = (float)360 / (float)count;
 
             for (int i = 0; i < points3d.Count - 1; i++) // Инициализация Образующей
                 obr.Add(new Rib(points3d[i], points3d[i + 1]));
