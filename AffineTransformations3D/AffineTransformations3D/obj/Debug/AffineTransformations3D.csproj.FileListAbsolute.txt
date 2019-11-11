@@ -48,3 +48,13 @@ C:\Users\alekgor\Desktop\graphics\AffineTransformations3D\AffineTransformations3
 C:\Users\alekgor\Desktop\graphics\AffineTransformations3D\AffineTransformations3D\obj\Debug\AffineTransformations3D.csproj.CoreCompileInputs.cache
 C:\Users\alekgor\Desktop\graphics\AffineTransformations3D\AffineTransformations3D\obj\Debug\AffineTransformations3D.exe
 C:\Users\alekgor\Desktop\graphics\AffineTransformations3D\AffineTransformations3D\obj\Debug\AffineTransformations3D.pdb
+C:\Users\mxeni\OneDrive\Рабочий стол\graphics\AffineTransformations3D\AffineTransformations3D\bin\Debug\AffineTransformations3D.exe.config
+C:\Users\mxeni\OneDrive\Рабочий стол\graphics\AffineTransformations3D\AffineTransformations3D\bin\Debug\AffineTransformations3D.exe
+C:\Users\mxeni\OneDrive\Рабочий стол\graphics\AffineTransformations3D\AffineTransformations3D\bin\Debug\AffineTransformations3D.pdb
+C:\Users\mxeni\OneDrive\Рабочий стол\graphics\AffineTransformations3D\AffineTransformations3D\obj\Debug\AffineTransformations3D.csprojAssemblyReference.cache
+C:\Users\mxeni\OneDrive\Рабочий стол\graphics\AffineTransformations3D\AffineTransformations3D\obj\Debug\AffineTransformations3D.Form1.resources
+C:\Users\mxeni\OneDrive\Рабочий стол\graphics\AffineTransformations3D\AffineTransformations3D\obj\Debug\AffineTransformations3D.Properties.Resources.resources
+C:\Users\mxeni\OneDrive\Рабочий стол\graphics\AffineTransformations3D\AffineTransformations3D\obj\Debug\AffineTransformations3D.csproj.GenerateResource.cache
+C:\Users\mxeni\OneDrive\Рабочий стол\graphics\AffineTransformations3D\AffineTransformations3D\obj\Debug\AffineTransformations3D.csproj.CoreCompileInputs.cache
+C:\Users\mxeni\OneDrive\Рабочий стол\graphics\AffineTransformations3D\AffineTransformations3D\obj\Debug\AffineTransformations3D.exe
+C:\Users\mxeni\OneDrive\Рабочий стол\graphics\AffineTransformations3D\AffineTransformations3D\obj\Debug\AffineTransformations3D.pdb

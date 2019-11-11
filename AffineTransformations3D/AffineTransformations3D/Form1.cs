@@ -10,15 +10,13 @@ using System.Windows.Forms;
 
 namespace AffineTransformations3D
 {
-
-
     public partial class Form1 : Form
     {
         Graphics graphics;
         List<Point3D> points3d;
         public static double width, height;
         List<Rib> shape; // all ribs of current shape
-        List<Face> shapeFaces;
+        List<Face> shapeFaces; // all faces of current shape
         List<Rib> axes;
         List<Rib> obr; // образующая
         Rib lineRotate;
@@ -52,12 +50,22 @@ namespace AffineTransformations3D
             Point3D vertex3 = new Point3D(vertex1.X + cubeSide, vertex1.Y, vertex1.Z - cubeSide);
             Point3D vertex4 = new Point3D(vertex1.X, vertex1.Y + cubeSide, vertex1.Z - cubeSide);
 
-            shape.Add(new Rib(vertex1, vertex3));
-            shape.Add(new Rib(vertex1, vertex2));
-            shape.Add(new Rib(vertex1, vertex4));
-            shape.Add(new Rib(vertex2, vertex3));
-            shape.Add(new Rib(vertex2, vertex4));
-            shape.Add(new Rib(vertex4, vertex3));
+            Rib rib1 = new Rib(vertex1, vertex2);
+            Rib rib2 = new Rib(vertex1, vertex3);
+            Rib rib3 = new Rib(vertex2, vertex3);
+            Rib rib4 = new Rib(vertex1, vertex4);
+            Rib rib5 = new Rib(vertex2, vertex4);
+            Rib rib6 = new Rib(vertex4, vertex3);
+            Rib rib7 = new Rib(vertex4, vertex2);
+
+            shape.Add(rib1); shape.Add(rib2); shape.Add(rib3); shape.Add(rib4); shape.Add(rib5); shape.Add(rib6); shape.Add(rib7); 
+
+            Face f1 = new Face(new List<Rib>() { rib1, rib3, rib2 });
+            Face f2 = new Face(new List<Rib>() { rib4, rib7, rib1 });
+            Face f3 = new Face(new List<Rib>() { rib7, rib3, rib6 });
+            Face f4 = new Face(new List<Rib>() { rib4, rib6, rib2 });
+
+            shapeFaces.Add(f1); shapeFaces.Add(f2); shapeFaces.Add(f3); shapeFaces.Add(f4); 
         }
 
         public void createCube()
@@ -74,18 +82,35 @@ namespace AffineTransformations3D
             Point3D vertex7 = new Point3D(vertex1.X + cubeSide, vertex1.Y + cubeSide, vertex1.Z - cubeSide);
             Point3D vertex8 = new Point3D(vertex1.X, vertex1.Y + cubeSide, vertex1.Z - cubeSide);
 
-            shape.Add(new Rib(vertex1, vertex2));
-            shape.Add(new Rib(vertex1, vertex5));
-            shape.Add(new Rib(vertex1, vertex4));
-            shape.Add(new Rib(vertex2, vertex3));
-            shape.Add(new Rib(vertex2, vertex6));
-            shape.Add(new Rib(vertex4, vertex3));
-            shape.Add(new Rib(vertex7, vertex3));
-            shape.Add(new Rib(vertex4, vertex8));
-            shape.Add(new Rib(vertex5, vertex8));
-            shape.Add(new Rib(vertex5, vertex6));
-            shape.Add(new Rib(vertex7, vertex6));
-            shape.Add(new Rib(vertex7, vertex8));
+            Rib rib1 = new Rib(vertex1, vertex2);
+            Rib rib2 = new Rib(vertex2, vertex3);
+            Rib rib3 = new Rib(vertex3, vertex4);
+            Rib rib4 = new Rib(vertex1, vertex4);
+            Rib rib5 = new Rib(vertex2, vertex6);
+            Rib rib6 = new Rib(vertex6, vertex5);
+            Rib rib7 = new Rib(vertex1, vertex5);
+            Rib rib8 = new Rib(vertex6, vertex7);
+            Rib rib9 = new Rib(vertex7, vertex8);
+            Rib rib10 = new Rib(vertex5, vertex8);
+            Rib rib11 = new Rib(vertex3, vertex7);
+            Rib rib12 = new Rib(vertex4, vertex8);
+            Rib rib13 = new Rib(vertex5, vertex6);
+            Rib rib14 = new Rib(vertex4, vertex3);
+            Rib rib15 = new Rib(vertex7, vertex3);
+            Rib rib16 = new Rib(vertex8, vertex4);
+
+            shape.Add(rib1); shape.Add(rib2); shape.Add(rib3); shape.Add(rib4); shape.Add(rib5); shape.Add(rib6);
+            shape.Add(rib7); shape.Add(rib8); shape.Add(rib9); shape.Add(rib10); shape.Add(rib11); shape.Add(rib12);
+            shape.Add(rib13); shape.Add(rib14); shape.Add(rib15); shape.Add(rib16); 
+
+            Face f1 = new Face(new List<Rib>() { rib1, rib2, rib3, rib4 });
+            Face f2 = new Face(new List<Rib>() { rib1, rib5, rib6, rib7 });
+            Face f3 = new Face(new List<Rib>() { rib13, rib8, rib9, rib10 });
+            Face f4 = new Face(new List<Rib>() { rib14, rib11, rib9, rib12 }); 
+            Face f5 = new Face(new List<Rib>() { rib5, rib8, rib15, rib2 });
+            Face f6 = new Face(new List<Rib>() { rib7, rib10, rib16, rib4 });
+
+            shapeFaces.Add(f1); shapeFaces.Add(f2); shapeFaces.Add(f3); shapeFaces.Add(f4); shapeFaces.Add(f5); shapeFaces.Add(f6); 
         }
 
         private void createIcosahedron()
@@ -229,7 +254,9 @@ namespace AffineTransformations3D
 
         public void drawShape()
         {
-            if (shape.Count != 0)
+            if (shape.Count == 0) return;
+            if (non_faced_checkBox.Checked) drawShape_non_faces();
+            else
             {
                 Pen pen = new Pen(Color.Black);
                 int c = 0;
@@ -259,6 +286,84 @@ namespace AffineTransformations3D
                 }
             }
             area.Invalidate();
+        }
+
+        public void drawShape_non_faces()
+        {
+            if (shapeFaces.Count != 0)
+            {
+                Pen pen = new Pen(Color.Black);
+
+                int x1, y1, z1, x2, y2, z2;
+                Int32.TryParse(cut_off_p1x.Text, out x1);
+                Int32.TryParse(cut_off_p1y.Text, out y1);
+                Int32.TryParse(cut_off_p1z.Text, out z1);
+                Int32.TryParse(cut_off_p2x.Text, out x2);
+                Int32.TryParse(cut_off_p2y.Text, out y2);
+                Int32.TryParse(cut_off_p2z.Text, out z2);
+
+                Point3D startPoint = new Point3D(x1, y1, z1);
+                Point3D endPoint = new Point3D(x2, y2, z2);
+                graphics.DrawLine(pen, startPoint.GetPointFisometr(), endPoint.GetPointFisometr());
+
+                foreach (Face face in shapeFaces)
+                {
+                    if (!is_face_visible(face)) continue;
+                    foreach (Rib rib in face.ribs)
+                    {
+                        if (radioButton_ortZ.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFOrtZ(), rib.secondPoint.GetPointFOrtZ());
+                        else if (radioButton_ortX.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFOrtX(), rib.secondPoint.GetPointFOrtX());
+                        else if (radioButton_ortY.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFOrtY(), rib.secondPoint.GetPointFOrtY());
+                        else if (radioButton_isometr.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFisometr(), rib.secondPoint.GetPointFisometr());
+                        else if (radioButton_perspect.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFPerspect(), rib.secondPoint.GetPointFPerspect());
+                    }
+                }
+            }
+            area.Invalidate();
+        }
+
+        public bool is_face_visible(Face face)
+        {
+            Point3D point1 = face.ribs[0].firstPoint - face.ribs[0].secondPoint;
+            Point3D point2 = face.ribs[1].secondPoint - face.ribs[1].firstPoint;
+            Point3D normal_point = new Point3D(point1.Y * point2.Z - point1.Z * point2.Y, point1.Z * point2.X - point1.X * point2.Z, point1.X * point2.Y - point1.Y * point2.X);
+            
+            Rib normal = new Rib(face.ribs[0].secondPoint, normal_point + face.ribs[0].secondPoint);
+            Point3D center_point = mass_center();
+
+            Point3D first_vector = normal.firstPoint - center_point;
+            Point3D second_vector = normal.secondPoint - normal.firstPoint;
+            double angle = scalar_mult(first_vector, second_vector);
+
+            if (angle < Math.PI / 2)
+            {
+                Point3D temp = new Point3D(normal.secondPoint);
+                normal.secondPoint = new Point3D(normal.firstPoint);
+                normal.firstPoint = temp;
+            }
+
+            int x1, y1, z1, x2, y2, z2;
+            Int32.TryParse(cut_off_p1x.Text, out x1);
+            Int32.TryParse(cut_off_p1y.Text, out y1);
+            Int32.TryParse(cut_off_p1z.Text, out z1);
+            Int32.TryParse(cut_off_p2x.Text, out x2);
+            Int32.TryParse(cut_off_p2y.Text, out y2);
+            Int32.TryParse(cut_off_p2z.Text, out z2);
+
+            first_vector = normal.secondPoint - normal.firstPoint;
+            second_vector = new Point3D(x2 - x1, y2 - y1, z2 - z1);
+            angle = scalar_mult(first_vector, second_vector);
+
+            Console.WriteLine(angle);
+
+            return (angle < Math.PI / 2);
+        }
+
+        public double scalar_mult(Point3D first_vector, Point3D second_vector)
+        {
+            return Math.Acos((first_vector.X * second_vector.X + first_vector.Y * second_vector.Y + first_vector.Z * second_vector.Z)
+                            / (Math.Sqrt(first_vector.X * first_vector.X + first_vector.Y * first_vector.Y + first_vector.Z * first_vector.Z)
+                            * Math.Sqrt(second_vector.X * second_vector.X + second_vector.Y * second_vector.Y + second_vector.Z * second_vector.Z)));
         }
 
         public void drawAxes()
@@ -293,22 +398,22 @@ namespace AffineTransformations3D
         }
 
         public void drawPoint3D() {
-            if (points3d.Count != 0)
+            if (points3d.Count == 0) return;
+            Pen pen = new Pen(Color.Black);
+            foreach (Point3D rib in points3d)
             {
-                Pen pen = new Pen(Color.Black);
-                foreach (Point3D rib in points3d)
+                if (radioButton_ortZ.Checked == true) graphics.DrawRectangle(pen, rib.GetPointFOrtZ().X, rib.GetPointFOrtZ().Y, 1, 1);
+                else if (radioButton_ortX.Checked == true) graphics.DrawRectangle(pen, rib.GetPointFOrtX().X, rib.GetPointFOrtX().Y, 1, 1);
+                else if (radioButton_ortY.Checked == true) graphics.DrawRectangle(pen, rib.GetPointFOrtY().X, rib.GetPointFOrtY().Y, 1, 1);
+                else if (radioButton_isometr.Checked == true)
                 {
-                    if (radioButton_ortZ.Checked == true) graphics.DrawRectangle(pen, rib.GetPointFOrtZ().X, rib.GetPointFOrtZ().Y, 1, 1);
-                    else if (radioButton_ortX.Checked == true) graphics.DrawRectangle(pen, rib.GetPointFOrtX().X, rib.GetPointFOrtX().Y, 1, 1);
-                    else if (radioButton_ortY.Checked == true) graphics.DrawRectangle(pen, rib.GetPointFOrtY().X, rib.GetPointFOrtY().Y, 1, 1);
-                    else if (radioButton_isometr.Checked == true) {
-                        float new_x = rib.GetPointFisometr().X;
-                        float new_y = rib.GetPointFisometr().Y;
-                        graphics.DrawRectangle(pen, new_x, new_y, 2, 2);
-                    }
-                    else if (radioButton_perspect.Checked == true) graphics.DrawRectangle(pen, rib.GetPointFPerspect().X, rib.GetPointFPerspect().Y, 1, 1);
+                    float new_x = rib.GetPointFisometr().X;
+                    float new_y = rib.GetPointFisometr().Y;
+                    graphics.DrawRectangle(pen, new_x, new_y, 2, 2);
                 }
+                else if (radioButton_perspect.Checked == true) graphics.DrawRectangle(pen, rib.GetPointFPerspect().X, rib.GetPointFPerspect().Y, 1, 1);
             }
+            
             area.Invalidate();
         }
 
@@ -440,6 +545,16 @@ namespace AffineTransformations3D
             public Point3D(float X, float Y, float Z, float C)
             {
                 this.X = X; this.Y = Y; this.Z = Z; this.C = C;
+            }
+
+            public static Point3D operator -(Point3D point1, Point3D point2)
+            {
+                return new Point3D(point2.X - point1.X, point2.Y - point1.Y, point2.Z - point1.Z);
+            }
+
+            public static Point3D operator +(Point3D point1, Point3D point2)
+            {
+                return new Point3D(point2.X + point1.X, point2.Y + point1.Y, point2.Z + point1.Z);
             }
 
             public PointF GetPointFOrtZ()
@@ -1188,11 +1303,10 @@ namespace AffineTransformations3D
             redraw();
         }
 
- 
-
         private void clear_button_Click(object sender, EventArgs e)
         {
             shape.Clear();
+            shapeFaces.Clear();
             points3d.Clear();
             obr.Clear();
             graphics.Clear(Color.White);
