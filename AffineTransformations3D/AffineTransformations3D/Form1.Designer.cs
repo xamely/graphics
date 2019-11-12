@@ -114,6 +114,7 @@
             this.cut_off_p2x = new System.Windows.Forms.TextBox();
             this.cut_off_p1y = new System.Windows.Forms.TextBox();
             this.non_faced_checkBox = new System.Windows.Forms.CheckBox();
+            this.zbuffer_checkBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.area)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -272,10 +273,10 @@
             // 
             // scaleZ_text
             // 
-            this.scaleZ_text.Location = new System.Drawing.Point(943, 340);
+            this.scaleZ_text.Location = new System.Drawing.Point(943, 338);
             this.scaleZ_text.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.scaleZ_text.Name = "scaleZ_text";
-            this.scaleZ_text.Size = new System.Drawing.Size(53, 22);
+            this.scaleZ_text.Size = new System.Drawing.Size(59, 22);
             this.scaleZ_text.TabIndex = 15;
             this.scaleZ_text.Text = "1,5";
             // 
@@ -920,6 +921,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.zbuffer_checkBox);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.label14);
             this.groupBox3.Controls.Add(this.cut_off_p2z);
@@ -931,7 +933,7 @@
             this.groupBox3.Controls.Add(this.non_faced_checkBox);
             this.groupBox3.Location = new System.Drawing.Point(1051, 218);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(295, 104);
+            this.groupBox3.Size = new System.Drawing.Size(295, 123);
             this.groupBox3.TabIndex = 118;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Cut off faces";
@@ -1022,6 +1024,16 @@
             this.non_faced_checkBox.Text = "Cut off non-faced faces";
             this.non_faced_checkBox.UseVisualStyleBackColor = true;
             // 
+            // zbuffer_checkBox
+            // 
+            this.zbuffer_checkBox.AutoSize = true;
+            this.zbuffer_checkBox.Location = new System.Drawing.Point(36, 96);
+            this.zbuffer_checkBox.Name = "zbuffer_checkBox";
+            this.zbuffer_checkBox.Size = new System.Drawing.Size(133, 21);
+            this.zbuffer_checkBox.TabIndex = 127;
+            this.zbuffer_checkBox.Text = "Enable Z-buffer ";
+            this.zbuffer_checkBox.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1085,7 +1097,7 @@
             this.Controls.Add(this.area);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "3D graphics";
             ((System.ComponentModel.ISupportInitialize)(this.area)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -1187,6 +1199,7 @@
         private System.Windows.Forms.TextBox cut_off_p2x;
         private System.Windows.Forms.TextBox cut_off_p1y;
         private System.Windows.Forms.CheckBox non_faced_checkBox;
+        private System.Windows.Forms.CheckBox zbuffer_checkBox;
     }
 }
 

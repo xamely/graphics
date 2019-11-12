@@ -20,7 +20,8 @@ namespace AffineTransformations3D
         List<Rib> axes;
         List<Rib> obr; // образующая
         Rib lineRotate;
-        Rib axisRotation; 
+        Rib axisRotation;
+        List<Polyhedron> polyhedrons;
         
         public static float ribLength = 100;
         public Form1()
@@ -34,6 +35,7 @@ namespace AffineTransformations3D
             axes = new List<Rib>();
             obr = new List<Rib>();
             shapeFaces = new List<Face>();
+            polyhedrons = new List<Polyhedron>();
             graphics = Graphics.FromImage(area.Image);
             graphics.Clear(Color.White);
             radioButton_isometr.Checked = true;
@@ -65,7 +67,9 @@ namespace AffineTransformations3D
             Face f3 = new Face(new List<Rib>() { rib7, rib3, rib6 });
             Face f4 = new Face(new List<Rib>() { rib4, rib6, rib2 });
 
-            shapeFaces.Add(f1); shapeFaces.Add(f2); shapeFaces.Add(f3); shapeFaces.Add(f4); 
+            shapeFaces.Add(f1); shapeFaces.Add(f2); shapeFaces.Add(f3); shapeFaces.Add(f4);
+
+            polyhedrons.Add(new Polyhedron(new List<Face>(shapeFaces)));
         }
 
         public void createCube()
@@ -110,7 +114,9 @@ namespace AffineTransformations3D
             Face f5 = new Face(new List<Rib>() { rib5, rib8, rib15, rib2 });
             Face f6 = new Face(new List<Rib>() { rib7, rib10, rib16, rib4 });
 
-            shapeFaces.Add(f1); shapeFaces.Add(f2); shapeFaces.Add(f3); shapeFaces.Add(f4); shapeFaces.Add(f5); shapeFaces.Add(f6); 
+            shapeFaces.Add(f1); shapeFaces.Add(f2); shapeFaces.Add(f3); shapeFaces.Add(f4); shapeFaces.Add(f5); shapeFaces.Add(f6);
+
+            polyhedrons.Add(new Polyhedron(new List<Face>(shapeFaces)));
         }
 
         private void createIcosahedron()
@@ -285,6 +291,7 @@ namespace AffineTransformations3D
                     else if (radioButton_perspect.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFPerspect(), rib.secondPoint.GetPointFPerspect());
                 }
             }
+            if (zbuffer_checkBox.Checked) drawShapes_Zbuffer();
             area.Invalidate();
         }
 
@@ -354,9 +361,7 @@ namespace AffineTransformations3D
             second_vector = new Point3D(x2 - x1, y2 - y1, z2 - z1);
             angle = scalar_mult(first_vector, second_vector);
 
-            Console.WriteLine(angle);
-
-            return (angle < Math.PI / 2);
+            return (angle > Math.PI / 2);
         }
 
         public double scalar_mult(Point3D first_vector, Point3D second_vector)
@@ -364,6 +369,21 @@ namespace AffineTransformations3D
             return Math.Acos((first_vector.X * second_vector.X + first_vector.Y * second_vector.Y + first_vector.Z * second_vector.Z)
                             / (Math.Sqrt(first_vector.X * first_vector.X + first_vector.Y * first_vector.Y + first_vector.Z * first_vector.Z)
                             * Math.Sqrt(second_vector.X * second_vector.X + second_vector.Y * second_vector.Y + second_vector.Z * second_vector.Z)));
+        }
+
+        public void drawShapes_Zbuffer()
+        {
+            List<List<double>> z_buffer = new List<List<double>>();
+            for (int i=0; i<area.Height; i++)
+            {
+                List<double> row = new List<double>();
+                for (int j = 0; j < area.Width; j++)
+                    row.Add(-999);
+                z_buffer.Add(row);
+            }
+
+
+
         }
 
         public void drawAxes()
@@ -1295,6 +1315,9 @@ namespace AffineTransformations3D
             }
 
             shape = temp_shape.ToList();
+
+            polyhedrons.Add(new Polyhedron(new List<Face>(shapeFaces)));
+
             redraw();
         }
 
@@ -1307,6 +1330,7 @@ namespace AffineTransformations3D
         {
             shape.Clear();
             shapeFaces.Clear();
+            polyhedrons.Clear();
             points3d.Clear();
             obr.Clear();
             graphics.Clear(Color.White);
