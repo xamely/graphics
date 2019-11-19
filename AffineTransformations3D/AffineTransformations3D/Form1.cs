@@ -325,6 +325,7 @@ namespace AffineTransformations3D
                         else if (radioButton_perspect.Checked == true) graphics.DrawLine(pen, rib.firstPoint.GetPointFPerspect(), rib.secondPoint.GetPointFPerspect());
                     }
                 }
+                
             }
             area.Invalidate();
         }
@@ -371,19 +372,291 @@ namespace AffineTransformations3D
                             * Math.Sqrt(second_vector.X * second_vector.X + second_vector.Y * second_vector.Y + second_vector.Z * second_vector.Z)));
         }
 
-        public void drawShapes_Zbuffer()
+        //public List<int> interpolate(int i0, int d0, int i1, int d1)
+        //{
+        //    if (i0 == i1) {
+        //        return new List<int>() { d0 };
+        //    }
+        //    List<int> values = new List<int>();
+        //    double a = (d1 - d0) / (i1 - i0);
+        //    double d = d0;
+        //    if (i0 > i1)
+        //    {
+        //        int c = i0;
+        //        i0 = i1;
+        //        i1 = c;
+        //    }
+        //    for (int i = i0; i<=i1; i++) {
+        //        values.Add((int)d);
+        //        d = d + a;
+        //    }
+        //    return values;
+        //}
+
+        public int myCompare(Point3D p1, Point3D p2)
         {
-            List<List<double>> z_buffer = new List<List<double>>();
-            for (int i=0; i<area.Height; i++)
+            if (p1.Y < p2.Y)
+                return -1;
+            if (p1.Y > p2.Y)
+                return 1;
+            return 0;
+        }
+
+
+        //public List<Tuple<PointF, double>> GetLine(Point3D p1, Point3D p2)
+        //{
+        //    List<Tuple<PointF, double>> points = new List<Tuple<PointF, double>>();
+        //    double z1 = p1.Z;
+        //    double z2 = p2.Z;
+        //    PointF p1f = p1.GetPointFisometr();
+        //    PointF p2f = p2.GetPointFisometr();
+        //    if (Math.Abs(p2f.X - p1f.X) > Math.Abs(p2f.Y - p1f.Y)) {
+        //        if (p1f.X > p2f.X)
+        //            Swap(ref p1f, ref p2f);
+        //        List<double> ys = interpolate(p1f.X, p1f.Y, p2f.X, p2f.Y);
+        //        double j = 0;
+        //        double step = 1.0 / ys.Count;
+        //        for (double i = p1f.X; i < p2f.X; i += step)
+        //        {
+        //            points.Add(new Tuple<PointF, double>((new PointF((float)i, (float)ys[(int)j])), z1));
+        //            j+=step;
+        //            z1 += step;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (p1f.Y > p2f.Y) {
+        //            Swap(ref p1f, ref p2f);
+        //        }
+        //        List<double> xs = interpolate(p1f.Y, p1f.X, p2f.Y, p2f.X);
+        //        double j = 0;
+        //        double step = 1.0 / xs.Count;
+        //        for (double i = p1f.Y; i < p2f.Y; i += step)
+        //        {
+        //            points.Add(new Tuple<PointF, double>(new PointF((float)xs[(int)j], (float)i), z1));
+        //            j += step; ;
+        //            z1 += step;
+        //        }
+        //    }
+        //    return points;
+        //}
+
+        //public List<Tuple<PointF, double>> GetLine(Tuple<PointF, double> p1, Tuple<PointF, double> p2)
+        //{
+        //    List<Tuple<PointF, double>> points = new List<Tuple<PointF, double>>();
+        //    double z1 = p1.Item2;
+        //    double z2 = p2.Item2;
+        //    PointF p1f = p1.Item1;
+        //    PointF p2f = p2.Item1;
+        //    if (Math.Abs(p2f.X - p1f.X) > Math.Abs(p2f.Y - p1f.Y))
+        //    {
+        //        if (p1f.X > p2f.X)
+        //            Swap(ref p1f, ref p2f);
+        //        List<double> ys = interpolate(p1f.X, p1f.Y, p2f.X, p2f.Y);
+        //        double j = 0;
+        //        double step = 1.0 / ys.Count;
+        //        for (double i = p1f.X; i < p2f.X; i += step)
+        //        {
+        //            points.Add(new Tuple<PointF, double>((new PointF((float)i, (float)ys[(int)j])), z1));
+        //            j+=step;
+        //            z1 += step;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (p1f.Y > p2f.Y)
+        //        {
+        //            Swap(ref p1f, ref p2f);
+        //        }
+        //        List<double> xs = interpolate(p1f.Y, p1f.X, p2f.Y, p2f.X);
+        //        double j = 0;
+        //        double step = 1.0 / xs.Count;
+        //        for (double i = p1f.Y; i < p2f.Y; i += step)
+        //        {
+        //            points.Add(new Tuple<PointF, double>(new PointF((float)xs[(int)j], (float)i), z1));
+        //            j+=step;
+        //            z1 += step;
+        //        }
+        //    }
+        //    return points;
+        //}
+
+        public static void Swap<T>(ref T lhs, ref T rhs)
+        {
+            T temp;
+            temp = lhs;
+            lhs = rhs;
+            rhs = temp;
+        }
+
+        private static int[] Interpolate(int i0, int d0, int i1, int d1)
+        {
+            if (i0 == i1)
             {
-                List<double> row = new List<double>();
-                for (int j = 0; j < area.Width; j++)
-                    row.Add(-999);
-                z_buffer.Add(row);
+                return new int[] { d0 };
+            }
+            int[] res;
+            double a = (double)(d1 - d0) / (i1 - i0);
+            double val = d0;
+            if (i0 > i1)
+            {
+                int c = i0;
+                i0 = i1;
+                i1 = c;
+            }
+
+            res = new int[i1 - i0 + 1];
+
+            int ind = 0;
+            for (int i = i0; i <= i1; i++)
+            {
+                res[ind] = (int)Math.Round(val);
+                val += a;
+                ++ind;
             }
 
 
+            return res;
+        }
 
+        private void DrawShadedTriangle(Point3D p0, Point3D p1, Point3D p2, ref List<Tuple<Point3D, bool>> pixels)
+        {
+            Point3D P0 = p0;
+            Point3D P1 = p1;
+            Point3D P2 = p2; 
+            // Сортировка точек так, что y0 <= y1 <= y2
+            if (P1.Y < P0.Y)
+            { Swap(ref P1, ref P0); }
+            if (P2.Y < P0.Y)
+            { Swap(ref P2, ref P0); }
+            if (P2.Y < P1.Y)
+            { Swap(ref P2, ref P1); }
+
+            int z0 = (int)P0.Z;
+            /*if (z0 != 0)
+				z0 = 1 / z0 * 1000000;
+                */
+            int z1 = (int)P1.Z;
+            /*	if (z1 != 0)
+                    z1 = 1 / z1 * 1000000;
+
+        */
+            int z2 = (int)P2.Z;
+            /*	if (z2 != 0)
+                    z2 = 1 / z2 * 1000000;
+                    */
+            // Вычисление координат x и значений h для рёбер треугольника
+            int[] x01 = Interpolate((int)P0.Y, (int)P0.X, (int)P1.Y, (int)P1.X);
+            int[] h01 = Interpolate((int)P0.Y, z0, (int)P1.Y, z1);
+            int[] x12 = Interpolate((int)P1.Y, (int)P1.X, (int)P2.Y, (int)P2.X);
+            int[] h12 = Interpolate((int)P1.Y, z1, (int)P2.Y, z2);
+
+            int[] x02 = Interpolate((int)P0.Y, (int)P0.X, (int)P2.Y, (int)P2.X);
+            int[] h02 = Interpolate((int)P0.Y, z0, (int)P2.Y, z2);
+
+            x01 = x01.Take(x01.Count() - 1).ToArray();
+            int[] x012 = x01.Concat(x12).ToArray();
+
+
+            h01 = h01.Take(h01.Count() - 1).ToArray();
+            int[] h012 = h01.Concat(h12).ToArray();
+
+            int m = x012.Count() / 2;
+
+            int[] x_left, x_right, h_left, h_right;
+
+            if (x02[m] < x012[m])
+            {
+                x_left = x02;
+                x_right = x012;
+
+                h_left = h02;
+                h_right = h012;
+
+            }
+            else
+            {
+                x_left = x012;
+                x_right = x02;
+
+                h_left = h012;
+                h_right = h02;
+
+            }
+
+            // Отрисовка горизонтальных отрезков
+            for (int y = (int)P0.Y; y <= (int)P2.Y; ++y)
+            {
+                int x_l = x_left[y - (int)P0.Y];
+                int x_r = x_right[y - (int)P0.Y];
+
+                int[] h_segment = Interpolate(x_l, h_left[y - (int)P0.Y], x_r, h_right[y - (int)P0.Y]);
+
+                for (int x = x_l; x <= x_r; ++x)
+                {
+                    double ourZ = h_segment[x - x_l];
+                    pixels.Add(new Tuple<Point3D, bool>(new Point3D(x, y, (float)ourZ), 
+                        (y == (int)P0.Y || y == (int)P2.Y || x == x_l || x == x_r)));
+
+                }
+            }
+        }
+
+        public List<Tuple<Point3D, bool>> rastr(Face f)
+        {
+            List<Tuple<Point3D, bool>> pixels = new List<Tuple<Point3D, bool>>();
+            if (f.ribs.Count() == 4)
+            {
+                DrawShadedTriangle(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, ref pixels);
+                DrawShadedTriangle(f.ribs[1].secondPoint, f.ribs[2].secondPoint, f.ribs[3].firstPoint, ref pixels);
+            }
+            else
+              DrawShadedTriangle(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, ref pixels);
+            return pixels;
+        }
+
+        public void drawShapes_Zbuffer()
+        {
+            List<List<Tuple<double, bool>>> z_buffer = new List<List<Tuple<double, bool>>>();
+            for (int i = 0; i < area.Width; i++)
+            {
+                List<Tuple<double, bool>> row = new List<Tuple<double, bool>>();
+                for (int j = 0; j < area.Height; j++)
+                    row.Add(new Tuple<double, bool>(Double.MaxValue, false));
+                z_buffer.Add(row);
+            }
+
+            foreach (Polyhedron poly in polyhedrons)
+            {
+                List<Point3D> points = new List<Point3D>();
+                foreach (Face f in poly.faces)
+                {
+                    //if (!is_face_visible(f)) continue;
+                    List<Tuple<Point3D, bool>> point = rastr(f);
+                    foreach(Tuple<Point3D, bool> p in point)
+                    {
+                       // PointF pf = p.Item1.GetPointFisometr();
+                        int i = (int)p.Item1.X+150;
+                        int j = (int)p.Item1.Y+150;
+                        if (z_buffer[i][j].Item1 > p.Item1.Z)
+                            z_buffer[i][j] = new Tuple<double, bool>(p.Item1.Z, p.Item2);
+                    }
+                }
+            }
+
+            graphics.Clear(Color.White);
+            area.Invalidate();
+            Pen bPen = new Pen(Color.Black);
+            Pen wPen = new Pen(Color.White);
+            for (int i = 0; i < area.Width; i++)
+                for (int j = 0; j < area.Height; j++)
+                {
+                    if (z_buffer[i][j].Item2)
+                        graphics.DrawRectangle(bPen, i, j, 1,1);
+                    else
+                        graphics.DrawRectangle(wPen, i, j, 1, 1);
+                }
+            area.Invalidate();
         }
 
         public void drawAxes()
@@ -577,6 +850,12 @@ namespace AffineTransformations3D
                 return new Point3D(point2.X + point1.X, point2.Y + point1.Y, point2.Z + point1.Z);
             }
 
+            public override bool Equals(Object obj)
+            {
+                Point3D p = (Point3D)obj;
+                return (X == p.X) && (Y == p.Y) && (Z == p.Z);
+            }
+
             public PointF GetPointFOrtZ()
             {
 
@@ -696,6 +975,19 @@ namespace AffineTransformations3D
             {
                 this.firstPoint = firstPoint;
                 this.secondPoint = secondPoint;
+            }
+
+            public override bool Equals(Object obj)
+            {
+                Rib r = (Rib)obj;
+                return (firstPoint == r.firstPoint && secondPoint == r.secondPoint);
+            }
+
+            public void swap()
+            {
+                Point3D tmp = new Point3D(firstPoint);
+                firstPoint = new Point3D(secondPoint);
+                secondPoint = tmp;
             }
 
         }
