@@ -328,7 +328,7 @@ namespace AffineTransformations3D
                     List<Tuple<Point3D, Color>> point = rastr_fill(f, points_with_normals);
                     foreach (Tuple<Point3D, Color> p in point)
                     {
-                         PointF pf = p.Item1.GetPointFisometr();
+                         PointF pf = p.Item1.GetPointFOrtZ();
                         int i = (int)p.Item1.X + 150;
                         int j = (int)p.Item1.Y + 150;
                         //if (z_buffer[i][j].Item1 > p.Item1.Z)

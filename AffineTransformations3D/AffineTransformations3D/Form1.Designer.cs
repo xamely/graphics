@@ -116,13 +116,13 @@
             this.cut_off_p1y = new System.Windows.Forms.TextBox();
             this.non_faced_checkBox = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.color_button = new System.Windows.Forms.Button();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.checkBox_guro = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
             this.textBox1_light = new System.Windows.Forms.TextBox();
             this.textBox2_light = new System.Windows.Forms.TextBox();
             this.textBox3_light = new System.Windows.Forms.TextBox();
+            this.checkBox_guro = new System.Windows.Forms.CheckBox();
+            this.color_button = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             ((System.ComponentModel.ISupportInitialize)(this.area)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -983,7 +983,7 @@
             this.cut_off_p2z.Name = "cut_off_p2z";
             this.cut_off_p2z.Size = new System.Drawing.Size(53, 22);
             this.cut_off_p2z.TabIndex = 126;
-            this.cut_off_p2z.Text = "100";
+            this.cut_off_p2z.Text = "500";
             // 
             // cut_off_p1z
             // 
@@ -1012,7 +1012,7 @@
             this.cut_off_p2y.Name = "cut_off_p2y";
             this.cut_off_p2y.Size = new System.Drawing.Size(53, 22);
             this.cut_off_p2y.TabIndex = 125;
-            this.cut_off_p2y.Text = "-100";
+            this.cut_off_p2y.Text = "100";
             // 
             // cut_off_p2x
             // 
@@ -1021,7 +1021,7 @@
             this.cut_off_p2x.Name = "cut_off_p2x";
             this.cut_off_p2x.Size = new System.Drawing.Size(53, 22);
             this.cut_off_p2x.TabIndex = 124;
-            this.cut_off_p2x.Text = "100";
+            this.cut_off_p2x.Text = "-100";
             // 
             // cut_off_p1y
             // 
@@ -1058,26 +1058,6 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Guro";
             // 
-            // color_button
-            // 
-            this.color_button.Location = new System.Drawing.Point(29, 32);
-            this.color_button.Name = "color_button";
-            this.color_button.Size = new System.Drawing.Size(75, 23);
-            this.color_button.TabIndex = 0;
-            this.color_button.Text = "Color";
-            this.color_button.UseVisualStyleBackColor = true;
-            this.color_button.Click += new System.EventHandler(this.color_button_Click);
-            // 
-            // checkBox_guro
-            // 
-            this.checkBox_guro.AutoSize = true;
-            this.checkBox_guro.Location = new System.Drawing.Point(136, 34);
-            this.checkBox_guro.Name = "checkBox_guro";
-            this.checkBox_guro.Size = new System.Drawing.Size(110, 21);
-            this.checkBox_guro.TabIndex = 128;
-            this.checkBox_guro.Text = "Enable Guro";
-            this.checkBox_guro.UseVisualStyleBackColor = true;
-            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -1095,7 +1075,7 @@
             this.textBox1_light.Name = "textBox1_light";
             this.textBox1_light.Size = new System.Drawing.Size(53, 22);
             this.textBox1_light.TabIndex = 132;
-            this.textBox1_light.Text = "100";
+            this.textBox1_light.Text = "500";
             // 
             // textBox2_light
             // 
@@ -1114,6 +1094,26 @@
             this.textBox3_light.Size = new System.Drawing.Size(53, 22);
             this.textBox3_light.TabIndex = 130;
             this.textBox3_light.Text = "100";
+            // 
+            // checkBox_guro
+            // 
+            this.checkBox_guro.AutoSize = true;
+            this.checkBox_guro.Location = new System.Drawing.Point(136, 34);
+            this.checkBox_guro.Name = "checkBox_guro";
+            this.checkBox_guro.Size = new System.Drawing.Size(110, 21);
+            this.checkBox_guro.TabIndex = 128;
+            this.checkBox_guro.Text = "Enable Guro";
+            this.checkBox_guro.UseVisualStyleBackColor = true;
+            // 
+            // color_button
+            // 
+            this.color_button.Location = new System.Drawing.Point(29, 32);
+            this.color_button.Name = "color_button";
+            this.color_button.Size = new System.Drawing.Size(75, 23);
+            this.color_button.TabIndex = 0;
+            this.color_button.Text = "Color";
+            this.color_button.UseVisualStyleBackColor = true;
+            this.color_button.Click += new System.EventHandler(this.color_button_Click);
             // 
             // Form1
             // 
