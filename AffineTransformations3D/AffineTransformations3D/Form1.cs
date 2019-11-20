@@ -40,7 +40,7 @@ namespace AffineTransformations3D
             polyhedrons = new List<Polyhedron>();
             graphics = Graphics.FromImage(area.Image);
             graphics.Clear(Color.White);
-            radioButton_isometr.Checked = true;
+            //radioButton_isometr.Checked = true;
             createAxes();
             redraw();
         }
@@ -147,7 +147,6 @@ namespace AffineTransformations3D
             shape.Add(new Rib(vertex2, vertex4));
             shape.Add(new Rib(vertex2, vertex7));
             shape.Add(new Rib(vertex2, vertex8));
-
 
             shape.Add(new Rib(vertex3, vertex8));
             shape.Add(new Rib(vertex3, vertex4));
@@ -329,13 +328,9 @@ namespace AffineTransformations3D
                     List<Tuple<Point3D, Color>> point = rastr_fill(f, points_with_normals);
                     foreach (Tuple<Point3D, Color> p in point)
                     {
-                         PointF pf = p.Item1.GetPointFOrtZ();
-                        int i = (int)p.Item1.X + 150;
-                        int j = (int)p.Item1.Y + 150;
-                        //if (z_buffer[i][j].Item1 > p.Item1.Z)
-                        //    z_buffer[i][j] = new Tuple<double, bool>(p.Item1.Z, p.Item2);
-                        //graphics.DrawRectangle(new Pen(p.Item2), i, j, 1, 1);
+                        PointF pf = p.Item1.GetPointFOrtZ();
                         graphics.DrawRectangle(new Pen(p.Item2), pf.X, pf.Y, 1, 1);
+                        //graphics.DrawRectangle(new Pen(p.Item2), p.Item1.X, p.Item1.Y, 1, 1);
                     }
                 }
             }
@@ -1895,6 +1890,5 @@ namespace AffineTransformations3D
             graphics.Clear(Color.White);
             area.Invalidate();
         }
-
     }
 }
