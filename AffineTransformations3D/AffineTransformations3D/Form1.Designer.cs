@@ -105,6 +105,7 @@
             this.addPointY_text = new System.Windows.Forms.TextBox();
             this.addPointX_text = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.zbuffer_checkBox = new System.Windows.Forms.CheckBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.cut_off_p2z = new System.Windows.Forms.TextBox();
@@ -114,12 +115,20 @@
             this.cut_off_p2x = new System.Windows.Forms.TextBox();
             this.cut_off_p1y = new System.Windows.Forms.TextBox();
             this.non_faced_checkBox = new System.Windows.Forms.CheckBox();
-            this.zbuffer_checkBox = new System.Windows.Forms.CheckBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.color_button = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.checkBox_guro = new System.Windows.Forms.CheckBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBox1_light = new System.Windows.Forms.TextBox();
+            this.textBox2_light = new System.Windows.Forms.TextBox();
+            this.textBox3_light = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.area)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // area
@@ -938,6 +947,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Cut off faces";
             // 
+            // zbuffer_checkBox
+            // 
+            this.zbuffer_checkBox.AutoSize = true;
+            this.zbuffer_checkBox.Location = new System.Drawing.Point(36, 96);
+            this.zbuffer_checkBox.Name = "zbuffer_checkBox";
+            this.zbuffer_checkBox.Size = new System.Drawing.Size(133, 21);
+            this.zbuffer_checkBox.TabIndex = 127;
+            this.zbuffer_checkBox.Text = "Enable Z-buffer ";
+            this.zbuffer_checkBox.UseVisualStyleBackColor = true;
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -1024,21 +1043,84 @@
             this.non_faced_checkBox.Text = "Cut off non-faced faces";
             this.non_faced_checkBox.UseVisualStyleBackColor = true;
             // 
-            // zbuffer_checkBox
+            // groupBox4
             // 
-            this.zbuffer_checkBox.AutoSize = true;
-            this.zbuffer_checkBox.Location = new System.Drawing.Point(36, 96);
-            this.zbuffer_checkBox.Name = "zbuffer_checkBox";
-            this.zbuffer_checkBox.Size = new System.Drawing.Size(133, 21);
-            this.zbuffer_checkBox.TabIndex = 127;
-            this.zbuffer_checkBox.Text = "Enable Z-buffer ";
-            this.zbuffer_checkBox.UseVisualStyleBackColor = true;
+            this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.textBox1_light);
+            this.groupBox4.Controls.Add(this.textBox2_light);
+            this.groupBox4.Controls.Add(this.textBox3_light);
+            this.groupBox4.Controls.Add(this.checkBox_guro);
+            this.groupBox4.Controls.Add(this.color_button);
+            this.groupBox4.Location = new System.Drawing.Point(1051, 362);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(295, 109);
+            this.groupBox4.TabIndex = 119;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Guro";
+            // 
+            // color_button
+            // 
+            this.color_button.Location = new System.Drawing.Point(29, 32);
+            this.color_button.Name = "color_button";
+            this.color_button.Size = new System.Drawing.Size(75, 23);
+            this.color_button.TabIndex = 0;
+            this.color_button.Text = "Color";
+            this.color_button.UseVisualStyleBackColor = true;
+            this.color_button.Click += new System.EventHandler(this.color_button_Click);
+            // 
+            // checkBox_guro
+            // 
+            this.checkBox_guro.AutoSize = true;
+            this.checkBox_guro.Location = new System.Drawing.Point(136, 34);
+            this.checkBox_guro.Name = "checkBox_guro";
+            this.checkBox_guro.Size = new System.Drawing.Size(110, 21);
+            this.checkBox_guro.TabIndex = 128;
+            this.checkBox_guro.Text = "Enable Guro";
+            this.checkBox_guro.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(26, 63);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(78, 17);
+            this.label15.TabIndex = 129;
+            this.label15.Text = "Light point:";
+            // 
+            // textBox1_light
+            // 
+            this.textBox1_light.Cursor = System.Windows.Forms.Cursors.Default;
+            this.textBox1_light.Location = new System.Drawing.Point(228, 60);
+            this.textBox1_light.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBox1_light.Name = "textBox1_light";
+            this.textBox1_light.Size = new System.Drawing.Size(53, 22);
+            this.textBox1_light.TabIndex = 132;
+            this.textBox1_light.Text = "100";
+            // 
+            // textBox2_light
+            // 
+            this.textBox2_light.Location = new System.Drawing.Point(169, 60);
+            this.textBox2_light.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBox2_light.Name = "textBox2_light";
+            this.textBox2_light.Size = new System.Drawing.Size(53, 22);
+            this.textBox2_light.TabIndex = 131;
+            this.textBox2_light.Text = "-100";
+            // 
+            // textBox3_light
+            // 
+            this.textBox3_light.Location = new System.Drawing.Point(110, 60);
+            this.textBox3_light.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBox3_light.Name = "textBox3_light";
+            this.textBox3_light.Size = new System.Drawing.Size(53, 22);
+            this.textBox3_light.TabIndex = 130;
+            this.textBox3_light.Text = "100";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1358, 692);
+            this.ClientSize = new System.Drawing.Size(1364, 692);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.axes_checkBox);
@@ -1106,6 +1188,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1200,6 +1284,14 @@
         private System.Windows.Forms.TextBox cut_off_p1y;
         private System.Windows.Forms.CheckBox non_faced_checkBox;
         private System.Windows.Forms.CheckBox zbuffer_checkBox;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button color_button;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.CheckBox checkBox_guro;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBox1_light;
+        private System.Windows.Forms.TextBox textBox2_light;
+        private System.Windows.Forms.TextBox textBox3_light;
     }
 }
 

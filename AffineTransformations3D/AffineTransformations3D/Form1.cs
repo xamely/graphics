@@ -22,6 +22,8 @@ namespace AffineTransformations3D
         Rib lineRotate;
         Rib axisRotation;
         List<Polyhedron> polyhedrons;
+        Color CurrentColor = Color.Black;
+        Point3D light;
         
         public static float ribLength = 100;
         public Form1()
@@ -292,7 +294,219 @@ namespace AffineTransformations3D
                 }
             }
             if (zbuffer_checkBox.Checked) drawShapes_Zbuffer();
+            if (checkBox_guro.Checked) drawGuro();
             area.Invalidate();
+        }
+
+        public void drawGuro()
+        {
+            int x, y, z;
+            Int32.TryParse(textBox3_light.Text, out x);
+            Int32.TryParse(textBox2_light.Text, out y);
+            Int32.TryParse(textBox1_light.Text, out z);
+            light = new Point3D(x, y, z);
+
+            //List<List<Tuple<double, bool>>> z_buffer = new List<List<Tuple<double, bool>>>();
+            //for (int i = 0; i < area.Width; i++)
+            //{
+            //    List<Tuple<double, bool>> row = new List<Tuple<double, bool>>();
+            //    for (int j = 0; j < area.Height; j++)
+            //        row.Add(new Tuple<double, bool>(Double.MaxValue, false));
+            //    z_buffer.Add(row);
+            //}
+
+            graphics.Clear(Color.White);
+            graphics.DrawLine(new Pen(Color.Black), new Point3D(0,0,0).GetPointFisometr(), light.GetPointFisometr());
+            foreach (Polyhedron poly in polyhedrons)
+            {
+                List<Point3D> points = new List<Point3D>();
+                Dictionary<Point3D, Point3D> points_with_normals = find_normals(poly);
+
+                foreach (Face f in poly.faces)
+                {
+                    if (!is_face_visible(f)) continue;
+                    List<Tuple<Point3D, Color>> point = rastr_fill(f, points_with_normals);
+                    foreach (Tuple<Point3D, Color> p in point)
+                    {
+                         PointF pf = p.Item1.GetPointFisometr();
+                        int i = (int)p.Item1.X + 150;
+                        int j = (int)p.Item1.Y + 150;
+                        //if (z_buffer[i][j].Item1 > p.Item1.Z)
+                        //    z_buffer[i][j] = new Tuple<double, bool>(p.Item1.Z, p.Item2);
+                        //graphics.DrawRectangle(new Pen(p.Item2), i, j, 1, 1);
+                        graphics.DrawRectangle(new Pen(p.Item2), pf.X, pf.Y, 1, 1);
+                    }
+                }
+            }
+            
+            area.Invalidate();
+        }
+
+        Dictionary<Point3D, Point3D> find_normals(Polyhedron poly)
+        {
+            Dictionary<Point3D, Point3D> points_with_normals = new Dictionary<Point3D, Point3D>();
+            Dictionary<Face, Point3D> faces_with_normals = new Dictionary<Face, Point3D>();
+            foreach (Face face in poly.faces)
+            {
+                Point3D point1 = face.ribs[0].firstPoint - face.ribs[0].secondPoint;
+                Point3D point2 = face.ribs[1].secondPoint - face.ribs[1].firstPoint;
+                Point3D normal_point = new Point3D(point1.Y * point2.Z - point1.Z * point2.Y, point1.Z * point2.X - point1.X * point2.Z, point1.X * point2.Y - point1.Y * point2.X);
+                
+                Point3D first_vector = face.ribs[0].secondPoint - mass_center(poly);
+                double angle = scalar_mult(first_vector, normal_point);
+
+                if (angle < Math.PI / 2)
+                {
+                    normal_point.X = -normal_point.X;
+                    normal_point.Y = -normal_point.Y;
+                    normal_point.Z = -normal_point.Z;
+                }
+
+                float length = (float)Math.Sqrt(normal_point.X * normal_point.X + normal_point.Y * normal_point.Y + normal_point.Z * normal_point.Z);
+                normal_point.X /= length;
+                normal_point.Y /= length;
+                normal_point.Z /= length;
+                faces_with_normals.Add(face, normal_point);
+            }
+
+            foreach (Face face in poly.faces)
+            {
+                foreach (Rib rib in face.ribs)
+                {
+                    Point3D normal = new Point3D(0, 0, 0);
+                    int count = 0;
+                    foreach (Face face2 in poly.faces)
+                        if (face2.is_point_in_face(rib.firstPoint))
+                        {
+                            normal = normal + faces_with_normals[face2];
+                            count++;
+                        }
+                    if (!points_with_normals.ContainsKey(rib.firstPoint))
+                        points_with_normals.Add(rib.firstPoint, normal / count);
+
+                    normal = new Point3D(0, 0, 0);
+                    count = 0;
+                    foreach (Face face2 in poly.faces)
+                        if (face2.is_point_in_face(rib.secondPoint))
+                        {
+                            normal = normal + faces_with_normals[face2];
+                            count++;
+                        }
+                    if (!points_with_normals.ContainsKey(rib.secondPoint))
+                        points_with_normals.Add(rib.secondPoint, normal / count);
+                }
+            }
+            
+            return points_with_normals;
+        }
+
+        public List<Tuple<Point3D, Color>> rastr_fill(Face f, Dictionary<Point3D, Point3D> normals)
+        {
+            List<Tuple<Point3D, Color>> pixels = new List<Tuple<Point3D, Color>>();
+            if (f.ribs.Count() == 4)
+            {
+                DrawShadedTriangle_fill(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, normals, ref pixels);
+                DrawShadedTriangle_fill(f.ribs[1].secondPoint, f.ribs[2].secondPoint, f.ribs[3].firstPoint, normals, ref pixels);
+            }
+            else
+                DrawShadedTriangle_fill(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, normals, ref pixels);
+            return pixels;
+        }
+
+        private void DrawShadedTriangle_fill(Point3D p0, Point3D p1, Point3D p2, Dictionary<Point3D, Point3D> normals, ref List<Tuple<Point3D, Color>> pixels)
+        {
+            Point3D P0 = p0;
+            Point3D P1 = p1;
+            Point3D P2 = p2;
+            // Сортировка точек так, что y0 <= y1 <= y2
+            if (P1.Y < P0.Y)
+            { Swap(ref P1, ref P0); }
+            if (P2.Y < P0.Y)
+            { Swap(ref P2, ref P0); }
+            if (P2.Y < P1.Y)
+            { Swap(ref P2, ref P1); }
+
+            int z0 = (int)P0.Z;
+            int z1 = (int)P1.Z;
+            int z2 = (int)P2.Z;
+            // Вычисление координат x и значений h для рёбер треугольника
+            int[] x01 = Interpolate((int)P0.Y, (int)P0.X, (int)P1.Y, (int)P1.X);
+            int[] h01 = Interpolate((int)P0.Y, z0, (int)P1.Y, z1);
+            int[] x12 = Interpolate((int)P1.Y, (int)P1.X, (int)P2.Y, (int)P2.X);
+            int[] h12 = Interpolate((int)P1.Y, z1, (int)P2.Y, z2);
+            int[] x02 = Interpolate((int)P0.Y, (int)P0.X, (int)P2.Y, (int)P2.X);
+            int[] h02 = Interpolate((int)P0.Y, z0, (int)P2.Y, z2);
+
+            x01 = x01.Take(x01.Count() - 1).ToArray();
+            int[] x012 = x01.Concat(x12).ToArray();
+            h01 = h01.Take(h01.Count() - 1).ToArray();
+            int[] h012 = h01.Concat(h12).ToArray();
+
+            int m = x012.Count() / 2;
+
+            int[] x_left, x_right, h_left, h_right;
+
+            if (x02[m] < x012[m])
+            {
+                x_left = x02;
+                x_right = x012;
+
+                h_left = h02;
+                h_right = h012;
+
+            }
+            else
+            {
+                x_left = x012;
+                x_right = x02;
+
+                h_left = h012;
+                h_right = h02;
+
+            }
+
+            double i1 = Math.Max(0, Math.Cos(scalar_mult(light, normals[P0])));
+            double i2 = Math.Max(0, Math.Cos(scalar_mult(light, normals[P1])));
+            double i3 = Math.Max(0, Math.Cos(scalar_mult(light, normals[P2])));
+
+            //double i1 = Math.Abs(Math.Cos(scalar_mult(light, normals[P0])));
+            //double i2 = Math.Abs(Math.Cos(scalar_mult(light, normals[P1])));
+            //double i3 = Math.Abs(Math.Cos(scalar_mult(light, normals[P2])));
+
+            // Отрисовка горизонтальных отрезков
+            for (int y = (int)P0.Y; y <= (int)P2.Y; ++y)
+            {
+                int x_l = x_left[y - (int)P0.Y];
+                int x_r = x_right[y - (int)P0.Y];
+
+                int[] h_segment = Interpolate(x_l, h_left[y - (int)P0.Y], x_r, h_right[y - (int)P0.Y]);
+
+                double ia = i1 * (y - P1.Y) / (P0.Y - P1.Y) + i2 * (P0.Y - y) / (P0.Y - P1.Y);
+                double ib = i1 * (y - P2.Y) / (P0.Y - P2.Y) + i2 * (P0.Y - y) / (P0.Y - P2.Y);
+
+                double R = (float)((CurrentColor.ToArgb() & 0x00FF0000) >> 16) * ia;
+                double G = (float)((CurrentColor.ToArgb() & 0x0000FF00) >> 8) * ia;
+                double B = (float)(CurrentColor.ToArgb() & 0x000000FF) * ia;
+                UInt32 newPixel = 0xFF000000 | ((UInt32)R << 16) | ((UInt32)G << 8) | ((UInt32)B);
+                pixels.Add(new Tuple<Point3D, Color>(new Point3D(x_l, y, (float)h_segment[0]),
+                       Color.FromArgb((int)newPixel)));
+
+         
+
+                for (int x = x_l + 1; x < x_r; ++x)
+                {
+                    double ip = ia * (x_r - x) / (x_r - x_l) + ib * (x - x_l) / (x_r - x_l);
+                    double ourZ = h_segment[x - x_l];
+
+                    R = (float)((CurrentColor.ToArgb() & 0x00FF0000) >> 16) * ip;
+                    G = (float)((CurrentColor.ToArgb() & 0x0000FF00) >> 8) * ip;
+                    B = (float)(CurrentColor.ToArgb() & 0x000000FF) * ip;
+                    newPixel = 0xFF000000 | ((UInt32)R << 16) | ((UInt32)G << 8) | ((UInt32)B);
+
+                    pixels.Add(new Tuple<Point3D, Color>(new Point3D(x, y, (float)ourZ),
+                        Color.FromArgb((int)newPixel)));
+                }
+            }
         }
 
         public void drawShape_non_faces()
@@ -372,27 +586,6 @@ namespace AffineTransformations3D
                             * Math.Sqrt(second_vector.X * second_vector.X + second_vector.Y * second_vector.Y + second_vector.Z * second_vector.Z)));
         }
 
-        //public List<int> interpolate(int i0, int d0, int i1, int d1)
-        //{
-        //    if (i0 == i1) {
-        //        return new List<int>() { d0 };
-        //    }
-        //    List<int> values = new List<int>();
-        //    double a = (d1 - d0) / (i1 - i0);
-        //    double d = d0;
-        //    if (i0 > i1)
-        //    {
-        //        int c = i0;
-        //        i0 = i1;
-        //        i1 = c;
-        //    }
-        //    for (int i = i0; i<=i1; i++) {
-        //        values.Add((int)d);
-        //        d = d + a;
-        //    }
-        //    return values;
-        //}
-
         public int myCompare(Point3D p1, Point3D p2)
         {
             if (p1.Y < p2.Y)
@@ -401,85 +594,6 @@ namespace AffineTransformations3D
                 return 1;
             return 0;
         }
-
-
-        //public List<Tuple<PointF, double>> GetLine(Point3D p1, Point3D p2)
-        //{
-        //    List<Tuple<PointF, double>> points = new List<Tuple<PointF, double>>();
-        //    double z1 = p1.Z;
-        //    double z2 = p2.Z;
-        //    PointF p1f = p1.GetPointFisometr();
-        //    PointF p2f = p2.GetPointFisometr();
-        //    if (Math.Abs(p2f.X - p1f.X) > Math.Abs(p2f.Y - p1f.Y)) {
-        //        if (p1f.X > p2f.X)
-        //            Swap(ref p1f, ref p2f);
-        //        List<double> ys = interpolate(p1f.X, p1f.Y, p2f.X, p2f.Y);
-        //        double j = 0;
-        //        double step = 1.0 / ys.Count;
-        //        for (double i = p1f.X; i < p2f.X; i += step)
-        //        {
-        //            points.Add(new Tuple<PointF, double>((new PointF((float)i, (float)ys[(int)j])), z1));
-        //            j+=step;
-        //            z1 += step;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (p1f.Y > p2f.Y) {
-        //            Swap(ref p1f, ref p2f);
-        //        }
-        //        List<double> xs = interpolate(p1f.Y, p1f.X, p2f.Y, p2f.X);
-        //        double j = 0;
-        //        double step = 1.0 / xs.Count;
-        //        for (double i = p1f.Y; i < p2f.Y; i += step)
-        //        {
-        //            points.Add(new Tuple<PointF, double>(new PointF((float)xs[(int)j], (float)i), z1));
-        //            j += step; ;
-        //            z1 += step;
-        //        }
-        //    }
-        //    return points;
-        //}
-
-        //public List<Tuple<PointF, double>> GetLine(Tuple<PointF, double> p1, Tuple<PointF, double> p2)
-        //{
-        //    List<Tuple<PointF, double>> points = new List<Tuple<PointF, double>>();
-        //    double z1 = p1.Item2;
-        //    double z2 = p2.Item2;
-        //    PointF p1f = p1.Item1;
-        //    PointF p2f = p2.Item1;
-        //    if (Math.Abs(p2f.X - p1f.X) > Math.Abs(p2f.Y - p1f.Y))
-        //    {
-        //        if (p1f.X > p2f.X)
-        //            Swap(ref p1f, ref p2f);
-        //        List<double> ys = interpolate(p1f.X, p1f.Y, p2f.X, p2f.Y);
-        //        double j = 0;
-        //        double step = 1.0 / ys.Count;
-        //        for (double i = p1f.X; i < p2f.X; i += step)
-        //        {
-        //            points.Add(new Tuple<PointF, double>((new PointF((float)i, (float)ys[(int)j])), z1));
-        //            j+=step;
-        //            z1 += step;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (p1f.Y > p2f.Y)
-        //        {
-        //            Swap(ref p1f, ref p2f);
-        //        }
-        //        List<double> xs = interpolate(p1f.Y, p1f.X, p2f.Y, p2f.X);
-        //        double j = 0;
-        //        double step = 1.0 / xs.Count;
-        //        for (double i = p1f.Y; i < p2f.Y; i += step)
-        //        {
-        //            points.Add(new Tuple<PointF, double>(new PointF((float)xs[(int)j], (float)i), z1));
-        //            j+=step;
-        //            z1 += step;
-        //        }
-        //    }
-        //    return points;
-        //}
 
         public static void Swap<T>(ref T lhs, ref T rhs)
         {
@@ -733,6 +847,27 @@ namespace AffineTransformations3D
             return new Point3D(x / size, y / size, z / size);
         }
 
+        Point3D mass_center(Polyhedron poly)
+        {
+            HashSet<Point3D> points = new HashSet<Point3D>();
+
+            foreach (Face face in poly.faces)
+                foreach (Rib rib in face.ribs)
+                {
+                    points.Add(rib.firstPoint);
+                    points.Add(rib.secondPoint);
+                }
+            
+            float x = 0, y = 0, z = 0;
+            foreach (Point3D point in points)
+            {
+                x += point.X;
+                y += point.Y;
+                z += point.Z;
+            }
+            return new Point3D(x / points.Count, y / points.Count, z / points.Count);
+        }
+
         public void multiplication(Point3D point, float[,] mat, Point3D new_point)
         {
             float x = point.X;
@@ -848,6 +983,11 @@ namespace AffineTransformations3D
             public static Point3D operator +(Point3D point1, Point3D point2)
             {
                 return new Point3D(point2.X + point1.X, point2.Y + point1.Y, point2.Z + point1.Z);
+            }
+
+            public static Point3D operator /(Point3D point, int count)
+            {
+                return new Point3D(point.X / count, point.Y / count, point.Z / count);
             }
 
             public override bool Equals(Object obj)
@@ -1000,6 +1140,32 @@ namespace AffineTransformations3D
                 this.ribs = new List<Rib>(ribs);
             }
 
+            public bool is_point_in_face(Point3D point)
+            {
+                foreach (Rib rib in ribs)
+                {
+                    if (rib.firstPoint == point || rib.secondPoint == point)
+                        return true;
+                }
+                return false;
+            }
+
+            public override bool Equals(Object obj)
+            {
+                Face face = (Face)obj;
+                HashSet<Point3D> this_face_points = new HashSet<Point3D>();
+                foreach (Rib rib in ribs)
+                {
+                    this_face_points.Add(rib.firstPoint);
+                    this_face_points.Add(rib.secondPoint);
+                }
+
+                foreach (Rib rib in face.ribs)
+                    if (!(this_face_points.Contains(rib.firstPoint) || this_face_points.Contains(rib.secondPoint)))
+                        return false;
+                return true;
+                    
+            }
         }
 
         public class Polyhedron
@@ -1616,6 +1782,13 @@ namespace AffineTransformations3D
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             redraw();
+        }
+
+        private void color_button_Click(object sender, EventArgs e)
+        {
+            DialogResult D = colorDialog1.ShowDialog();
+            if (D == System.Windows.Forms.DialogResult.OK)
+                CurrentColor = colorDialog1.Color;
         }
 
         private void clear_button_Click(object sender, EventArgs e)
