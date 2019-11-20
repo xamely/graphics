@@ -295,6 +295,7 @@ namespace AffineTransformations3D
             }
             if (zbuffer_checkBox.Checked) drawShapes_Zbuffer();
             if (checkBox_guro.Checked) drawGuro();
+            if (radio_texture.Checked) drawShapes_Textured();
             area.Invalidate();
         }
 
@@ -772,6 +773,91 @@ namespace AffineTransformations3D
                 }
             area.Invalidate();
         }
+
+        public void drawShapes_Textured()
+        {
+            List<List<Color>> colorBuffer = new List<List<Color>>();
+            for (int i = 0; i < area.Width; i++)
+            {
+                List<Color> row = new List<Color>();
+                for (int j = 0; j < area.Height; j++)
+                    row.Add(Color.White);
+                colorBuffer.Add(row);
+            }
+
+
+            foreach (Polyhedron poly in polyhedrons)
+            {
+                List<Point3D> points = new List<Point3D>();
+                foreach (Face f in poly.faces)
+                {
+                    if (!is_face_visible(f)) continue;
+                    float maxx = f.ribs[0].firstPoint.X;
+                    float minx = f.ribs[0].firstPoint.X;
+                    float maxy = f.ribs[0].firstPoint.Y;
+                    float miny = f.ribs[0].firstPoint.Y;
+                    foreach (Rib r in f.ribs)
+                    {
+                        if (maxx < r.firstPoint.X)
+                            maxx = r.firstPoint.X;
+                        if (maxx < r.secondPoint.X)
+                            maxx = r.secondPoint.X;
+
+                        if (maxy < r.firstPoint.Y)
+                            maxy = r.firstPoint.Y;
+                        if (maxy < r.secondPoint.Y)
+                            maxy = r.secondPoint.Y;
+
+                        if (minx > r.firstPoint.X)
+                            minx = r.firstPoint.X;
+                        if (minx > r.secondPoint.X)
+                            minx = r.secondPoint.X;
+
+                        if (miny > r.firstPoint.Y)
+                            miny = r.firstPoint.Y;
+                        if (miny > r.secondPoint.Y)
+                            miny = r.secondPoint.Y;
+                    }
+
+                    double Xdiff = maxx - minx+1;
+                    double Ydiff= maxy - miny+1;
+
+                    int picSizeX = (int)Math.Round(maxx - minx) + 1;//picture size
+                    int picSizeY = (int)Math.Round(maxy - miny) + 1;
+                    double size_xx = minx ;
+                    double size_yy = -miny ;
+
+                    Bitmap img = new Bitmap(Image.FromFile(openFileDialog1.FileName), picSizeX, picSizeY);
+
+
+                  
+                    List<Point3D> point = rastr(f).Select(x => x.Item1).ToList();
+                    
+                    foreach (Point3D p in point)
+                    {
+                        int i = (int)p.X ;
+                        int j = (int)p.Y;
+                        if (i - size_xx >= Xdiff || i <= size_xx)
+                            continue;
+                        colorBuffer[i][j] = img.GetPixel((int)((i - size_xx) / Xdiff * img.Width), img.Height - 1 - (int)((j + size_yy) / Ydiff * img.Height));
+
+                      //  colorBuffer[i][j] = img.GetPixel(i % size_x, j % size_y);
+                    }
+                }
+            }
+
+            graphics.Clear(Color.White);
+            area.Invalidate();
+            Pen bPen = new Pen(Color.Black);
+            Pen wPen = new Pen(Color.White);
+            for (int i = 0; i < area.Width; i++)
+                for (int j = 0; j < area.Height; j++)
+                {
+                        graphics.DrawRectangle(new Pen(colorBuffer[i][j]), i, j, 1, 1);
+                }
+            area.Invalidate();
+        }
+
 
         public void drawAxes()
         {
@@ -1789,6 +1875,14 @@ namespace AffineTransformations3D
             DialogResult D = colorDialog1.ShowDialog();
             if (D == System.Windows.Forms.DialogResult.OK)
                 CurrentColor = colorDialog1.Color;
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                
+            }
         }
 
         private void clear_button_Click(object sender, EventArgs e)
