@@ -772,8 +772,7 @@ namespace AffineTransformations3D
                     row.Add(Color.White);
                 colorBuffer.Add(row);
             }
-
-
+            
             foreach (Polyhedron poly in polyhedrons)
             {
                 List<Point3D> points = new List<Point3D>();
@@ -807,8 +806,8 @@ namespace AffineTransformations3D
                             miny = r.secondPoint.Y;
                     }
 
-                    double Xdiff = maxx - minx+1;
-                    double Ydiff= maxy - miny+1;
+                    double Xdiff = maxx - minx;
+                    double Ydiff= maxy - miny;
 
                     int picSizeX = (int)Math.Round(maxx - minx) + 1;//picture size
                     int picSizeY = (int)Math.Round(maxy - miny) + 1;
@@ -816,20 +815,15 @@ namespace AffineTransformations3D
                     double size_yy = -miny ;
 
                     Bitmap img = new Bitmap(Image.FromFile(openFileDialog1.FileName));
-
-
-                  
                     List<Point3D> point = rastr(f).Select(x => x.Item1).ToList();
                     
                     foreach (Point3D p in point)
                     {
-                        int i = (int)p.X ;
+                        int i = (int)p.X;
                         int j = (int)p.Y;
-                        if (i - size_xx >= Xdiff || i <= size_xx)
+                        if (i - size_xx >= Xdiff || i <= size_xx || i >= area.Width || i < 0 || j >= area.Height || j < 0)
                             continue;
-                        colorBuffer[i][j] = img.GetPixel((int)((i - size_xx) / Xdiff * img.Width)-1, img.Height - 2 - (int)((j + size_yy) / Ydiff * img.Height));
-
-                      //  colorBuffer[i][j] = img.GetPixel(i % size_x, j % size_y);
+                        colorBuffer[i][j ] = img.GetPixel((int)((i - size_xx) / Xdiff * img.Width), (int)(img.Height  - 1  - (int)((j + size_yy) )/ Ydiff * img.Height));
                     }
                 }
             }
