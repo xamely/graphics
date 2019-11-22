@@ -316,16 +316,17 @@ namespace AffineTransformations3D
             //}
 
             graphics.Clear(Color.White);
-            graphics.DrawLine(new Pen(Color.Black), new Point3D(0,0,0).GetPointFisometr(), light.GetPointFisometr());
+            graphics.DrawLine(new Pen(Color.Black), new Point3D(0,0,0).GetPointFOrtZ(), light.GetPointFOrtZ());
             foreach (Polyhedron poly in polyhedrons)
             {
+                Dictionary<Point3D, double> point_intens = new Dictionary<Point3D, double>();
                 List<Point3D> points = new List<Point3D>();
-                Dictionary<Point3D, Point3D> points_with_normals = find_normals(poly);
+                Dictionary<Point3D, Point3D> points_with_normals = find_normals(poly, ref point_intens);
 
                 foreach (Face f in poly.faces)
                 {
                     if (!is_face_visible(f)) continue;
-                    List<Tuple<Point3D, Color>> point = rastr_fill(f, points_with_normals);
+                    List<Tuple<Point3D, Color>> point = rastr_fill(f, points_with_normals, ref point_intens);
                     foreach (Tuple<Point3D, Color> p in point)
                     {
                         PointF pf = p.Item1.GetPointFOrtZ();
@@ -338,7 +339,7 @@ namespace AffineTransformations3D
             area.Invalidate();
         }
 
-        Dictionary<Point3D, Point3D> find_normals(Polyhedron poly)
+        Dictionary<Point3D, Point3D> find_normals(Polyhedron poly, ref Dictionary<Point3D, double> point_intens)
         {
             Dictionary<Point3D, Point3D> points_with_normals = new Dictionary<Point3D, Point3D>();
             Dictionary<Face, Point3D> faces_with_normals = new Dictionary<Face, Point3D>();
@@ -393,27 +394,37 @@ namespace AffineTransformations3D
                 }
             }
             
+            foreach (KeyValuePair<Point3D, Point3D> point in points_with_normals)
+            {
+                point_intens.Add(point.Key, Math.Max(0, Math.Cos(scalar_mult(light, point.Value))));
+
+                Point3D p1 = point.Key;
+                Point3D p2 = point.Value;
+                Console.WriteLine(p1.X.ToString() + ' ' + p1.Y.ToString() + ' ' + p1.Z.ToString() + "; " +
+                    p2.X.ToString() + ' ' + p2.Y.ToString() + ' ' + p2.Z.ToString());
+            }
+            Console.WriteLine('\n');
             return points_with_normals;
         }
 
-        public List<Tuple<Point3D, Color>> rastr_fill(Face f, Dictionary<Point3D, Point3D> normals)
+        public List<Tuple<Point3D, Color>> rastr_fill(Face f, Dictionary<Point3D, Point3D> normals, ref Dictionary<Point3D, double> point_intens)
         {
             List<Tuple<Point3D, Color>> pixels = new List<Tuple<Point3D, Color>>();
             if (f.ribs.Count() == 4)
             {
-                DrawShadedTriangle_fill(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, normals, ref pixels);
-                DrawShadedTriangle_fill(f.ribs[1].secondPoint, f.ribs[2].secondPoint, f.ribs[3].firstPoint, normals, ref pixels);
+                DrawShadedTriangle_fill(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, normals, ref pixels, ref point_intens);
+                DrawShadedTriangle_fill(f.ribs[1].secondPoint, f.ribs[2].secondPoint, f.ribs[3].firstPoint, normals, ref pixels, ref point_intens);
             }
             else
-                DrawShadedTriangle_fill(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, normals, ref pixels);
+                DrawShadedTriangle_fill(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, normals, ref pixels, ref point_intens);
             return pixels;
         }
 
-        private void DrawShadedTriangle_fill(Point3D p0, Point3D p1, Point3D p2, Dictionary<Point3D, Point3D> normals, ref List<Tuple<Point3D, Color>> pixels)
+        private void DrawShadedTriangle_fill(Point3D p0, Point3D p1, Point3D p2, Dictionary<Point3D, Point3D> normals, ref List<Tuple<Point3D, Color>> pixels, ref Dictionary<Point3D, double> point_intens)
         {
-            Point3D P0 = p0;
-            Point3D P1 = p1;
-            Point3D P2 = p2;
+            Point3D P0 = new Point3D(p0);
+            Point3D P1 = new Point3D(p1);
+            Point3D P2 = new Point3D(p2);
             // Сортировка точек так, что y0 <= y1 <= y2
             if (P1.Y < P0.Y)
             { Swap(ref P1, ref P0); }
@@ -461,25 +472,31 @@ namespace AffineTransformations3D
 
             }
 
-            double i1 = Math.Max(0, Math.Cos(scalar_mult(light, normals[P0])));
-            double i2 = Math.Max(0, Math.Cos(scalar_mult(light, normals[P1])));
-            double i3 = Math.Max(0, Math.Cos(scalar_mult(light, normals[P2])));
+            double i1 = point_intens[P0];
+            double i2 = point_intens[P1];
+            double i3 = point_intens[P2];
 
             //double i1 = Math.Abs(Math.Cos(scalar_mult(light, normals[P0])));
             //double i2 = Math.Abs(Math.Cos(scalar_mult(light, normals[P1])));
             //double i3 = Math.Abs(Math.Cos(scalar_mult(light, normals[P2])));
-
+            
             // Отрисовка горизонтальных отрезков
             for (int y = (int)P0.Y; y <= (int)P2.Y; ++y)
             {
+                bool flag = false;
                 int x_l = x_left[y - (int)P0.Y];
                 int x_r = x_right[y - (int)P0.Y];
 
                 int[] h_segment = Interpolate(x_l, h_left[y - (int)P0.Y], x_r, h_right[y - (int)P0.Y]);
 
-                double ia = i1 * (y - P1.Y) / (P0.Y - P1.Y) + i2 * (P0.Y - y) / (P0.Y - P1.Y);
-                double ib = i1 * (y - P2.Y) / (P0.Y - P2.Y) + i2 * (P0.Y - y) / (P0.Y - P2.Y);
-
+                double ia = 0;
+               
+                    ia = i1 * (y - P1.Y) / (P0.Y - P1.Y) + i2 * (P0.Y - y) / (P0.Y - P1.Y);
+              
+                double ib = 0;
+              
+                    ib = i1 * (y - P2.Y) / (P0.Y - P2.Y) + i2 * (P0.Y - y) / (P0.Y - P2.Y);
+               
                 double R = (float)((CurrentColor.ToArgb() & 0x00FF0000) >> 16) * ia;
                 double G = (float)((CurrentColor.ToArgb() & 0x0000FF00) >> 8) * ia;
                 double B = (float)(CurrentColor.ToArgb() & 0x000000FF) * ia;
@@ -487,11 +504,17 @@ namespace AffineTransformations3D
                 pixels.Add(new Tuple<Point3D, Color>(new Point3D(x_l, y, (float)h_segment[0]),
                        Color.FromArgb((int)newPixel)));
 
-         
 
-                for (int x = x_l + 1; x < x_r; ++x)
+                
+                for (int x = x_l + 1; x <= x_r; ++x)
                 {
-                    double ip = ia * (x_r - x) / (x_r - x_l) + ib * (x - x_l) / (x_r - x_l);
+                    double ip = 0;
+                    if (!flag)
+                    {
+                        ip = ia * (x_r - x) / (x_r - x_l) + ib * (x - x_l) / (x_r - x_l);
+                        if (ip == 0)
+                            flag = true;
+                    }
                     double ourZ = h_segment[x - x_l];
 
                     R = (float)((CurrentColor.ToArgb() & 0x00FF0000) >> 16) * ip;
@@ -822,7 +845,7 @@ namespace AffineTransformations3D
                     double size_xx = minx ;
                     double size_yy = -miny ;
 
-                    Bitmap img = new Bitmap(Image.FromFile(openFileDialog1.FileName), picSizeX, picSizeY);
+                    Bitmap img = new Bitmap(Image.FromFile(openFileDialog1.FileName));
 
 
                   
@@ -834,7 +857,7 @@ namespace AffineTransformations3D
                         int j = (int)p.Y;
                         if (i - size_xx >= Xdiff || i <= size_xx)
                             continue;
-                        colorBuffer[i][j] = img.GetPixel((int)((i - size_xx) / Xdiff * img.Width), img.Height - 1 - (int)((j + size_yy) / Ydiff * img.Height));
+                        colorBuffer[i][j] = img.GetPixel((int)((i - size_xx) / Xdiff * img.Width)-1, img.Height - 2 - (int)((j + size_yy) / Ydiff * img.Height));
 
                       //  colorBuffer[i][j] = img.GetPixel(i % size_x, j % size_y);
                     }
@@ -1054,6 +1077,11 @@ namespace AffineTransformations3D
             public Point3D(float X, float Y, float Z, float C)
             {
                 this.X = X; this.Y = Y; this.Z = Z; this.C = C;
+            }
+
+            public override int GetHashCode()
+            {
+                return (int)(X+Y+Z+C);
             }
 
             public static Point3D operator -(Point3D point1, Point3D point2)
