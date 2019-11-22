@@ -306,36 +306,30 @@ namespace AffineTransformations3D
             Int32.TryParse(textBox1_light.Text, out z);
             light = new Point3D(x, y, z);
 
-            //List<List<Tuple<double, bool>>> z_buffer = new List<List<Tuple<double, bool>>>();
-            //for (int i = 0; i < area.Width; i++)
-            //{
-            //    List<Tuple<double, bool>> row = new List<Tuple<double, bool>>();
-            //    for (int j = 0; j < area.Height; j++)
-            //        row.Add(new Tuple<double, bool>(Double.MaxValue, false));
-            //    z_buffer.Add(row);
-            //}
-
             graphics.Clear(Color.White);
-            graphics.DrawLine(new Pen(Color.Black), new Point3D(0,0,0).GetPointFOrtZ(), light.GetPointFOrtZ());
+         //   graphics.DrawLine(new Pen(Color.Black), new Point3D(0,0,0).GetPointFOrtZ(), light.GetPointFOrtZ());
+            TurnTurnDrawGuro();
             foreach (Polyhedron poly in polyhedrons)
             {
                 Dictionary<Point3D, double> point_intens = new Dictionary<Point3D, double>();
                 List<Point3D> points = new List<Point3D>();
                 Dictionary<Point3D, Point3D> points_with_normals = find_normals(poly, ref point_intens);
-
+                
                 foreach (Face f in poly.faces)
                 {
+
                     if (!is_face_visible(f)) continue;
                     List<Tuple<Point3D, Color>> point = rastr_fill(f, points_with_normals, ref point_intens);
+                    
                     foreach (Tuple<Point3D, Color> p in point)
                     {
                         PointF pf = p.Item1.GetPointFOrtZ();
                         graphics.DrawRectangle(new Pen(p.Item2), pf.X, pf.Y, 1, 1);
-                        //graphics.DrawRectangle(new Pen(p.Item2), p.Item1.X, p.Item1.Y, 1, 1);
                     }
                 }
             }
             
+
             area.Invalidate();
         }
 
@@ -412,122 +406,98 @@ namespace AffineTransformations3D
             List<Tuple<Point3D, Color>> pixels = new List<Tuple<Point3D, Color>>();
             if (f.ribs.Count() == 4)
             {
-                DrawShadedTriangle_fill(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, normals, ref pixels, ref point_intens);
-                DrawShadedTriangle_fill(f.ribs[1].secondPoint, f.ribs[2].secondPoint, f.ribs[3].firstPoint, normals, ref pixels, ref point_intens);
+                DrawTriangle_fill(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, point_intens, ref pixels);
+                DrawTriangle_fill(f.ribs[1].secondPoint, f.ribs[2].secondPoint, f.ribs[3].firstPoint, point_intens, ref pixels);
             }
             else
-                DrawShadedTriangle_fill(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, normals, ref pixels, ref point_intens);
+                DrawTriangle_fill(f.ribs[0].firstPoint, f.ribs[0].secondPoint, f.ribs[1].secondPoint, point_intens, ref pixels);
             return pixels;
         }
 
-        private void DrawShadedTriangle_fill(Point3D p0, Point3D p1, Point3D p2, Dictionary<Point3D, Point3D> normals, ref List<Tuple<Point3D, Color>> pixels, ref Dictionary<Point3D, double> point_intens)
+        void ProcessScanLine(int y, Point3D pa, Point3D pb, Point3D pc, Point3D pd, Dictionary<Point3D, double> point_intens, ref List<Tuple<Point3D, Color>> pixels)
         {
-            Point3D P0 = new Point3D(p0);
-            Point3D P1 = new Point3D(p1);
-            Point3D P2 = new Point3D(p2);
-            // Сортировка точек так, что y0 <= y1 <= y2
-            if (P1.Y < P0.Y)
-            { Swap(ref P1, ref P0); }
-            if (P2.Y < P0.Y)
-            { Swap(ref P2, ref P0); }
-            if (P2.Y < P1.Y)
-            { Swap(ref P2, ref P1); }
+            // Thanks to current Y, we can compute the gradient to compute others values like
+            // the starting X (sx) and ending X (ex) to draw between
+            // if pa.Y == pb.Y or pc.Y == pd.Y, gradient is forced to 1
+            var gradient1 = pa.Y != pb.Y ? (y - pa.Y) / (pb.Y - pa.Y) : 1;
+            var gradient2 = pc.Y != pd.Y ? (y - pc.Y) / (pd.Y - pc.Y) : 1;
 
-            int z0 = (int)P0.Z;
-            int z1 = (int)P1.Z;
-            int z2 = (int)P2.Z;
-            // Вычисление координат x и значений h для рёбер треугольника
-            int[] x01 = Interpolate((int)P0.Y, (int)P0.X, (int)P1.Y, (int)P1.X);
-            int[] h01 = Interpolate((int)P0.Y, z0, (int)P1.Y, z1);
-            int[] x12 = Interpolate((int)P1.Y, (int)P1.X, (int)P2.Y, (int)P2.X);
-            int[] h12 = Interpolate((int)P1.Y, z1, (int)P2.Y, z2);
-            int[] x02 = Interpolate((int)P0.Y, (int)P0.X, (int)P2.Y, (int)P2.X);
-            int[] h02 = Interpolate((int)P0.Y, z0, (int)P2.Y, z2);
+            int sx = (int)Interpolate(pa.X, pb.X, gradient1);
+            int ex = (int)Interpolate(pc.X, pd.X, gradient2);
 
-            x01 = x01.Take(x01.Count() - 1).ToArray();
-            int[] x012 = x01.Concat(x12).ToArray();
-            h01 = h01.Take(h01.Count() - 1).ToArray();
-            int[] h012 = h01.Concat(h12).ToArray();
+            // starting Z & ending Z
+            float z1 = Interpolate(pa.Z, pb.Z, gradient1);
+            float z2 = Interpolate(pc.Z, pd.Z, gradient2);
 
-            int m = x012.Count() / 2;
+            var snl = Interpolate((float)point_intens[pa], (float)point_intens[pb], gradient1);
+            var enl = Interpolate((float)point_intens[pc], (float)point_intens[pd], gradient2);
 
-            int[] x_left, x_right, h_left, h_right;
-
-            if (x02[m] < x012[m])
+            // drawing a line from left (sx) to right (ex) 
+            for (var x = sx; x < ex; x++)
             {
-                x_left = x02;
-                x_right = x012;
+                float gradient = (x - sx) / (float)(ex - sx);
 
-                h_left = h02;
-                h_right = h012;
+                var z = Interpolate(z1, z2, gradient);
+                var ndotl = Interpolate(snl, enl, gradient);
+                // changing the color value using the cosine of the angle
+                // between the light vector and the normal vector
 
-            }
-            else
-            {
-                x_left = x012;
-                x_right = x02;
-
-                h_left = h012;
-                h_right = h02;
-
-            }
-
-            double i1 = point_intens[P0];
-            double i2 = point_intens[P1];
-            double i3 = point_intens[P2];
-
-            //double i1 = Math.Abs(Math.Cos(scalar_mult(light, normals[P0])));
-            //double i2 = Math.Abs(Math.Cos(scalar_mult(light, normals[P1])));
-            //double i3 = Math.Abs(Math.Cos(scalar_mult(light, normals[P2])));
-            
-            // Отрисовка горизонтальных отрезков
-            for (int y = (int)P0.Y; y <= (int)P2.Y; ++y)
-            {
-                bool flag = false;
-                int x_l = x_left[y - (int)P0.Y];
-                int x_r = x_right[y - (int)P0.Y];
-
-                int[] h_segment = Interpolate(x_l, h_left[y - (int)P0.Y], x_r, h_right[y - (int)P0.Y]);
-
-                double ia = 0;
-               
-                    ia = i1 * (y - P1.Y) / (P0.Y - P1.Y) + i2 * (P0.Y - y) / (P0.Y - P1.Y);
-              
-                double ib = 0;
-              
-                    ib = i1 * (y - P2.Y) / (P0.Y - P2.Y) + i2 * (P0.Y - y) / (P0.Y - P2.Y);
-               
-                double R = (float)((CurrentColor.ToArgb() & 0x00FF0000) >> 16) * ia;
-                double G = (float)((CurrentColor.ToArgb() & 0x0000FF00) >> 8) * ia;
-                double B = (float)(CurrentColor.ToArgb() & 0x000000FF) * ia;
+                double R = (float)((CurrentColor.ToArgb() & 0x00FF0000) >> 16) * ndotl;
+                double G = (float)((CurrentColor.ToArgb() & 0x0000FF00) >> 8) * ndotl;
+                double B = (float)(CurrentColor.ToArgb() & 0x000000FF) * ndotl;
                 UInt32 newPixel = 0xFF000000 | ((UInt32)R << 16) | ((UInt32)G << 8) | ((UInt32)B);
-                pixels.Add(new Tuple<Point3D, Color>(new Point3D(x_l, y, (float)h_segment[0]),
-                       Color.FromArgb((int)newPixel)));
-
-
-                
-                for (int x = x_l + 1; x <= x_r; ++x)
-                {
-                    double ip = 0;
-                    if (!flag)
-                    {
-                        ip = ia * (x_r - x) / (x_r - x_l) + ib * (x - x_l) / (x_r - x_l);
-                        if (ip == 0)
-                            flag = true;
-                    }
-                    double ourZ = h_segment[x - x_l];
-
-                    R = (float)((CurrentColor.ToArgb() & 0x00FF0000) >> 16) * ip;
-                    G = (float)((CurrentColor.ToArgb() & 0x0000FF00) >> 8) * ip;
-                    B = (float)(CurrentColor.ToArgb() & 0x000000FF) * ip;
-                    newPixel = 0xFF000000 | ((UInt32)R << 16) | ((UInt32)G << 8) | ((UInt32)B);
-
-                    pixels.Add(new Tuple<Point3D, Color>(new Point3D(x, y, (float)ourZ),
-                        Color.FromArgb((int)newPixel)));
-                }
+                pixels.Add(new Tuple<Point3D, Color>(new Point3D(x, y, z), Color.FromArgb((int)newPixel)));
+                //DrawPoint(new Vector3(x, data.currentY, z), color * ndotl);
             }
         }
 
+        float Clamp(float value, float min = 0, float max = 1)
+        {
+            return Math.Max(min, Math.Min(value, max));
+        }
+        float Interpolate(float min, float max, float gradient)
+        {
+            return min + (max - min) * Clamp(gradient);
+        }
+
+        public void DrawTriangle_fill(Point3D v1, Point3D v2, Point3D v3, Dictionary<Point3D, double> point_intens, ref List<Tuple<Point3D, Color>> pixels)
+        {
+            if (v1.Y > v2.Y)
+                Swap(ref v1, ref v2);
+            if (v2.Y > v3.Y)
+                Swap(ref v2, ref v3);
+            if (v1.Y > v2.Y)
+                Swap(ref v1, ref v2);
+            
+            float nl1 = (float)point_intens[v1];
+            float nl2 = (float)point_intens[v2];
+            float nl3 = (float)point_intens[v3];
+
+            float dP1P2, dP1P3;
+            if (v2.Y - v1.Y > 0)
+                dP1P2 = (v2.X - v1.X) / (v2.Y - v1.Y);
+            else
+                dP1P2 = 0;
+
+            if (v3.Y - v1.Y > 0)
+                dP1P3 = (v3.X - v1.X) / (v3.Y - v1.Y);
+            else
+                dP1P3 = 0;
+
+            if (dP1P2 > dP1P3)
+                for (var y = (int)v1.Y; y <= (int)v3.Y; y++)
+                    if (y < v2.Y)
+                        ProcessScanLine(y, v1, v3, v1, v2, point_intens, ref pixels);
+                    else
+                        ProcessScanLine(y, v1, v3, v2, v3, point_intens, ref pixels);
+            else
+                for (var y = (int)v1.Y; y <= (int)v3.Y; y++)
+                    if (y < v2.Y)
+                        ProcessScanLine(y, v1, v2, v1, v3, point_intens, ref pixels);
+                    else
+                        ProcessScanLine(y, v2, v3, v1, v3, point_intens, ref pixels);
+        }
+       
         public void drawShape_non_faces()
         {
             if (shapeFaces.Count != 0)
@@ -1534,6 +1504,73 @@ namespace AffineTransformations3D
             }
 
             redraw();
+        }
+
+        private void TurnTurnDrawGuro()
+        {
+            int angle = 1;
+            Point3D center = mass_center();
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.firstPoint = new Point3D(rotateX(rib.firstPoint, angle));
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)center.X, (int)center.Y, (int)center.Z));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.secondPoint = new Point3D(rotateX(rib.secondPoint, angle));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)center.X, (int)center.Y, (int)center.Z));
+            }
+
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.firstPoint = new Point3D(rotateY(rib.firstPoint, angle));
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)center.X, (int)center.Y, (int)center.Z));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.secondPoint = new Point3D(rotateY(rib.secondPoint, angle));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)center.X, (int)center.Y, (int)center.Z));
+            }
+
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.firstPoint = new Point3D(rotateZ(rib.firstPoint, angle));
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)center.X, (int)center.Y, (int)center.Z));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.secondPoint = new Point3D(rotateZ(rib.secondPoint, angle));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)center.X, (int)center.Y, (int)center.Z));
+            }
+
+            angle = -1;
+
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.firstPoint = new Point3D(rotateX(rib.firstPoint, angle));
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)center.X, (int)center.Y, (int)center.Z));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.secondPoint = new Point3D(rotateX(rib.secondPoint, angle));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)center.X, (int)center.Y, (int)center.Z));
+            }
+
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.firstPoint = new Point3D(rotateY(rib.firstPoint, angle));
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)center.X, (int)center.Y, (int)center.Z));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.secondPoint = new Point3D(rotateY(rib.secondPoint, angle));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)center.X, (int)center.Y, (int)center.Z));
+            }
+
+            foreach (Rib rib in shape)
+            {
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.firstPoint = new Point3D(rotateZ(rib.firstPoint, angle));
+                rib.firstPoint = new Point3D(shift(rib.firstPoint, (int)center.X, (int)center.Y, (int)center.Z));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)-center.X, (int)-center.Y, (int)-center.Z));
+                rib.secondPoint = new Point3D(rotateZ(rib.secondPoint, angle));
+                rib.secondPoint = new Point3D(shift(rib.secondPoint, (int)center.X, (int)center.Y, (int)center.Z));
+            }
         }
 
         // Поворачивает точку вокруг заданной прямой, изменяя new_point

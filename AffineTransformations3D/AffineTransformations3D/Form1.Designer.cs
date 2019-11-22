@@ -460,7 +460,7 @@
             // button_ortX
             // 
             this.button_ortX.Location = new System.Drawing.Point(16, 505);
-            this.button_ortX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_ortX.Margin = new System.Windows.Forms.Padding(4);
             this.button_ortX.Name = "button_ortX";
             this.button_ortX.Size = new System.Drawing.Size(92, 27);
             this.button_ortX.TabIndex = 31;
@@ -471,7 +471,7 @@
             // button_ortY
             // 
             this.button_ortY.Location = new System.Drawing.Point(116, 505);
-            this.button_ortY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_ortY.Margin = new System.Windows.Forms.Padding(4);
             this.button_ortY.Name = "button_ortY";
             this.button_ortY.Size = new System.Drawing.Size(92, 27);
             this.button_ortY.TabIndex = 32;
@@ -482,7 +482,7 @@
             // button_ortZ
             // 
             this.button_ortZ.Location = new System.Drawing.Point(216, 505);
-            this.button_ortZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_ortZ.Margin = new System.Windows.Forms.Padding(4);
             this.button_ortZ.Name = "button_ortZ";
             this.button_ortZ.Size = new System.Drawing.Size(92, 27);
             this.button_ortZ.TabIndex = 33;
@@ -494,7 +494,7 @@
             // 
             this.radioButton_ortX.AutoSize = true;
             this.radioButton_ortX.Location = new System.Drawing.Point(8, 23);
-            this.radioButton_ortX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButton_ortX.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton_ortX.Name = "radioButton_ortX";
             this.radioButton_ortX.Size = new System.Drawing.Size(55, 21);
             this.radioButton_ortX.TabIndex = 34;
@@ -505,7 +505,7 @@
             // 
             this.radioButton_ortY.AutoSize = true;
             this.radioButton_ortY.Location = new System.Drawing.Point(100, 23);
-            this.radioButton_ortY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButton_ortY.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton_ortY.Name = "radioButton_ortY";
             this.radioButton_ortY.Size = new System.Drawing.Size(55, 21);
             this.radioButton_ortY.TabIndex = 35;
@@ -517,7 +517,7 @@
             this.radioButton_ortZ.AutoSize = true;
             this.radioButton_ortZ.Checked = true;
             this.radioButton_ortZ.Location = new System.Drawing.Point(200, 22);
-            this.radioButton_ortZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButton_ortZ.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton_ortZ.Name = "radioButton_ortZ";
             this.radioButton_ortZ.Size = new System.Drawing.Size(55, 21);
             this.radioButton_ortZ.TabIndex = 36;
@@ -533,9 +533,9 @@
             this.groupBox1.Controls.Add(this.radioButton_ortX);
             this.groupBox1.Controls.Add(this.radioButton_ortY);
             this.groupBox1.Location = new System.Drawing.Point(15, 540);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(519, 50);
             this.groupBox1.TabIndex = 37;
             this.groupBox1.TabStop = false;
@@ -545,7 +545,7 @@
             // 
             this.radioButton_perspect.AutoSize = true;
             this.radioButton_perspect.Location = new System.Drawing.Point(397, 23);
-            this.radioButton_perspect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButton_perspect.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton_perspect.Name = "radioButton_perspect";
             this.radioButton_perspect.Size = new System.Drawing.Size(84, 21);
             this.radioButton_perspect.TabIndex = 38;
@@ -556,7 +556,7 @@
             // 
             this.radioButton_isometr.AutoSize = true;
             this.radioButton_isometr.Location = new System.Drawing.Point(291, 22);
-            this.radioButton_isometr.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButton_isometr.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton_isometr.Name = "radioButton_isometr";
             this.radioButton_isometr.Size = new System.Drawing.Size(75, 21);
             this.radioButton_isometr.TabIndex = 37;
@@ -566,7 +566,7 @@
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(445, 505);
-            this.trackBar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.trackBar1.Margin = new System.Windows.Forms.Padding(4);
             this.trackBar1.Maximum = 200;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(281, 56);
@@ -731,7 +731,7 @@
             // drawLine_button
             // 
             this.drawLine_button.Location = new System.Drawing.Point(951, 565);
-            this.drawLine_button.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.drawLine_button.Margin = new System.Windows.Forms.Padding(4);
             this.drawLine_button.Name = "drawLine_button";
             this.drawLine_button.Size = new System.Drawing.Size(79, 23);
             this.drawLine_button.TabIndex = 106;
@@ -743,7 +743,7 @@
             // 
             this.axes_checkBox.AutoSize = true;
             this.axes_checkBox.Location = new System.Drawing.Point(757, 565);
-            this.axes_checkBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.axes_checkBox.Margin = new System.Windows.Forms.Padding(4);
             this.axes_checkBox.Name = "axes_checkBox";
             this.axes_checkBox.Size = new System.Drawing.Size(56, 21);
             this.axes_checkBox.TabIndex = 108;
@@ -770,9 +770,9 @@
             this.groupBox2.Controls.Add(this.addPointY_text);
             this.groupBox2.Controls.Add(this.addPointX_text);
             this.groupBox2.Location = new System.Drawing.Point(1051, 12);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(295, 192);
             this.groupBox2.TabIndex = 39;
             this.groupBox2.TabStop = false;
@@ -781,7 +781,7 @@
             // createFigure_button
             // 
             this.createFigure_button.Location = new System.Drawing.Point(171, 155);
-            this.createFigure_button.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.createFigure_button.Margin = new System.Windows.Forms.Padding(4);
             this.createFigure_button.Name = "createFigure_button";
             this.createFigure_button.Size = new System.Drawing.Size(117, 26);
             this.createFigure_button.TabIndex = 113;
@@ -792,7 +792,7 @@
             // countDiv_text
             // 
             this.countDiv_text.Location = new System.Drawing.Point(64, 155);
-            this.countDiv_text.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.countDiv_text.Margin = new System.Windows.Forms.Padding(4);
             this.countDiv_text.Name = "countDiv_text";
             this.countDiv_text.Size = new System.Drawing.Size(47, 22);
             this.countDiv_text.TabIndex = 112;
@@ -801,7 +801,7 @@
             // initAxisRotation_button
             // 
             this.initAxisRotation_button.Location = new System.Drawing.Point(169, 86);
-            this.initAxisRotation_button.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.initAxisRotation_button.Margin = new System.Windows.Forms.Padding(4);
             this.initAxisRotation_button.Name = "initAxisRotation_button";
             this.initAxisRotation_button.Size = new System.Drawing.Size(77, 26);
             this.initAxisRotation_button.TabIndex = 111;
@@ -839,7 +839,7 @@
             // secondPointAxisZ_text
             // 
             this.secondPointAxisZ_text.Location = new System.Drawing.Point(229, 57);
-            this.secondPointAxisZ_text.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.secondPointAxisZ_text.Margin = new System.Windows.Forms.Padding(4);
             this.secondPointAxisZ_text.Name = "secondPointAxisZ_text";
             this.secondPointAxisZ_text.Size = new System.Drawing.Size(51, 22);
             this.secondPointAxisZ_text.TabIndex = 11;
@@ -848,7 +848,7 @@
             // secondPointAxisY_text
             // 
             this.secondPointAxisY_text.Location = new System.Drawing.Point(169, 57);
-            this.secondPointAxisY_text.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.secondPointAxisY_text.Margin = new System.Windows.Forms.Padding(4);
             this.secondPointAxisY_text.Name = "secondPointAxisY_text";
             this.secondPointAxisY_text.Size = new System.Drawing.Size(53, 22);
             this.secondPointAxisY_text.TabIndex = 10;
@@ -857,7 +857,7 @@
             // secondPointAxisX_text
             // 
             this.secondPointAxisX_text.Location = new System.Drawing.Point(109, 57);
-            this.secondPointAxisX_text.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.secondPointAxisX_text.Margin = new System.Windows.Forms.Padding(4);
             this.secondPointAxisX_text.Name = "secondPointAxisX_text";
             this.secondPointAxisX_text.Size = new System.Drawing.Size(53, 22);
             this.secondPointAxisX_text.TabIndex = 9;
@@ -866,7 +866,7 @@
             // firstPointAxisZ_text
             // 
             this.firstPointAxisZ_text.Location = new System.Drawing.Point(229, 30);
-            this.firstPointAxisZ_text.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.firstPointAxisZ_text.Margin = new System.Windows.Forms.Padding(4);
             this.firstPointAxisZ_text.Name = "firstPointAxisZ_text";
             this.firstPointAxisZ_text.Size = new System.Drawing.Size(51, 22);
             this.firstPointAxisZ_text.TabIndex = 8;
@@ -875,7 +875,7 @@
             // firstPointAxisY_text
             // 
             this.firstPointAxisY_text.Location = new System.Drawing.Point(169, 30);
-            this.firstPointAxisY_text.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.firstPointAxisY_text.Margin = new System.Windows.Forms.Padding(4);
             this.firstPointAxisY_text.Name = "firstPointAxisY_text";
             this.firstPointAxisY_text.Size = new System.Drawing.Size(53, 22);
             this.firstPointAxisY_text.TabIndex = 7;
@@ -884,7 +884,7 @@
             // firstPointAxisX_text
             // 
             this.firstPointAxisX_text.Location = new System.Drawing.Point(109, 30);
-            this.firstPointAxisX_text.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.firstPointAxisX_text.Margin = new System.Windows.Forms.Padding(4);
             this.firstPointAxisX_text.Name = "firstPointAxisX_text";
             this.firstPointAxisX_text.Size = new System.Drawing.Size(53, 22);
             this.firstPointAxisX_text.TabIndex = 6;
@@ -893,7 +893,7 @@
             // addPoint_button
             // 
             this.addPoint_button.Location = new System.Drawing.Point(171, 123);
-            this.addPoint_button.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.addPoint_button.Margin = new System.Windows.Forms.Padding(4);
             this.addPoint_button.Name = "addPoint_button";
             this.addPoint_button.Size = new System.Drawing.Size(117, 26);
             this.addPoint_button.TabIndex = 5;
@@ -904,7 +904,7 @@
             // addPointZ_text
             // 
             this.addPointZ_text.Location = new System.Drawing.Point(117, 126);
-            this.addPointZ_text.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.addPointZ_text.Margin = new System.Windows.Forms.Padding(4);
             this.addPointZ_text.Name = "addPointZ_text";
             this.addPointZ_text.Size = new System.Drawing.Size(47, 22);
             this.addPointZ_text.TabIndex = 4;
@@ -913,7 +913,7 @@
             // addPointY_text
             // 
             this.addPointY_text.Location = new System.Drawing.Point(64, 126);
-            this.addPointY_text.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.addPointY_text.Margin = new System.Windows.Forms.Padding(4);
             this.addPointY_text.Name = "addPointY_text";
             this.addPointY_text.Size = new System.Drawing.Size(47, 22);
             this.addPointY_text.TabIndex = 3;
@@ -922,7 +922,7 @@
             // addPointX_text
             // 
             this.addPointX_text.Location = new System.Drawing.Point(8, 126);
-            this.addPointX_text.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.addPointX_text.Margin = new System.Windows.Forms.Padding(4);
             this.addPointX_text.Name = "addPointX_text";
             this.addPointX_text.Size = new System.Drawing.Size(48, 22);
             this.addPointX_text.TabIndex = 0;
@@ -1015,7 +1015,7 @@
             this.cut_off_p2y.Name = "cut_off_p2y";
             this.cut_off_p2y.Size = new System.Drawing.Size(53, 22);
             this.cut_off_p2y.TabIndex = 125;
-            this.cut_off_p2y.Text = "100";
+            this.cut_off_p2y.Text = "0";
             // 
             // cut_off_p2x
             // 
@@ -1024,7 +1024,7 @@
             this.cut_off_p2x.Name = "cut_off_p2x";
             this.cut_off_p2x.Size = new System.Drawing.Size(53, 22);
             this.cut_off_p2x.TabIndex = 124;
-            this.cut_off_p2x.Text = "-100";
+            this.cut_off_p2x.Text = "0";
             // 
             // cut_off_p1y
             // 
